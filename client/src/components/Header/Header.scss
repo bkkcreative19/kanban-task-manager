@@ -1,0 +1,129 @@
+.header {
+  border-bottom: 1px solid #e4ebfa;
+
+  & .nav {
+    display: flex;
+    padding: 0 2em;
+    // margin-top: 2em;
+
+    @media screen and (max-width: 768px) {
+      padding: 0;
+    }
+
+    & .container {
+    }
+
+    &__logo {
+      display: flex;
+      align-items: center;
+      border-right: 1px solid #e4ebfa;
+      padding: 2em;
+
+      @media screen and (max-width: 768px) {
+        border: none;
+      }
+
+      .lines {
+        position: relative;
+        display: flex;
+        gap: 0.5rem;
+
+        .line {
+          width: 6px;
+          height: 25px;
+          background: #635fc7;
+          border-radius: 2px;
+
+          &:nth-child(2) {
+            opacity: 0.75;
+          }
+          &:last-child {
+            opacity: 0.5;
+          }
+        }
+      }
+
+      h1 {
+        font-size: 3.2rem;
+        margin-left: 0.5em;
+
+        @media screen and (max-width: 768px) {
+          display: none;
+        }
+      }
+    }
+
+    & .right {
+      flex: auto;
+      margin-left: 3em;
+      padding: 1.5em;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      @media screen and (max-width: 768px) {
+        justify-content: stretch;
+      }
+
+      @media screen and (max-width: 768px) {
+        margin-left: 0;
+      }
+
+      & h2 {
+        font-size: 2.4rem;
+        color: #000112;
+        font-weight: 700;
+      }
+
+      & .chevron-down {
+        display: none;
+        margin-left: 1.7em;
+
+        @media screen and (max-width: 768px) {
+          display: flex;
+        }
+      }
+
+      & .options {
+        display: flex;
+        align-items: center;
+
+        @media screen and (max-width: 768px) {
+          margin-left: auto;
+        }
+
+        & button:first-child {
+          background: #635fc7;
+          color: #fff;
+          padding: 1.2em 1.7em;
+          border-radius: 30px;
+          border: none;
+          font-size: 1.5rem;
+          font-weight: 700;
+          margin-right: 2em;
+          cursor: pointer;
+
+          @media screen and (max-width: 768px) {
+            display: none;
+          }
+        }
+        & .mb {
+          display: none;
+
+          @media screen and (max-width: 768px) {
+            display: flex;
+            background: #635fc7;
+            color: #fff;
+            padding: 1.2em 1.7em;
+            border-radius: 30px;
+            border: none;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-right: 2em;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
+}
