@@ -13,7 +13,7 @@ export const color = {
 
   // darkMode
   darkMainBG: "#20212C",
-  darkHeaderBG: "##2B2C37",
+  darkHeaderBG: "#2B2C37",
   backgroundDarkPrimary: "#0747A6",
   backgroundMedium: "#dfe1e6",
   backgroundLight: "#ebecf0",

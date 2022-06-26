@@ -9,12 +9,13 @@ import {
 } from "../../shared/utils/styles";
 
 export const Header = styled.div`
-  border-bottom: 1px solid #e4ebfa;
+  background: ${({ theme }) => theme.headerBG};
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
 `;
 
 export const Nav = styled.nav`
   display: flex;
-  padding: 0 2em;
+  // padding: 0 2em;
   // margin-top: 2em;
 
   @media screen and (max-width: 768px) {
@@ -25,8 +26,10 @@ export const Nav = styled.nav`
 export const Logo = styled.div`
   display: flex;
   align-items: center;
-  border-right: 1px solid #e4ebfa;
-  padding: 2em;
+  border-right: 1px solid ${({ theme }) => theme.mainBorder};
+  padding-left: 24px;
+  // box-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
+  width: 300px;
 
   @media screen and (max-width: 768px) {
     border: none;
@@ -56,6 +59,7 @@ export const Lines = styled.div`
 export const LogoName = styled.h1`
   font-size: 3.2rem;
   margin-left: 0.5em;
+  color: ${({ theme }) => theme.mainText};
 
   @media screen and (max-width: 768px) {
     display: none;
@@ -64,11 +68,12 @@ export const LogoName = styled.h1`
 
 export const Right = styled.div`
   flex: auto;
-  margin-left: 3em;
+  // margin-left: 3em;
   padding: 1.5em;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border-bottom: 1px solid ${({ theme }) => theme.mainBorder};
 
   @media screen and (max-width: 768px) {
     justify-content: stretch;
@@ -81,7 +86,7 @@ export const Right = styled.div`
 
 export const Title = styled.h2`
   font-size: 2.4rem;
-  color: #000112;
+  color: ${({ theme }) => theme.mainText};
   font-weight: 700;
 `;
 export const DownArrow = styled.img`

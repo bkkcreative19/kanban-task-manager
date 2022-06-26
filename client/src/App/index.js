@@ -6,6 +6,7 @@ import NormalizeStyles from "./NormalizeStyles";
 import { ThemeProvider } from "styled-components";
 // import { GlobalStyles } from "./components/Globalstyle";
 import { lightTheme, darkTheme } from "./Theme";
+import RouteHandler from "./Routes";
 
 export const App = () => {
   const [theme, setTheme] = useState("light");
@@ -21,8 +22,7 @@ export const App = () => {
         {/* <NormalizeStyles />*/}
         <BaseStyles />
         <Header />
-        <button onClick={yay}>Click</button>
-        <h1>hi</h1>
+        <RouteHandler yay={yay} theme={theme} />
         {/* <Header /> */}
       </ThemeProvider>
     </>
