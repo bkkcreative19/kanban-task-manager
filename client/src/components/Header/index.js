@@ -1,34 +1,49 @@
 import React from "react";
-import Image from "../../assets/icon-vertical-ellipsis.svg";
-import Cross from "../../assets/icon-add-task-mobile.svg";
+import Ellipsis from "../../assets/icon-vertical-ellipsis.svg";
+
 import ChevronDown from "../../assets/icon-chevron-down.svg";
-import "./Header.scss";
+import {
+  Header,
+  Nav,
+  Lines,
+  Logo,
+  LogoName,
+  Right,
+  Title,
+  DownArrow,
+  Options,
+  AddTask,
+  Cross,
+  Dots,
+} from "./Styles";
 
-export const Header = () => {
+const BoardHeader = () => {
   return (
-    <header className="header">
-      <nav className="nav">
-        <div className="nav__logo">
-          <div className="lines">
+    <Header>
+      <Nav>
+        <Logo>
+          <Lines className="lines">
             <div className="line"></div>
             <div className="line"></div>
             <div className="line"></div>
-          </div>
+          </Lines>
+          <LogoName>kanban</LogoName>
+        </Logo>
+        <Right>
+          <Title>Platform Launch</Title>
+          <DownArrow src={ChevronDown} />
 
-          <h1>kanban</h1>
-        </div>
-        <div className="right">
-          <h2>Platform Launch</h2>
-          <img className="chevron-down" src={ChevronDown} alt="" />
-          <div className="options">
-            <button>+ Add New Task</button>
-            <button className="mb">
+          <Options>
+            <AddTask>+ Add New Task</AddTask>
+            <Cross>
               <img src={Cross} alt="" />
-            </button>
-            <img src={Image} alt="" />
-          </div>
-        </div>
-      </nav>
-    </header>
+            </Cross>
+            <Dots src={Ellipsis} />
+          </Options>
+        </Right>
+      </Nav>
+    </Header>
   );
 };
+
+export default BoardHeader;
