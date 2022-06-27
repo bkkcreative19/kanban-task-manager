@@ -4,7 +4,7 @@ export const Toggle = styled.div`
   background: #f4f7fd;
   display: flex;
   padding: 1.3em 0;
-  margin: auto 2.4em 2em;
+  margin: auto 2.4em 1em;
   justify-content: center;
 `;
 

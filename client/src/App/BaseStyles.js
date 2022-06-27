@@ -19,7 +19,7 @@ html {
 
 body {
   font-family: "Plus Jakarta Sans", sans-serif;
-  background: ${({ theme }) => theme.headerBG};
+  background: ${({ theme }) => theme.mainBG};
   height: 100vh;
 }
 
