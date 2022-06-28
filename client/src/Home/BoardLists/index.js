@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+
 import BoardList from "./BoardList";
 import { Lists } from "./Styles";
 
@@ -22,12 +23,14 @@ const BoardLists = ({ actives }) => {
   }, [actives]);
   // console.log(actives);
   return (
-    <Lists>
-      {board &&
-        board.columns.map((column, idx) => {
-          return <BoardList key={idx} column={column} index={idx} />;
-        })}
-    </Lists>
+    <>
+      <Lists>
+        {board &&
+          board.columns.map((column, idx) => {
+            return <BoardList key={idx} column={column} index={idx} />;
+          })}
+      </Lists>
+    </>
   );
 };
 

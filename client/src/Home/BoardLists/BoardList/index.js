@@ -12,7 +12,7 @@ const BoardList = ({ column, index }) => {
         </ListHeadText>
       </ListHead>
       {column.tasks.map((task, idx) => {
-        return <BoardTask key={idx} task={task} />;
+        return <BoardTask key={idx} task={task} id={idx} />;
       })}
     </List>
   );
