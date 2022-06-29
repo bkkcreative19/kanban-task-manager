@@ -6,7 +6,6 @@ import { Outlet, Route, useParams, useNavigate } from "react-router-dom";
 import BoardLists from "./BoardLists";
 
 import TaskDetails from "./TaskDetails";
-import Modal from "../components/Modal";
 
 const Home = ({ yay, theme }) => {
   const [boards, setBoards] = useState(null);

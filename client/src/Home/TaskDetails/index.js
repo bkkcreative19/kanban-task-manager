@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate, useOutletContext } from "react-router-dom";
-import Modal from "../../components/Modal";
+import Modal from "../../shared/components/Modal";
 import {
   Details,
   DetailsDescription,
@@ -9,13 +9,13 @@ import {
 } from "./Styles";
 import OptionsLogo from "../../shared/components/OptionsLogo";
 import DetailsSubTasks from "./DetailsSubTasks";
+import CurrentStatus from "./CurrentStatus";
+import Select from "../../shared/components/Select";
 const TaskDetails = () => {
   const params = useParams();
   const { actives } = useOutletContext();
   const [task, setTask] = useState(null);
   const navigate = useNavigate();
-
-  console.log(task);
 
   useEffect(() => {
     const test = async () => {
@@ -59,19 +59,19 @@ const TaskDetails = () => {
       withCloseIcon={false}
       onClose={() => navigate("/")}
     >
-      {(closeModal) =>
-        task && (
-          <Details>
-            <DetailsHead>
-              <DetailsHeadText>{task.title}</DetailsHeadText>
-              <OptionsLogo />
-            </DetailsHead>
-            <DetailsDescription>{task.description}</DetailsDescription>
-            <DetailsSubTasks subtasks={task.subtasks} />
-            <button onClick={closeModal}>click</button>
-          </Details>
-        )
-      }
+      {task && (
+        <Details>
+          <DetailsHead>
+            <DetailsHeadText>{task.title}</DetailsHeadText>
+            <OptionsLogo />
+          </DetailsHead>
+          <DetailsDescription>{task.description}</DetailsDescription>
+          <DetailsSubTasks subtasks={task.subtasks} />
+          <CurrentStatus />
+
+          {/* <button onClick={closeModal}>click</button> */}
+        </Details>
+      )}
     </Modal>
     // <Modal
     //   isOpen={undefined}

@@ -1,7 +1,7 @@
 import React from "react";
-import Ellipsis from "../../assets/icon-vertical-ellipsis.svg";
+import Ellipsis from "../../../assets/icon-vertical-ellipsis.svg";
 
-import ChevronDown from "../../assets/icon-chevron-down.svg";
+import ChevronDown from "../../../assets/icon-chevron-down.svg";
 import {
   Header,
   Nav,
@@ -16,7 +16,7 @@ import {
   Cross,
   Dots,
 } from "./Styles";
-import OptionsLogo from "../../shared/components/OptionsLogo";
+import OptionsLogo from "../OptionsLogo";
 
 const BoardHeader = () => {
   return (

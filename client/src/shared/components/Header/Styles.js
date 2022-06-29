@@ -1,12 +1,6 @@
 import styled from "styled-components";
 
-import {
-  color,
-  sizes,
-  font,
-  mixin,
-  zIndexValues,
-} from "../../shared/utils/styles";
+import { color, sizes, font, mixin, zIndexValues } from "../../utils/styles";
 
 export const Header = styled.div`
   background: ${({ theme }) => theme.headerBG};

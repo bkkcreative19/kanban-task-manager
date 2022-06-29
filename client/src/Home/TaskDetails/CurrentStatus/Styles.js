@@ -1,8 +1,10 @@
 import styled from "styled-components";
 
-export const Subtasks = styled.div``;
+export const Status = styled.div`
+  margin: 2em 0;
+`;
 
-export const SubtasksTitle = styled.h4`
+export const StatusTitle = styled.h3`
   font-weight: 700;
   font-size: 12px;
   line-height: 15px;

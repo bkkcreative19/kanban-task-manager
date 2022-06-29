@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Header from "../components/Header";
+import Header from "../shared/components/Header";
 import BaseStyles from "./BaseStyles";
 import NormalizeStyles from "./NormalizeStyles";
 

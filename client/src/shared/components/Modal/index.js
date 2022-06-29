@@ -2,6 +2,8 @@ import React, { useState, useCallback, useRef, useEffect } from "react";
 import { ClickableOverlay, ScrollOverlay, StyledModal } from "./Styles";
 import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
+import useOnOutsideClick from "../../hooks/onOutsideClick";
+import useOnEscapeKeyDown from "../../hooks/onEscapeKeyDown";
 
 const propTypes = {
   className: PropTypes.string,
@@ -49,13 +51,16 @@ const Modal = (props) => {
     }
   }, [isControlled, tellParentToClose]);
 
-  // useEffect(() => {
-  //   document.body.style.overflow = "hidden";
+  useOnOutsideClick($modalRef, isOpen, closeModal, $clickableOverlayRef);
+  useOnEscapeKeyDown(isOpen, closeModal);
 
-  //   return () => {
-  //     document.body.style.overflow = "visible";
-  //   };
-  // }, [isOpen]);
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = "visible";
+    };
+  }, [isOpen]);
 
   return (
     <>
@@ -66,8 +71,7 @@ const Modal = (props) => {
           <ScrollOverlay>
             <ClickableOverlay variant={variant} ref={$clickableOverlayRef}>
               <StyledModal variant={variant} width={width} ref={$modalRef}>
-                {/* <Content /> */}
-                {props.children(closeModal)}
+                {props.children}
                 {/* {withCloseIcon && (
                   <CloseIcon
                     type="close"
@@ -75,7 +79,6 @@ const Modal = (props) => {
                     onClick={closeModal}
                   />
                 )} */}
-                {/* {Content({ close: closeModal })} */}
               </StyledModal>
             </ClickableOverlay>
           </ScrollOverlay>,
