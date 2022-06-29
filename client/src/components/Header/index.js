@@ -16,6 +16,7 @@ import {
   Cross,
   Dots,
 } from "./Styles";
+import OptionsLogo from "../../shared/components/OptionsLogo";
 
 const BoardHeader = () => {
   return (
@@ -38,7 +39,7 @@ const BoardHeader = () => {
             <Cross>
               <img src={Cross} alt="" />
             </Cross>
-            <Dots src={Ellipsis} />
+            <OptionsLogo />
           </Options>
         </Right>
       </Nav>
