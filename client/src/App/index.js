@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../shared/components/Header";
 import BaseStyles from "./BaseStyles";
 import NormalizeStyles from "./NormalizeStyles";
+import axios from "axios";
 
 import { ThemeProvider } from "styled-components";
 // import { GlobalStyles } from "./components/Globalstyle";
@@ -15,6 +16,10 @@ export const App = () => {
     console.log(theme);
     theme === "light" ? setTheme("dark") : setTheme("light");
   };
+
+  useEffect(() => {
+    axios.get("http://localhost:5000").then(({ data }) => console.log(data));
+  }, []);
 
   return (
     <>
