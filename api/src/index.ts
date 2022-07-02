@@ -5,7 +5,8 @@ import "reflect-metadata";
 import express from "express";
 import cors from "cors";
 import morgan from "morgan";
-
+import insertData from "./database/seed";
+import fs from "fs";
 // import { AppDataSource } from 'database/createConnection';
 import { AppDataSource } from "./database/connection";
 // import { findEntityOrThrow } from 'utils/typeorm';
@@ -21,8 +22,9 @@ import { AppDataSource } from "./database/connection";
 // import { attachPublicRoutes, attachPrivateRoutes } from './routes';
 // import { findEntityOrThrow } from 'utils/typeorm';
 // import { User } from 'entities';
-
 const establishDatabaseConnection = async () => {
+  // console.log(flatten(tasks));
+
   try {
     // PostgresDataSource.initialize()
     //   .then(() => {
@@ -32,7 +34,7 @@ const establishDatabaseConnection = async () => {
     //     console.error('Error during Data Source initialization', err);
     //   });
     await AppDataSource.initialize();
-    console.log("hi");
+    // console.log("hi");
   } catch (error) {
     console.log(error);
   }
@@ -52,7 +54,8 @@ const initializeExpress = (): void => {
     // await createTestAccount();
     // await createGuestAccount();
     // const test = await findEntityOrThrow(User);
-    res.send("testggg");
+    await insertData();
+    res.send("yy");
     // console.log(test);
   });
 

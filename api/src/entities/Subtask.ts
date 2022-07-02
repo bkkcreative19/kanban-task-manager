@@ -10,7 +10,7 @@ import {
 import Task from "./Task";
 
 @Entity()
-class SubTask extends BaseEntity {
+class Subtask extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -32,4 +32,4 @@ class SubTask extends BaseEntity {
   //   @OneToMany()
 }
 
-export default SubTask;
+export default Subtask;
