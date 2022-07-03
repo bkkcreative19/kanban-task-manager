@@ -21,11 +21,11 @@ const entities: { [key: string]: EntityConstructor } = {
 
 export const findEntityOrThrow = async <T extends EntityConstructor>(
   Constructor: T,
-  options: FindOneOptions
+  options: any
 ): Promise<any> => {
   const repository = AppDataSource.getRepository(Constructor);
 
-  let instance = repository.findOne(options);
+  let instance = repository.find(options);
 
   if (!instance) {
     throw new EntityNotFoundError(Constructor.name);
@@ -58,9 +58,6 @@ export const createEntity = async <T extends EntityConstructor>(
   const repository = AppDataSource.getRepository(Constructor);
 
   const instance = repository.create(input);
-
-  // console.log(instance);
-  // console.log(instance);
   const result = await validateAndSaveEntity(instance);
 
   return result;

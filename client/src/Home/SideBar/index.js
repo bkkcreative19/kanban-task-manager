@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import BoardIconImg from "../../assets/icon-board.svg";
 import HideIconImg from "../../assets/icon-hide-sidebar.svg";
+import { BoardAdd } from "./AddBoard/Styles";
 import {
   Board,
   BoardIcon,
@@ -13,6 +14,8 @@ import {
   Title,
 } from "./Styles";
 import ThemeToggle from "./ThemeToggle";
+import { useNavigate } from "react-router-dom";
+import Modal from "../../shared/components/Modal";
 
 const KabanSideBar = ({
   boards,
@@ -23,6 +26,7 @@ const KabanSideBar = ({
   actives,
   setActives,
 }) => {
+  const navigate = useNavigate();
   const handleClick = (e) => {
     let test = [];
     setActives([]);
@@ -32,9 +36,9 @@ const KabanSideBar = ({
 
   return (
     <SideBar isOpen={isOpen}>
-      <Title>{`All Boards (${boards.boards.length})`}</Title>
+      <Title>{`All Boards (${boards.length})`}</Title>
       <BoardList>
-        {boards.boards.map((board, idx) => {
+        {boards.map((board, idx) => {
           return (
             <Board
               data-id={idx}
@@ -50,6 +54,14 @@ const KabanSideBar = ({
           );
         })}
       </BoardList>
+      <Modal
+        isOpen={false}
+        width={480}
+        withCloseIcon={false}
+        onClose={() => navigate("/")}
+      >
+        <BoardAdd />
+      </Modal>
       <ThemeToggle yay={yay} theme={theme} />
       <HideSideBar onClick={() => setIsOpen(false)}>
         <HideSideBarIcon src={HideIconImg} />

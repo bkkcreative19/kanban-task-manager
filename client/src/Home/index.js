@@ -4,7 +4,7 @@ import { HomePage, OpenStuff, Test } from "./Styles";
 import ShowSide from "../assets/icon-show-sidebar.svg";
 import { Outlet, Route, useParams, useNavigate } from "react-router-dom";
 import BoardLists from "./BoardLists";
-
+import axios from "axios";
 import TaskDetails from "./TaskDetails";
 
 const Home = ({ yay, theme }) => {
@@ -19,8 +19,8 @@ const Home = ({ yay, theme }) => {
 
   useEffect(() => {
     const test = async () => {
-      const res = await fetch("data.json");
-      const data = await res.json();
+      const { data } = await axios.get("http://localhost:5000/boards");
+
       setBoards(data);
     };
 

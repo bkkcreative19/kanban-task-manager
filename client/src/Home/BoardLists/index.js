@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 
 import BoardList from "./BoardList";
@@ -9,14 +10,17 @@ const BoardLists = ({ actives }) => {
 
   useEffect(() => {
     const test = async () => {
-      const res = await fetch("data.json");
+      const { data } = await axios.get(
+        `http://localhost:5000/boards/${actives[0] + 1}`
+      );
 
-      const data = await res.json();
-      for (let i = 0; i < data.boards.length; i++) {
-        if (actives[0] === i) {
-          setBoard(data.boards[i]);
-        }
-      }
+      setBoard(data[0]);
+      // const data = await res.json();
+      // for (let i = 0; i < data.boards.length; i++) {
+      //   if (actives[0] === i) {
+      //     setBoard(data.boards[i]);
+      //   }
+      // }
     };
 
     test();
@@ -26,7 +30,7 @@ const BoardLists = ({ actives }) => {
     <>
       <Lists>
         {board &&
-          board.columns.map((column, idx) => {
+          board.columnTypes.map((column, idx) => {
             return <BoardList key={idx} column={column} index={idx} />;
           })}
       </Lists>

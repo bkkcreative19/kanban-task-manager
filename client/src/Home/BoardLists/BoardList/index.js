@@ -3,6 +3,7 @@ import BoardTask from "./BoardTask";
 import { List, ListHead, ListHeadCircle, ListHeadText } from "./Styles";
 
 const BoardList = ({ column, index }) => {
+  console.log(column);
   return (
     <List>
       <ListHead>
