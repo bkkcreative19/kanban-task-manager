@@ -52,6 +52,20 @@ export const BoardTitle = styled.h4`
   pointer-events: none;
 `;
 
+export const AddBoardBtn = styled.div`
+  padding: 1.8em 2.4em;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+`;
+export const AddBoardBtnText = styled.span`
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 19px;
+  color: #635fc7;
+  margin-left: 1em;
+`;
+
 export const HideSideBar = styled.div`
   margin-top: 1em;
   margin-bottom: 4em;

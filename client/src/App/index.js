@@ -13,13 +13,12 @@ export const App = () => {
   const [theme, setTheme] = useState("light");
 
   const yay = () => {
-    console.log(theme);
     theme === "light" ? setTheme("dark") : setTheme("light");
   };
 
-  useEffect(() => {
-    axios.get("http://localhost:5000").then(({ data }) => console.log(data));
-  }, []);
+  // useEffect(() => {
+  //   axios.get("http://localhost:5000").then(({ data }) => console.log(data));
+  // }, []);
 
   return (
     <>

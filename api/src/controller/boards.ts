@@ -1,4 +1,4 @@
-import { Board } from "../entities";
+import { Board, ColumnType } from "../entities";
 import { catchErrors } from "../errors";
 import { createEntity, findEntityOrThrow } from "../utils/typeorm";
 
@@ -25,7 +25,8 @@ export const getBoardWithColumns = catchErrors(async (req, res) => {
   res.json(board);
 });
 
-export const createBoard = catchErrors(async (req, res) => {
-  const board = await createEntity(Board, { ...req.body });
-  res.json(board);
+export const createBoardWithColumns = catchErrors(async (req, _res) => {
+  // const board = await createEntity(Board, { ...req.body });
+  console.log(req.body.columns);
+  // res.json(board);
 });

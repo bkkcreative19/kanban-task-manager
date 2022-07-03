@@ -4,5 +4,5 @@ export const routes = (app: any): void => {
   app.get("/boards", boards.getBoards);
   app.get("/boards/:boardId", boards.getBoardWithColumns);
 
-  app.post("/boards", boards.createBoard);
+  app.post("/boards", boards.createBoardWithColumns);
 };

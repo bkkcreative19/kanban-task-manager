@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import KabanSideBar from "./SideBar";
 import { HomePage, OpenStuff, Test } from "./Styles";
 import ShowSide from "../assets/icon-show-sidebar.svg";
-import { Outlet, Route, useParams, useNavigate } from "react-router-dom";
+import { Outlet, useParams } from "react-router-dom";
 import BoardLists from "./BoardLists";
 import axios from "axios";
 import TaskDetails from "./TaskDetails";
@@ -12,7 +12,6 @@ const Home = ({ yay, theme }) => {
   const [isOpen, setIsOpen] = useState(true);
   const [actives, setActives] = useState([0]);
 
-  const navigate = useNavigate();
   const params = useParams();
 
   // console.log(params);
@@ -46,7 +45,8 @@ const Home = ({ yay, theme }) => {
         </OpenStuff>
       )}
       <BoardLists actives={actives} />
-      <Outlet context={{ actives }} />
+      <Outlet context={{ actives, boards }} />
+      {/* <Outlet /> */}
     </HomePage>
   );
 };

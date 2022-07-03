@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import BoardIconImg from "../../assets/icon-board.svg";
 import HideIconImg from "../../assets/icon-hide-sidebar.svg";
-import { BoardAdd } from "./AddBoard/Styles";
+
 import {
+  AddBoardBtn,
+  AddBoardBtnText,
   Board,
   BoardIcon,
   BoardList,
@@ -15,7 +17,6 @@ import {
 } from "./Styles";
 import ThemeToggle from "./ThemeToggle";
 import { useNavigate } from "react-router-dom";
-import Modal from "../../shared/components/Modal";
 
 const KabanSideBar = ({
   boards,
@@ -54,14 +55,11 @@ const KabanSideBar = ({
           );
         })}
       </BoardList>
-      <Modal
-        isOpen={false}
-        width={480}
-        withCloseIcon={false}
-        onClose={() => navigate("/")}
-      >
-        <BoardAdd />
-      </Modal>
+      <AddBoardBtn onClick={() => navigate("/addBoard")}>
+        <BoardIcon src={BoardIconImg} />
+        <AddBoardBtnText>+ Create New Board</AddBoardBtnText>
+      </AddBoardBtn>
+
       <ThemeToggle yay={yay} theme={theme} />
       <HideSideBar onClick={() => setIsOpen(false)}>
         <HideSideBarIcon src={HideIconImg} />
