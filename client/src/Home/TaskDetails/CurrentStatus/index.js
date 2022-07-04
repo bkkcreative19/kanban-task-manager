@@ -2,11 +2,15 @@ import React from "react";
 import Select from "../../../shared/components/Select";
 import { Status, StatusTitle } from "./Styles";
 
-const CurrentStatus = () => {
+const CurrentStatus = ({ currentStatus, setCurrentStatus }) => {
   return (
     <Status>
       <StatusTitle>Current Status</StatusTitle>
-      <Select options={["Todo", "Doing", "Done"]} />
+      <Select
+        selected={currentStatus}
+        setSelected={setCurrentStatus}
+        options={["Todo", "Doing", "Done"]}
+      />
     </Status>
   );
 };

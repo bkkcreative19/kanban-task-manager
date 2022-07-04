@@ -59,7 +59,7 @@ const AddBoard = () => {
       columns,
     });
 
-    console.log(data);
+    navigate("/");
   };
   // console.log(columns);
   const renderInput = (input, i) => {
@@ -87,7 +87,7 @@ const AddBoard = () => {
       isOpen={true}
       width={480}
       withCloseIcon={false}
-      onClose={() => navigate("/")}
+      onClose={() => navigate("/home")}
     >
       <BoardAdd>
         <BoardAddHead>Add New Board</BoardAddHead>

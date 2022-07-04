@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate, useOutletContext } from "react-router-dom";
+import axios from "axios";
 import Modal from "../../shared/components/Modal";
 import {
   Details,
@@ -15,49 +16,27 @@ const TaskDetails = () => {
   const params = useParams();
   const { actives } = useOutletContext();
   const [task, setTask] = useState(null);
+  const [currentStatus, setCurrentStatus] = useState();
   const navigate = useNavigate();
 
   useEffect(() => {
     const test = async () => {
-      const res = await fetch("data.json");
-      const data = await res.json();
-
-      const tasks = [];
-      for (let i = 0; i < data.boards[actives[0]].columns.length; i++) {
-        // console.log(data.boards[actives[0]].columns.tasks);
-        tasks.push(data.boards[actives[0]].columns[i].tasks);
-      }
-
-      function flatten(tasks) {
-        var ret = [];
-        for (var i = 0; i < tasks.length; i++) {
-          if (Array.isArray(tasks[i])) {
-            ret = ret.concat(flatten(tasks[i]));
-          } else {
-            ret.push(tasks[i]);
-          }
-        }
-
-        return ret;
-      }
-
-      const foundTask = flatten(tasks).find(
-        (item) => item.title === params.taskTitle
+      const { data } = await axios.get(
+        `http://localhost:5000/tasks/${params.taskTitle}`
       );
 
-      setTask(foundTask);
+      setTask(data);
+      setCurrentStatus(data.status);
     };
 
     test();
   }, [params.taskTitle]);
-  // console.log(params);
-  // const { modalClose } = useOutletContext();
   return (
     <Modal
       isOpen={true}
       width={480}
       withCloseIcon={false}
-      onClose={() => navigate("/")}
+      onClose={() => navigate("/home")}
     >
       {task && (
         <Details>
@@ -67,12 +46,16 @@ const TaskDetails = () => {
           </DetailsHead>
           <DetailsDescription>{task.description}</DetailsDescription>
           <DetailsSubTasks subtasks={task.subtasks} />
-          <CurrentStatus />
+          <CurrentStatus
+            currentStatus={currentStatus}
+            setCurrentStatus={setCurrentStatus}
+          />
 
           {/* <button onClick={closeModal}>click</button> */}
         </Details>
       )}
     </Modal>
+
     // <Modal
     //   isOpen={undefined}
     //   width={480}

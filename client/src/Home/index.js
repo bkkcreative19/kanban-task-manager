@@ -10,7 +10,7 @@ import TaskDetails from "./TaskDetails";
 const Home = ({ yay, theme }) => {
   const [boards, setBoards] = useState(null);
   const [isOpen, setIsOpen] = useState(true);
-  const [actives, setActives] = useState([0]);
+  const [actives, setActives] = useState([1]);
 
   const params = useParams();
 

@@ -17,8 +17,10 @@ import {
   Dots,
 } from "./Styles";
 import OptionsLogo from "../OptionsLogo";
+import { useNavigate } from "react-router-dom";
 
 const BoardHeader = () => {
+  const navigate = useNavigate();
   return (
     <Header>
       <Nav>
@@ -35,7 +37,9 @@ const BoardHeader = () => {
           <DownArrow src={ChevronDown} />
 
           <Options>
-            <AddTask>+ Add New Task</AddTask>
+            <AddTask onClick={() => navigate("/home/addTask")}>
+              + Add New Task
+            </AddTask>
             <Cross>
               <img src={Cross} alt="" />
             </Cross>

@@ -28,10 +28,11 @@ const KabanSideBar = ({
   setActives,
 }) => {
   const navigate = useNavigate();
-  const handleClick = (e) => {
+
+  const handleClick = (e, id) => {
     let test = [];
     setActives([]);
-    test.push(Number(e.target.attributes["0"].value));
+    test.push(id);
     setActives(test);
   };
 
@@ -40,22 +41,23 @@ const KabanSideBar = ({
       <Title>{`All Boards (${boards.length})`}</Title>
       <BoardList>
         {boards.map((board, idx) => {
+          // console.log(board);
           return (
             <Board
               data-id={idx}
-              onClick={handleClick}
+              onClick={(e) => handleClick(e, board.id)}
               key={idx}
-              isActive={actives.includes(idx) ? true : false}
+              isActive={actives.includes(board.id) ? true : false}
             >
               <BoardIcon src={BoardIconImg} />
-              <BoardTitle isActive={actives.includes(idx) ? true : false}>
+              <BoardTitle isActive={actives.includes(board.id) ? true : false}>
                 {board.name}
               </BoardTitle>
             </Board>
           );
         })}
       </BoardList>
-      <AddBoardBtn onClick={() => navigate("/addBoard")}>
+      <AddBoardBtn onClick={() => navigate("/home/addBoard")}>
         <BoardIcon src={BoardIconImg} />
         <AddBoardBtnText>+ Create New Board</AddBoardBtnText>
       </AddBoardBtn>

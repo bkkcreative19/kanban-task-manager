@@ -11,7 +11,7 @@ const BoardLists = ({ actives }) => {
   useEffect(() => {
     const test = async () => {
       const { data } = await axios.get(
-        `http://localhost:5000/boards/${actives[0] + 1}`
+        `http://localhost:5000/boards/${actives[0]}`
       );
 
       setBoard(data[0]);

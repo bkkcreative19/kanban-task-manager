@@ -9,9 +9,10 @@ import {
 import { FiChevronDown } from "react-icons/fi";
 import { IconContext } from "react-icons";
 
-const Select = ({ options }) => {
+const Select = ({ options, selected, setSelected }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selected, setSelected] = useState(options[0]);
+  // const [selected, setSelected] = useState(options[0]);
+
   return (
     <SelectContainer onClick={() => setIsOpen(!isOpen)}>
       <SelectText>{selected}</SelectText>
