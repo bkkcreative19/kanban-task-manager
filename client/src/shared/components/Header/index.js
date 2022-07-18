@@ -37,7 +37,7 @@ const BoardHeader = () => {
           <DownArrow src={ChevronDown} />
 
           <Options>
-            <AddTask onClick={() => navigate("/home/addTask")}>
+            <AddTask onClick={() => navigate("/addTask")}>
               + Add New Task
             </AddTask>
             <Cross>

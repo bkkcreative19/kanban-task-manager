@@ -107,7 +107,7 @@ const AddTask = () => {
       status,
     });
     console.log(data);
-    navigate("/home");
+    navigate("/");
   };
 
   return (
@@ -115,7 +115,7 @@ const AddTask = () => {
       isOpen={true}
       width={480}
       withCloseIcon={false}
-      onClose={() => navigate("/home")}
+      onClose={() => navigate("/")}
     >
       <TaskAdd>
         <TaskAddHead>Add New Task</TaskAddHead>

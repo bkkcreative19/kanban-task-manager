@@ -1,6 +1,7 @@
 import React from "react";
 import { Routes, Route, Redirect } from "react-router-dom";
 import Home from "../Home";
+import EditBoard from "../Home/EditBoard";
 import AddBoard from "../Home/SideBar/AddBoard";
 import AddTask from "../Home/SideBar/AddTask";
 import TaskDetails from "../Home/TaskDetails";
@@ -12,10 +13,11 @@ import TaskDetails from "../Home/TaskDetails";
 
 const RouteHandler = ({ yay, theme }) => (
   <Routes>
-    <Route path="/home" element={<Home yay={yay} theme={theme} />}>
+    <Route path="/" element={<Home yay={yay} theme={theme} />}>
       <Route path=":taskTitle" element={<TaskDetails />} />
-      <Route path="/home/addBoard" element={<AddBoard />} />
-      <Route path="/home/addTask" element={<AddTask />} />
+      <Route path="/addBoard" element={<AddBoard />} />
+      <Route path="/editBoard" element={<EditBoard />} />
+      <Route path="/addTask" element={<AddTask />} />
     </Route>
 
     {/* <Route path="/authenticate" component={Authenticate} /> */}

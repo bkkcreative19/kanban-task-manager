@@ -36,7 +36,7 @@ const TaskDetails = () => {
       isOpen={true}
       width={480}
       withCloseIcon={false}
-      onClose={() => navigate("/home")}
+      onClose={() => navigate("/")}
     >
       {task && (
         <Details>

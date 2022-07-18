@@ -62,3 +62,18 @@ export const createEntity = async <T extends EntityConstructor>(
 
   return result;
 };
+
+export const updateEntity = async <T extends EntityConstructor>(
+  Constructor: T,
+  id: number | string,
+  input: Partial<InstanceType<T>>
+): Promise<InstanceType<T>> => {
+  const instance = await findEntityOrThrow(Constructor, {
+    where: {
+      id: Number(id),
+    },
+  });
+
+  Object.assign(instance, input);
+  return validateAndSaveEntity(instance);
+};

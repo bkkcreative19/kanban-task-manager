@@ -57,7 +57,7 @@ const KabanSideBar = ({
           );
         })}
       </BoardList>
-      <AddBoardBtn onClick={() => navigate("/home/addBoard")}>
+      <AddBoardBtn onClick={() => navigate("/addBoard")}>
         <BoardIcon src={BoardIconImg} />
         <AddBoardBtnText>+ Create New Board</AddBoardBtnText>
       </AddBoardBtn>

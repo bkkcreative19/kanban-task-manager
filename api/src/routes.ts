@@ -7,7 +7,7 @@ export const routes = (app: any): void => {
   app.get("/boards/:boardId", boards.getBoardWithColumns);
 
   app.post("/boards", boards.createBoardWithColumns);
-
+  // app.put("/boards/:boardId", boards.editBoardWithColumns);
   // task routes
   app.get(`/tasks/:title`, tasks.getTaskAndSubtasks);
   app.post(`/tasks`, tasks.createTaskWithSubtasks);

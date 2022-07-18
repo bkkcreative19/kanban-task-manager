@@ -87,7 +87,7 @@ const AddBoard = () => {
       isOpen={true}
       width={480}
       withCloseIcon={false}
-      onClose={() => navigate("/home")}
+      onClose={() => navigate("/")}
     >
       <BoardAdd>
         <BoardAddHead>Add New Board</BoardAddHead>
