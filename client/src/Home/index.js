@@ -47,7 +47,7 @@ const Home = ({ yay, theme }) => {
         </OpenStuff>
       )}
       <BoardLists active={active} />
-      <Outlet context={[boards, setActive]} />
+      <Outlet context={[boards, setActive, active]} />
       {/* <Outlet /> */}
     </HomePage>
   );

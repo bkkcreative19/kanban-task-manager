@@ -3,7 +3,7 @@ import { Routes, Route, Redirect } from "react-router-dom";
 import Home from "../Home";
 import EditBoard from "../Home/EditBoard";
 import AddBoard from "../Home/SideBar/AddBoard";
-import AddTask from "../Home/SideBar/AddTask";
+import AddTask from "../Home/AddTask";
 import TaskDetails from "../Home/TaskDetails";
 
 // import history from "browserHistory";

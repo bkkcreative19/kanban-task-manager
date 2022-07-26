@@ -3,12 +3,12 @@ import BoardTask from "./BoardTask";
 import { List, ListHead, ListHeadCircle, ListHeadText } from "./Styles";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { useState } from "react";
-
+import randomColor from "randomcolor";
 const BoardList = ({ column, index }) => {
   return (
     <List>
       <ListHead>
-        <ListHeadCircle index={index} />
+        <ListHeadCircle index={index} color={randomColor()} />
         <ListHeadText>
           {column.name} ({column.tasks.length})
         </ListHeadText>

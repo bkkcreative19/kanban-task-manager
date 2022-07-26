@@ -14,14 +14,14 @@ export const ListHead = styled.div`
 export const ListHeadCircle = styled.div`
   height: 15px;
   width: 15px;
-  background: ${({ index }) =>
+  background: ${({ index, color }) =>
     index === 0
       ? "#49C4E5"
       : index === 1
       ? "#8471F2"
       : index === 2
       ? "#67E2AE"
-      : ""};
+      : color};
   border-radius: 50%;
 `;
 

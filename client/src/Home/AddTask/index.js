@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
-import Modal from "../../../shared/components/Modal";
+import Modal from "../../shared/components/Modal";
 import {
   TaskAdd,
   TaskAddHead,
@@ -25,11 +25,11 @@ import {
   CreateTask,
   StatusTitle,
 } from "./Styles";
-import ChevronDown from "../../../assets/icon-chevron-down.svg";
-import Select from "../../../shared/components/Select";
+
+import Select from "../../shared/components/Select";
 
 const AddTask = () => {
-  const { actives } = useOutletContext();
+  const { active, boards } = useOutletContext();
   const [columnNames, setColumnNames] = useState([]);
   const [subtasks, setSubtasks] = useState([]);
   const [taskName, setTaskName] = useState("");
@@ -38,10 +38,12 @@ const AddTask = () => {
 
   const navigate = useNavigate();
 
+  console.log(boards);
+
   useEffect(() => {
     const yay = async () => {
       const { data } = await axios.get(
-        `http://localhost:5000/columns/${actives[0]}`
+        `http://localhost:5000/columns/${active}`
       );
       setColumnNames(data);
       setStatus(data[0]);

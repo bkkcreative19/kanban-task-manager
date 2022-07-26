@@ -14,5 +14,6 @@ export const routes = (app: any): void => {
 
   // column routes
   app.get("/columns/:boardId", columns.getColumns);
+  app.post("/columns/:boardId", columns.addColumn);
   app.put("/columns/:boardId", columns.updateColumns);
 };

@@ -6,6 +6,7 @@ import { Lists } from "./Styles";
 import { getBoardWithColumns } from "../../shared/api/boardsApi";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import AddColumn from "./AddColumn";
 
 const BoardLists = ({ active }) => {
   const queryClient = useQueryClient();
@@ -17,6 +18,7 @@ const BoardLists = ({ active }) => {
   } = useQuery(["board", active], () => getBoardWithColumns(active));
 
   const [test, setTest] = useState();
+  console.log(board);
 
   const onDragEnd = (result) => {
     if (!result.destination) return;
@@ -57,6 +59,7 @@ const BoardLists = ({ active }) => {
               return <BoardList key={idx} column={column} index={idx} />;
             })}
         </DragDropContext>
+        <AddColumn board={board} />
       </Lists>
     </>
   );

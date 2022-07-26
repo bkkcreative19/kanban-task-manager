@@ -15,6 +15,24 @@ export const getColumns = catchErrors(async (req, res) => {
 
   res.json(columnNames);
 });
+
+export const addColumn = catchErrors(async (req, res) => {
+  const board = await findEntityOrThrow(Board, {
+    where: {
+      id: Number(req.params.boardId),
+    },
+  });
+
+  console.log(board[0].id);
+
+  const column = await createEntity(ColumnType, {
+    name: req.body.name,
+    board: board[0].id,
+  });
+
+  res.json(column);
+});
+
 export const updateColumns = catchErrors(async (_req, _res) => {
   console.log("hi");
   // const board = await findEntityOrThrow(Board, {

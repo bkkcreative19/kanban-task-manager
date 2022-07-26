@@ -6,8 +6,8 @@ export const SideBar = styled.aside`
   flex-direction: column;
   background: ${({ theme }) => theme.headerBG};
   width: 300px;
-  height: 91vh;
-  position: relative;
+  height: 100vh;
+  position: sticky;
   // box-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
 `;
 

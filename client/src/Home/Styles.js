@@ -3,6 +3,7 @@ import styled from "styled-components";
 export const HomePage = styled.section`
   position: relative;
   display: flex;
+  // justify-content: space-between;
 `;
 
 export const OpenStuff = styled.div`
