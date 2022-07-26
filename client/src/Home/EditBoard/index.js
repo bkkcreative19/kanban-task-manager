@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import Modal from "../../shared/components/Modal";
 import {
+  AddColumnBtn,
   BoardEdit,
   BoardEditColumnHead,
   BoardEditColumnInput,
@@ -13,6 +14,7 @@ import {
   BoardEditInput,
   BoardEditInputField,
   BoardEditInputLabel,
+  SaveBoard,
 } from "./Styles";
 
 const EditBoard = () => {
@@ -58,18 +60,30 @@ const EditBoard = () => {
     setColumns(newArr);
   };
 
+  const editBoard = async () => {
+    const { data } = await axios.put(
+      `http://localhost:5000/boards/${board.id}`,
+      {
+        name: boardName,
+      }
+    );
+    await axios.put(`http://localhost:5000/columns/${board.id}`, {
+      columns,
+    });
+
+    // navigate("/");
+  };
+
   const handleInputChange = (e) => {
     let columnsTest = columns.slice();
     for (let i in columnsTest) {
-      if (columnsTest[i].name == e.target.name) {
+      if (columnsTest[i].name === e.target.name) {
         columnsTest[i].name = e.target.value;
         setColumns(columnsTest);
         break;
       }
     }
   };
-
-  console.log(columns);
 
   const renderInput = (input, i) => {
     return (
@@ -111,8 +125,8 @@ const EditBoard = () => {
             <BoardEditColumnHead>Board Columns</BoardEditColumnHead>
             {columns.map(renderInput)}
           </BoardEditColumnList>
-          {/* <AddColumnBtn onClick={addColumn}>+ Add new Column</AddColumnBtn>
-        <CreateBoard onClick={addBoard}>Create New Board</CreateBoard> */}
+          <AddColumnBtn onClick={addColumn}>+ Add new Column</AddColumnBtn>
+          <SaveBoard onClick={editBoard}>Save Changes</SaveBoard>
           {/* onChange={(e) => setBoardName(e.target.value)} */}
         </BoardEdit>
       )}

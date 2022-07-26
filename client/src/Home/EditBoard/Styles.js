@@ -49,30 +49,30 @@ export const BoardEditColumnX = styled.span`
   padding: 0 0.8em;
 `;
 
-// export const AddColumnBtn = styled.button`
-//   background: rgba(99, 95, 199, 0.1);
-//   border-radius: 20px;
-//   width: 100%;
-//   padding: 0.6em 1.2em;
-//   font-weight: 700;
-//   font-size: 13px;
-//   line-height: 23px;
-//   color: #635fc7;
-//   border: none;
-//   margin-top: 1.3em;
-//   cursor: pointer;
-// `;
+export const AddColumnBtn = styled.button`
+  background: rgba(99, 95, 199, 0.1);
+  border-radius: 20px;
+  width: 100%;
+  padding: 0.6em 1.2em;
+  font-weight: 700;
+  font-size: 13px;
+  line-height: 23px;
+  color: #635fc7;
+  border: none;
+  margin-top: 1.3em;
+  cursor: pointer;
+`;
 
-// export const CreateBoard = styled.button`
-//   background: #635fc7;
-//   border-radius: 20px;
-//   border: none;
-//   margin-top: 1.3em;
-//   cursor: pointer;
-//   color: #ffffff;
-//   font-weight: 700;
-//   font-size: 13px;
-//   line-height: 23px;
-//   width: 100%;
-//   padding: 0.6em 1.2em;
-// `;
+export const SaveBoard = styled.button`
+  background: #635fc7;
+  border-radius: 20px;
+  border: none;
+  margin-top: 1.3em;
+  cursor: pointer;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 13px;
+  line-height: 23px;
+  width: 100%;
+  padding: 0.6em 1.2em;
+`;

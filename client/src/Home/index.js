@@ -6,28 +6,30 @@ import { Outlet, useParams } from "react-router-dom";
 import BoardLists from "./BoardLists";
 import axios from "axios";
 import TaskDetails from "./TaskDetails";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import useIsActive from "../shared/hooks/useIsActive";
+import { getBoards } from "../shared/api/boardsApi";
 
 const Home = ({ yay, theme }) => {
-  const [boards, setBoards] = useState(null);
+  const queryClient = useQueryClient();
+  // const [boards, setBoards] = useState(null);
   const [isOpen, setIsOpen] = useState(true);
-  const [actives, setActives] = useState([1]);
 
+  const [active, setActive] = useIsActive(
+    Number(localStorage.getItem("active"))
+  );
+  const { isLoading, isError, data: boards } = useQuery(["boards"], getBoards);
+  // const { isLoading, isError, data } = useQuery("boards", getBoards);
   const params = useParams();
 
-  // console.log(params);
-
-  useEffect(() => {
-    const test = async () => {
-      const { data } = await axios.get("http://localhost:5000/boards");
-
-      setBoards(data);
-    };
-
-    test();
-  }, []);
-
+  // useEffect(() => {
+  //   setActive(Number(localStorage.getItem("active")));
+  //   console.log(active);
+  // }, [active]);
   return (
     <HomePage>
+      {isLoading && "loading"}
+      {isError && "error"}
       {boards && (
         <KabanSideBar
           boards={boards}
@@ -35,8 +37,8 @@ const Home = ({ yay, theme }) => {
           theme={theme}
           isOpen={isOpen}
           setIsOpen={setIsOpen}
-          actives={actives}
-          setActives={setActives}
+          active={active}
+          setActive={setActive}
         />
       )}
       {!isOpen && (
@@ -44,8 +46,8 @@ const Home = ({ yay, theme }) => {
           <img src={ShowSide} alt="" />
         </OpenStuff>
       )}
-      <BoardLists actives={actives} />
-      <Outlet context={{ actives, boards }} />
+      <BoardLists active={active} />
+      <Outlet context={[boards, setActive]} />
       {/* <Outlet /> */}
     </HomePage>
   );

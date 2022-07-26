@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Modal from "../../../shared/components/Modal";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import {
   AddColumnBtn,
   BoardAdd,
@@ -16,12 +16,15 @@ import {
   BoardAddInputLabel,
   CreateBoard,
 } from "./Styles";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { addBoard } from "../../../shared/api/boardsApi";
 
 const AddBoard = () => {
   const navigate = useNavigate();
   const [columns, setColumns] = useState([]);
+  const [setActive] = useOutletContext();
   const [boardName, setBoardName] = useState("");
-
+  const queryClient = useQueryClient();
   const addColumn = (columnName) => {
     let test = [...columns];
     // console.log(test.length);
@@ -53,14 +56,18 @@ const AddBoard = () => {
     }
   };
 
-  const addBoard = async () => {
-    const { data } = await axios.post("http://localhost:5000/boards", {
-      name: boardName,
-      columns,
-    });
+  // Queries
 
-    navigate("/");
-  };
+  // Mutations
+  const mutation = useMutation(addBoard, {
+    onSuccess: (data) => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries(["boards"]);
+      localStorage.setItem("active", data.board.id);
+      setActive(Number(localStorage.getItem("active")));
+    },
+  });
+
   // console.log(columns);
   const renderInput = (input, i) => {
     return (
@@ -100,7 +107,17 @@ const AddBoard = () => {
           {columns.map(renderInput)}
         </BoardAddColumnList>
         <AddColumnBtn onClick={addColumn}>+ Add new Column</AddColumnBtn>
-        <CreateBoard onClick={addBoard}>Create New Board</CreateBoard>
+        <CreateBoard
+          onClick={() => {
+            mutation.mutate({
+              name: boardName,
+              columns,
+            });
+            navigate("/");
+          }}
+        >
+          Create New Board
+        </CreateBoard>
       </BoardAdd>
     </Modal>
   );

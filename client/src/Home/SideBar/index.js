@@ -17,6 +17,7 @@ import {
 } from "./Styles";
 import ThemeToggle from "./ThemeToggle";
 import { useNavigate } from "react-router-dom";
+import useIsActive from "../../shared/hooks/useIsActive";
 
 const KabanSideBar = ({
   boards,
@@ -24,16 +25,18 @@ const KabanSideBar = ({
   theme,
   isOpen,
   setIsOpen,
-  actives,
-  setActives,
+  active,
+  setActive,
 }) => {
   const navigate = useNavigate();
+  // const [active, setActive] = useIsActive();
 
   const handleClick = (e, id) => {
-    let test = [];
-    setActives([]);
-    test.push(id);
-    setActives(test);
+    localStorage.setItem("active", id);
+    setActive(Number(localStorage.getItem("active")));
+    // console.log(typeof );
+    // setActives(test);
+    // setActive(2);
   };
 
   return (
@@ -47,10 +50,10 @@ const KabanSideBar = ({
               data-id={idx}
               onClick={(e) => handleClick(e, board.id)}
               key={idx}
-              isActive={actives.includes(board.id) ? true : false}
+              isActive={active === board.id ? true : false}
             >
               <BoardIcon src={BoardIconImg} />
-              <BoardTitle isActive={actives.includes(board.id) ? true : false}>
+              <BoardTitle isActive={active === board.id ? true : false}>
                 {board.name}
               </BoardTitle>
             </Board>
