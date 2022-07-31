@@ -47,9 +47,10 @@ export const createBoardWithColumns = catchErrors(async (req, res) => {
 
   res.json({ board, newColumns });
 });
-export const editBoardWithColumns = catchErrors(async (req, _res) => {
+export const editBoardWithColumns = catchErrors(async (req, res) => {
   // const board = await createEntity(Board, { name: req.body.name });
   const board = await updateEntity(Board, req.params.boardId, req.body);
+  res.json(board);
   // res.json({ board });
   // console.log(board);
   // let columns: any[] = [];

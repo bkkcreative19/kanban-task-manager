@@ -12,7 +12,7 @@ const AddColumn = ({ board }) => {
   const mutation = useMutation(addColumn, {
     onSuccess: (data) => {
       // Invalidate and refetch
-      queryClient.invalidateQueries(["boards"]);
+      queryClient.invalidateQueries(["board"]);
       console.log(data);
       // localStorage.setItem("active", data.board.id);
       // setActive(Number(localStorage.getItem("active")));
@@ -33,6 +33,7 @@ const AddColumn = ({ board }) => {
               name: name,
               boardId: board.id,
             });
+            setReadyType(false);
           }}
         >
           <input onChange={(e) => setName(e.target.value)} type="text" />

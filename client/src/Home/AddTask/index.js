@@ -29,7 +29,7 @@ import {
 import Select from "../../shared/components/Select";
 
 const AddTask = () => {
-  const { active, boards } = useOutletContext();
+  const { boards, active } = useOutletContext();
   const [columnNames, setColumnNames] = useState([]);
   const [subtasks, setSubtasks] = useState([]);
   const [taskName, setTaskName] = useState("");

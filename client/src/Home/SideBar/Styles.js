@@ -6,8 +6,10 @@ export const SideBar = styled.aside`
   flex-direction: column;
   background: ${({ theme }) => theme.headerBG};
   width: 300px;
-  height: 100vh;
-  position: sticky;
+  height: 91vh;
+  // margin-top: 2rem;
+  // flex: 1;
+  // position: fixed;
   // box-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
 `;
 

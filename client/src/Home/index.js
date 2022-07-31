@@ -6,19 +6,20 @@ import { Outlet, useParams } from "react-router-dom";
 import BoardLists from "./BoardLists";
 import axios from "axios";
 import TaskDetails from "./TaskDetails";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import useIsActive from "../shared/hooks/useIsActive";
 import { getBoards } from "../shared/api/boardsApi";
 
 const Home = ({ yay, theme }) => {
-  const queryClient = useQueryClient();
   // const [boards, setBoards] = useState(null);
   const [isOpen, setIsOpen] = useState(true);
 
   const [active, setActive] = useIsActive(
     Number(localStorage.getItem("active"))
   );
+
   const { isLoading, isError, data: boards } = useQuery(["boards"], getBoards);
+
   // const { isLoading, isError, data } = useQuery("boards", getBoards);
   const params = useParams();
 
@@ -47,7 +48,7 @@ const Home = ({ yay, theme }) => {
         </OpenStuff>
       )}
       <BoardLists active={active} />
-      <Outlet context={[boards, setActive, active]} />
+      <Outlet context={{ boards, setActive, active }} />
       {/* <Outlet /> */}
     </HomePage>
   );

@@ -20,4 +20,8 @@ export const addBoard = async (board) => {
   return response.data;
 };
 
+export const editBoard = async (data) => {
+  return await boardsApi.put(`/boards/${data[1]}`, { name: data[0] });
+};
+
 export default boardsApi;

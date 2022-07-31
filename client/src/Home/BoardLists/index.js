@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 
 import BoardList from "./BoardList";
@@ -17,9 +16,6 @@ const BoardLists = ({ active }) => {
     data: board,
   } = useQuery(["board", active], () => getBoardWithColumns(active));
 
-  const [test, setTest] = useState();
-  console.log(board);
-
   const onDragEnd = (result) => {
     if (!result.destination) return;
     const { source, destination } = result;
@@ -32,7 +28,12 @@ const BoardLists = ({ active }) => {
       const destItems = destColumn.tasks;
 
       const [removed] = sourceItems.splice(source.index, 1);
-      destItems.splice(destination.index, 0, removed);
+
+      if (destItems.length > 0) {
+        destItems.splice(destination.index, 0, removed);
+      } else {
+        destItems.push(removed);
+      }
     } else {
       const column = board.columnTypes[source.droppableId];
       const copiedItems = column.tasks;

@@ -17,31 +17,30 @@ import {
   SaveBoard,
 } from "./Styles";
 
+import { editBoard, getBoardWithColumns } from "../../shared/api/boardsApi";
+import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
+import { deleteColumn } from "../../shared/api/columnsApi";
+
 const EditBoard = () => {
   const navigate = useNavigate();
-  const { actives, boards } = useOutletContext();
+  const { active } = useOutletContext();
+
   //   const board = boards.find((board) => board.id === actives[0]);
-  const [board, setBoard] = useState();
+  // const [board, setBoard] = useState();
   const [boardName, setBoardName] = useState("");
   const [columns, setColumns] = useState([]);
 
-  useEffect(() => {
-    const getBoard = async () => {
-      const { data } = await axios.get(
-        `http://localhost:5000/boards/${actives[0]}`
-      );
-      setBoard(data[0]);
-      setBoardName(data[0].name);
-      setColumns(data[0].columnTypes);
-    };
+  const queryClient = useQueryClient();
 
-    getBoard();
-  }, []);
-
+  const {
+    isLoading,
+    isError,
+    data: board,
+  } = useQuery(["board", active], () => getBoardWithColumns(active));
   //   console.log(board);
 
   const addColumn = (columnName) => {
-    let test = [...columns];
+    let test = [...board.columnTypes];
     // console.log(test.length);
     let newColumn = {
       type: "text",
@@ -54,25 +53,42 @@ const EditBoard = () => {
     setColumns(test);
   };
 
-  const removeColumn = (id) => {
-    // let test = [...columns];
-    const newArr = [...columns].filter((item) => item.id !== id);
-    setColumns(newArr);
-  };
+  // const removeColumn = async (id) => {
+  //   // let test = [...columns];
+  //   // const newArr = [...board.columnTypes].filter((item) => item.id !== id);
+  //   console.log(id);
+  //   await axios.delete(`http://localhost:5000/columns/${id}`);
+  //   // setColumns(newArr);
+  // };
 
-  const editBoard = async () => {
-    const { data } = await axios.put(
-      `http://localhost:5000/boards/${board.id}`,
-      {
-        name: boardName,
-      }
-    );
-    await axios.put(`http://localhost:5000/columns/${board.id}`, {
-      columns,
-    });
+  const mutation = useMutation(deleteColumn, {
+    onSuccess: (data) => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries(["boards"]);
+    },
+  });
 
-    // navigate("/");
-  };
+  const mutation1 = useMutation(editBoard, {
+    onSuccess: (data) => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries(["boards"]);
+      navigate("/");
+    },
+  });
+
+  // const editBoard = async () => {
+  //   const { data } = await axios.put(
+  //     `http://localhost:5000/boards/${board.id}`,
+  //     {
+  //       name: boardName,
+  //     }
+  //   );
+  //   await axios.put(`http://localhost:5000/columns/${board.id}`, {
+  //     columns,
+  //   });
+
+  //   // navigate("/");
+  // };
 
   const handleInputChange = (e) => {
     let columnsTest = columns.slice();
@@ -96,7 +112,11 @@ const EditBoard = () => {
           value={input.name}
           onChange={handleInputChange}
         />
-        <BoardEditColumnX onClick={() => removeColumn(input.id)}>
+        <BoardEditColumnX
+          onClick={() => {
+            mutation.mutate(input.id);
+          }}
+        >
           X
         </BoardEditColumnX>
       </BoardEditColumnItem>
@@ -123,10 +143,18 @@ const EditBoard = () => {
           </BoardEditInput>
           <BoardEditColumnList>
             <BoardEditColumnHead>Board Columns</BoardEditColumnHead>
-            {columns.map(renderInput)}
+            {columns.length > 0
+              ? columns.map(renderInput)
+              : board.columnTypes.map(renderInput)}
           </BoardEditColumnList>
           <AddColumnBtn onClick={addColumn}>+ Add new Column</AddColumnBtn>
-          <SaveBoard onClick={editBoard}>Save Changes</SaveBoard>
+          <SaveBoard
+            onClick={() => {
+              mutation1.mutate([boardName, board.id]);
+            }}
+          >
+            Save Changes
+          </SaveBoard>
           {/* onChange={(e) => setBoardName(e.target.value)} */}
         </BoardEdit>
       )}

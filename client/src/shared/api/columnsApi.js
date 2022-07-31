@@ -22,4 +22,14 @@ export const addColumn = async (data) => {
   return response.data;
 };
 
+export const deleteColumn = async (id) => {
+  return await columnsApi.delete(`http://localhost:5000/columns/${id}`);
+};
+
+// export const getColumns = async () => {
+//   const response = await columnsApi.get(`/columns/${data.boardId}`);
+
+//   return response.data;
+// };
+
 export default columnsApi;

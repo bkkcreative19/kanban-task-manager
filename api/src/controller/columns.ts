@@ -1,6 +1,10 @@
-import { Board, ColumnType } from "../entities";
+import { Board, ColumnType, Subtask, Task } from "../entities";
 import { catchErrors } from "../errors";
-import { createEntity, findEntityOrThrow } from "../utils/typeorm";
+import {
+  createEntity,
+  findEntityOrThrow,
+  deleteEntity,
+} from "../utils/typeorm";
 
 export const getColumns = catchErrors(async (req, res) => {
   console.log(typeof req.params.boardId);
@@ -45,4 +49,40 @@ export const updateColumns = catchErrors(async (_req, _res) => {
   // const columnNames = columns.map((column: any) => column.name);
 
   // res.json(columnNames);
+});
+
+export const deleteColumn = catchErrors(async (req, _res) => {
+  const tasks = await findEntityOrThrow(Task, {
+    where: {
+      columnType: {
+        id: req.params.columnId,
+      },
+    },
+  });
+  const deleteTasks: any[] = [];
+  const deleteSubTasks: any[] = [];
+
+  tasks.forEach((task: { id: string | number }) => {
+    const test = async () => {
+      const subtasks = await findEntityOrThrow(Subtask, {
+        where: {
+          task: {
+            id: task.id,
+          },
+        },
+      });
+
+      subtasks.forEach((subTask: { id: string | number }) => {
+        deleteSubTasks.push(deleteEntity(Subtask, subTask.id));
+      });
+    };
+    test();
+    deleteTasks.push(deleteEntity(Task, task.id));
+  });
+
+  Promise.all(deleteSubTasks);
+  // Promise.all(deleteTasks);
+  await deleteEntity(ColumnType, req.params.columnId);
+
+  // console.log();
 });
