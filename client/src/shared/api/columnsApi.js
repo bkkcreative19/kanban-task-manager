@@ -4,18 +4,18 @@ const columnsApi = axios.create({
   baseURL: "http://localhost:5000",
 });
 
-// export const getBoards = async () => {
-//   const response = await columnsApi.get("/boards");
+export const getColumns = async (boardId) => {
+  const response = await columnsApi.get(`/columns/${boardId}`);
 
-//   return response.data;
-// };
+  return response.data;
+};
 
 // export const getBoardWithColumns = async (active) => {
 //   const response = await columnsApi.get(`boards/${active}`);
 //   return response.data[0];
 // };
 
-export const addColumn = async (data) => {
+export const addColumn2 = async (data) => {
   const response = await columnsApi.post(`/columns/${data.boardId}`, {
     name: data.name,
   });

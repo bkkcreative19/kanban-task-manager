@@ -22,7 +22,7 @@ import { addBoard } from "../../../shared/api/boardsApi";
 const AddBoard = () => {
   const navigate = useNavigate();
   const [columns, setColumns] = useState([]);
-  const [setActive] = useOutletContext();
+  const { setActive } = useOutletContext();
   const [boardName, setBoardName] = useState("");
   const queryClient = useQueryClient();
   const addColumn = (columnName) => {

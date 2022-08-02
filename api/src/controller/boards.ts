@@ -31,7 +31,7 @@ export const getBoardWithColumns = catchErrors(async (req, res) => {
 
 export const createBoardWithColumns = catchErrors(async (req, res) => {
   const board = await createEntity(Board, { name: req.body.name });
-  console.log(board);
+
   let columns: any[] = [];
 
   req.body.columns.forEach((column: any) => {
@@ -50,18 +50,8 @@ export const createBoardWithColumns = catchErrors(async (req, res) => {
 export const editBoardWithColumns = catchErrors(async (req, res) => {
   // const board = await createEntity(Board, { name: req.body.name });
   const board = await updateEntity(Board, req.params.boardId, req.body);
+
   res.json(board);
-  // res.json({ board });
-  // console.log(board);
-  // let columns: any[] = [];
-  // req.body.columns.forEach((column: any) => {
-  //   columns.push(
-  //     createEntity(ColumnType, {
-  //       name: column.value,
-  //       board: board.id,
-  //     })
-  //   );
-  // });
   // const newColumns = await Promise.all(columns);
   // res.json({ board, newColumns });
 });

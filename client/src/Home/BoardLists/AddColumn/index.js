@@ -1,19 +1,18 @@
 import React from "react";
 import { ColumnAdd, ColumnText } from "./Styles";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
-import { addColumn } from "../../../shared/api/columnsApi";
+import { addColumn2 } from "../../../shared/api/columnsApi";
 import { useState } from "react";
 
-const AddColumn = ({ board }) => {
+const AddColumn = ({ boardId }) => {
   const queryClient = useQueryClient();
   const [readyType, setReadyType] = useState(false);
   const [name, setName] = useState("");
 
-  const mutation = useMutation(addColumn, {
+  const mutation = useMutation(addColumn2, {
     onSuccess: (data) => {
       // Invalidate and refetch
-      queryClient.invalidateQueries(["board"]);
-      console.log(data);
+      queryClient.invalidateQueries(["columns"]);
       // localStorage.setItem("active", data.board.id);
       // setActive(Number(localStorage.getItem("active")));
     },
@@ -31,7 +30,7 @@ const AddColumn = ({ board }) => {
             e.preventDefault();
             mutation.mutate({
               name: name,
-              boardId: board.id,
+              boardId,
             });
             setReadyType(false);
           }}

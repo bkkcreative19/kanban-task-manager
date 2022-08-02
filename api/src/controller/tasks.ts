@@ -3,7 +3,6 @@ import { catchErrors } from "../errors";
 import { createEntity, findEntityOrThrow } from "../utils/typeorm";
 
 export const getTaskAndSubtasks = catchErrors(async (req, res) => {
-  console.log(req.params);
   const task = await findEntityOrThrow(Task, {
     where: {
       title: req.params.title,

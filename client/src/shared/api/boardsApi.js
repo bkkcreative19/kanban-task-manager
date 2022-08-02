@@ -21,7 +21,11 @@ export const addBoard = async (board) => {
 };
 
 export const editBoard = async (data) => {
-  return await boardsApi.put(`/boards/${data[1]}`, { name: data[0] });
+  console.log(data);
+  return await boardsApi.put(`/boards/${data.boardId}`, {
+    name: data.boardName,
+    columns: data.columns,
+  });
 };
 
 export default boardsApi;

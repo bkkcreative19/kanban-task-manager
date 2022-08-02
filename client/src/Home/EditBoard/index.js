@@ -18,8 +18,9 @@ import {
 } from "./Styles";
 
 import { editBoard, getBoardWithColumns } from "../../shared/api/boardsApi";
+import { addColumn2 } from "../../shared/api/columnsApi";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
-import { deleteColumn } from "../../shared/api/columnsApi";
+import { deleteColumn, getColumns } from "../../shared/api/columnsApi";
 
 const EditBoard = () => {
   const navigate = useNavigate();
@@ -33,11 +34,22 @@ const EditBoard = () => {
   const queryClient = useQueryClient();
 
   const {
-    isLoading,
-    isError,
+    // isLoading,
+    // isError,
     data: board,
   } = useQuery(["board", active], () => getBoardWithColumns(active));
+  // const {
+  //   // isLoading,
+  //   // isError,
+  //   data: columnss,
+  // } = useQuery(["columns", active], () => getColumns(active));
   //   console.log(board);
+
+  useEffect(() => {
+    if (board) {
+      setColumns(board.columnTypes);
+    }
+  }, [board]);
 
   const addColumn = (columnName) => {
     let test = [...board.columnTypes];
@@ -53,42 +65,33 @@ const EditBoard = () => {
     setColumns(test);
   };
 
-  // const removeColumn = async (id) => {
-  //   // let test = [...columns];
-  //   // const newArr = [...board.columnTypes].filter((item) => item.id !== id);
-  //   console.log(id);
-  //   await axios.delete(`http://localhost:5000/columns/${id}`);
-  //   // setColumns(newArr);
-  // };
+  const removeColumn = async (id) => {
+    let test = [...columns];
+    const newArr = [...board.columnTypes].filter((item) => item.id !== id);
+    console.log(id);
+    // await axios.delete(`http://localhost:5000/columns/${id}`);
+    setColumns(newArr);
+  };
 
-  const mutation = useMutation(deleteColumn, {
+  const mutateDeleteColumn = useMutation(deleteColumn, {
+    onSuccess: (data) => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries(["columns"]);
+    },
+  });
+  const mutateAddColumn = useMutation(addColumn2, {
+    onSuccess: (data) => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries(["columns"]);
+    },
+  });
+
+  const mutateEditBoard = useMutation(editBoard, {
     onSuccess: (data) => {
       // Invalidate and refetch
       queryClient.invalidateQueries(["boards"]);
     },
   });
-
-  const mutation1 = useMutation(editBoard, {
-    onSuccess: (data) => {
-      // Invalidate and refetch
-      queryClient.invalidateQueries(["boards"]);
-      navigate("/");
-    },
-  });
-
-  // const editBoard = async () => {
-  //   const { data } = await axios.put(
-  //     `http://localhost:5000/boards/${board.id}`,
-  //     {
-  //       name: boardName,
-  //     }
-  //   );
-  //   await axios.put(`http://localhost:5000/columns/${board.id}`, {
-  //     columns,
-  //   });
-
-  //   // navigate("/");
-  // };
 
   const handleInputChange = (e) => {
     let columnsTest = columns.slice();
@@ -114,7 +117,8 @@ const EditBoard = () => {
         />
         <BoardEditColumnX
           onClick={() => {
-            mutation.mutate(input.id);
+            mutateDeleteColumn.mutate(input.id);
+            removeColumn(input.id);
           }}
         >
           X
@@ -137,7 +141,7 @@ const EditBoard = () => {
           <BoardEditInput>
             <BoardEditInputLabel>Board Name</BoardEditInputLabel>
             <BoardEditInputField
-              value={boardName}
+              value={!boardName ? board.name : boardName}
               onChange={(e) => setBoardName(e.target.value)}
             />
           </BoardEditInput>
@@ -150,7 +154,20 @@ const EditBoard = () => {
           <AddColumnBtn onClick={addColumn}>+ Add new Column</AddColumnBtn>
           <SaveBoard
             onClick={() => {
-              mutation1.mutate([boardName, board.id]);
+              if (!boardName) {
+                navigate("/");
+                return;
+              }
+              mutateEditBoard.mutate({
+                boardName,
+                boardId: board.id,
+                columns:
+                  columns.length > board.columnTypes.length
+                    ? columns
+                    : board.columnTypes,
+              });
+
+              navigate("/");
             }}
           >
             Save Changes

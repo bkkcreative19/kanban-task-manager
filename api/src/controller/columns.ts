@@ -7,17 +7,16 @@ import {
 } from "../utils/typeorm";
 
 export const getColumns = catchErrors(async (req, res) => {
-  console.log(typeof req.params.boardId);
-  const board = await findEntityOrThrow(Board, {
+  const columns = await findEntityOrThrow(ColumnType, {
     where: {
-      id: Number(req.params.boardId),
+      board: {
+        id: Number(req.params.boardId),
+      },
     },
-    relations: ["columnTypes"],
+    relations: ["tasks", "tasks.subtasks"],
   });
-  const columns = board[0].columnTypes;
-  const columnNames = columns.map((column: any) => column.name);
 
-  res.json(columnNames);
+  res.json(columns);
 });
 
 export const addColumn = catchErrors(async (req, res) => {
@@ -26,8 +25,6 @@ export const addColumn = catchErrors(async (req, res) => {
       id: Number(req.params.boardId),
     },
   });
-
-  console.log(board[0].id);
 
   const column = await createEntity(ColumnType, {
     name: req.body.name,
@@ -80,7 +77,7 @@ export const deleteColumn = catchErrors(async (req, _res) => {
     deleteTasks.push(deleteEntity(Task, task.id));
   });
 
-  Promise.all(deleteSubTasks);
+  // Promise.all(deleteSubTasks);
   // Promise.all(deleteTasks);
   await deleteEntity(ColumnType, req.params.columnId);
 
