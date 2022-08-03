@@ -48,38 +48,8 @@ export const updateColumns = catchErrors(async (_req, _res) => {
   // res.json(columnNames);
 });
 
-export const deleteColumn = catchErrors(async (req, _res) => {
-  const tasks = await findEntityOrThrow(Task, {
-    where: {
-      columnType: {
-        id: req.params.columnId,
-      },
-    },
-  });
-  const deleteTasks: any[] = [];
-  const deleteSubTasks: any[] = [];
-
-  tasks.forEach((task: { id: string | number }) => {
-    const test = async () => {
-      const subtasks = await findEntityOrThrow(Subtask, {
-        where: {
-          task: {
-            id: task.id,
-          },
-        },
-      });
-
-      subtasks.forEach((subTask: { id: string | number }) => {
-        deleteSubTasks.push(deleteEntity(Subtask, subTask.id));
-      });
-    };
-    test();
-    deleteTasks.push(deleteEntity(Task, task.id));
-  });
-
-  // Promise.all(deleteSubTasks);
-  // Promise.all(deleteTasks);
-  await deleteEntity(ColumnType, req.params.columnId);
-
+export const deleteColumn = catchErrors(async (req, res) => {
+  const column = await deleteEntity(ColumnType, req.params.columnId);
+  res.json(column);
   // console.log();
 });

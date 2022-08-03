@@ -25,10 +25,15 @@ class ColumnType extends BaseEntity {
   @UpdateDateColumn({ type: "timestamp" })
   updatedAt: Date;
 
-  @ManyToOne(() => Board, (board) => board.columnTypes)
+  @ManyToOne(() => Board, (board) => board.columnTypes, {
+    cascade: true,
+    onDelete: "CASCADE",
+  })
   board: Board;
 
-  @OneToMany(() => Task, (task) => task.columnType)
+  @OneToMany(() => Task, (task) => task.columnType, {
+    eager: true,
+  })
   tasks: Task[];
 }
 

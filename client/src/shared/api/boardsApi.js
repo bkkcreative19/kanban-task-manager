@@ -21,11 +21,14 @@ export const addBoard = async (board) => {
 };
 
 export const editBoard = async (data) => {
-  console.log(data);
   return await boardsApi.put(`/boards/${data.boardId}`, {
     name: data.boardName,
     columns: data.columns,
   });
+};
+
+export const deleteBoard = async (id) => {
+  return await boardsApi.delete(`http://localhost:5000/boards/${id}`);
 };
 
 export default boardsApi;

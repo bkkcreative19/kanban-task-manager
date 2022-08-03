@@ -23,7 +23,9 @@ class Board extends BaseEntity {
   @UpdateDateColumn({ type: "timestamp" })
   updatedAt: Date;
 
-  @OneToMany(() => ColumnType, (columnType) => columnType.board)
+  @OneToMany(() => ColumnType, (columnType) => columnType.board, {
+    eager: true,
+  })
   columnTypes: ColumnType[];
 }
 

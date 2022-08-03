@@ -4,12 +4,27 @@ import { List, ListHead, ListHeadCircle, ListHeadText } from "./Styles";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { useState } from "react";
 import randomColor from "randomcolor";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { deleteColumn } from "../../../shared/api/columnsApi";
+
 const BoardList = ({ column, index }) => {
+  const queryClient = useQueryClient();
+
+  const mutateDeleteColumn = useMutation(deleteColumn, {
+    onSuccess: () => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries(["columns"]);
+    },
+  });
   return (
     <List>
       <ListHead>
         <ListHeadCircle index={index} color={randomColor()} />
-        <ListHeadText>
+        <ListHeadText
+          onClick={() => {
+            mutateDeleteColumn.mutate(column.id);
+          }}
+        >
           {column.name} ({column.tasks.length})
         </ListHeadText>
       </ListHead>

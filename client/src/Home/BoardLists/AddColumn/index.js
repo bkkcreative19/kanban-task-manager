@@ -10,7 +10,7 @@ const AddColumn = ({ boardId }) => {
   const [name, setName] = useState("");
 
   const mutation = useMutation(addColumn2, {
-    onSuccess: (data) => {
+    onSuccess: () => {
       // Invalidate and refetch
       queryClient.invalidateQueries(["columns"]);
       // localStorage.setItem("active", data.board.id);

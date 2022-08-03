@@ -73,7 +73,6 @@ export const updateEntity = async <T extends EntityConstructor>(
       id: Number(id),
     },
   });
-  console.log(input);
 
   Object.assign(instance[0], input);
   // console.log(instance[0]);
@@ -89,8 +88,6 @@ export const deleteEntity = async <T extends EntityConstructor>(
       id: Number(id),
     },
   });
-
-  console.log(instance);
 
   // console.log(instance[0]);
   await instance[0].remove();

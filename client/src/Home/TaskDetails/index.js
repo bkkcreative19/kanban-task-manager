@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate, useOutletContext } from "react-router-dom";
-import axios from "axios";
+
 import Modal from "../../shared/components/Modal";
 import {
   Details,
@@ -11,26 +11,24 @@ import {
 import OptionsLogo from "../../shared/components/OptionsLogo";
 import DetailsSubTasks from "./DetailsSubTasks";
 import CurrentStatus from "./CurrentStatus";
-import Select from "../../shared/components/Select";
+
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { getTask } from "../../shared/api/tasksApi";
 const TaskDetails = () => {
   const params = useParams();
   const { actives } = useOutletContext();
-  const [task, setTask] = useState(null);
+
   const [currentStatus, setCurrentStatus] = useState();
+
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const test = async () => {
-      const { data } = await axios.get(
-        `http://localhost:5000/tasks/${params.taskTitle}`
-      );
+  const {
+    isLoading,
+    isError,
+    data: task,
+  } = useQuery(["task", params.taskTitle], () => getTask(params.taskTitle));
 
-      setTask(data);
-      setCurrentStatus(data.status);
-    };
-
-    test();
-  }, [params.taskTitle]);
+  console.log(task);
   return (
     <Modal
       isOpen={true}

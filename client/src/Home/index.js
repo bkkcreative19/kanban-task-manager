@@ -6,13 +6,14 @@ import { Outlet, useParams } from "react-router-dom";
 import BoardLists from "./BoardLists";
 import axios from "axios";
 import TaskDetails from "./TaskDetails";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import useIsActive from "../shared/hooks/useIsActive";
 import { getBoards } from "../shared/api/boardsApi";
 
 const Home = ({ yay, theme }) => {
   // const [boards, setBoards] = useState(null);
   const [isOpen, setIsOpen] = useState(true);
+  const queryClient = useQueryClient();
 
   const [active, setActive] = useIsActive(
     Number(localStorage.getItem("active"))

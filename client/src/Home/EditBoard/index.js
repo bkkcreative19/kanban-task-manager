@@ -21,6 +21,7 @@ import { editBoard, getBoardWithColumns } from "../../shared/api/boardsApi";
 import { addColumn2 } from "../../shared/api/columnsApi";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import { deleteColumn, getColumns } from "../../shared/api/columnsApi";
+import { isEqual } from "../../shared/utils/isEqual";
 
 const EditBoard = () => {
   const navigate = useNavigate();
@@ -52,13 +53,12 @@ const EditBoard = () => {
   }, [board]);
 
   const addColumn = (columnName) => {
-    let test = [...board.columnTypes];
+    let test = [...columns];
     // console.log(test.length);
     let newColumn = {
       type: "text",
       placeholder: "placeholder text",
       name: `text${test.length}`,
-      id: test.length,
       value: "",
     };
     test.push(newColumn);
@@ -68,7 +68,7 @@ const EditBoard = () => {
   const removeColumn = async (id) => {
     let test = [...columns];
     const newArr = [...board.columnTypes].filter((item) => item.id !== id);
-    console.log(id);
+
     // await axios.delete(`http://localhost:5000/columns/${id}`);
     setColumns(newArr);
   };
@@ -90,6 +90,7 @@ const EditBoard = () => {
     onSuccess: (data) => {
       // Invalidate and refetch
       queryClient.invalidateQueries(["boards"]);
+      queryClient.invalidateQueries(["columns"]);
     },
   });
 
@@ -106,7 +107,7 @@ const EditBoard = () => {
 
   const renderInput = (input, i) => {
     return (
-      <BoardEditColumnItem key={input.id}>
+      <BoardEditColumnItem key={i}>
         <BoardEditColumnInput
           type={input.type}
           name={input.name}
@@ -127,7 +128,7 @@ const EditBoard = () => {
     );
   };
 
-  //   console.log(board);
+  console.log(columns);
   return (
     <Modal
       isOpen={true}
@@ -158,15 +159,13 @@ const EditBoard = () => {
                 navigate("/");
                 return;
               }
+              console.log(board.columnTypes);
+              console.log(columns);
               mutateEditBoard.mutate({
                 boardName,
                 boardId: board.id,
-                columns:
-                  columns.length > board.columnTypes.length
-                    ? columns
-                    : board.columnTypes,
+                columns,
               });
-
               navigate("/");
             }}
           >

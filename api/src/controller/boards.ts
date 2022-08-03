@@ -2,6 +2,7 @@ import { Board, ColumnType } from "../entities";
 import { catchErrors } from "../errors";
 import {
   createEntity,
+  deleteEntity,
   findEntityOrThrow,
   updateEntity,
 } from "../utils/typeorm";
@@ -50,8 +51,24 @@ export const createBoardWithColumns = catchErrors(async (req, res) => {
 export const editBoardWithColumns = catchErrors(async (req, res) => {
   // const board = await createEntity(Board, { name: req.body.name });
   const board = await updateEntity(Board, req.params.boardId, req.body);
+  let columns: any[] = [];
 
-  res.json(board);
+  req.body.columns.forEach((column: any) => {
+    columns.push(
+      createEntity(ColumnType, {
+        id: column.id,
+        name: column.name,
+        board: board.id,
+      })
+    );
+  });
+  res.json({ board, columns });
   // const newColumns = await Promise.all(columns);
   // res.json({ board, newColumns });
+});
+
+export const deleteBoard = catchErrors(async (req, res) => {
+  const board = await deleteEntity(Board, req.params.boardId);
+
+  res.json(board);
 });

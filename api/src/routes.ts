@@ -5,6 +5,7 @@ import * as columns from "./controller/columns";
 export const routes = (app: any): void => {
   app.get("/boards", boards.getBoards);
   app.get("/boards/:boardId", boards.getBoardWithColumns);
+  app.delete("/boards/:boardId", boards.deleteBoard);
 
   app.post("/boards", boards.createBoardWithColumns);
   app.put("/boards/:boardId", boards.editBoardWithColumns);

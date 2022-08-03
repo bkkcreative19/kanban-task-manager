@@ -26,7 +26,10 @@ class Subtask extends BaseEntity {
   @UpdateDateColumn({ type: "timestamp" })
   updatedAt: Date;
 
-  @ManyToOne(() => Task, (task) => task.subtasks)
+  @ManyToOne(() => Task, (task) => task.subtasks, {
+    cascade: true,
+    onDelete: "CASCADE",
+  })
   task: Task;
 
   //   @OneToMany()

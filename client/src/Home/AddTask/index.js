@@ -27,6 +27,8 @@ import {
 } from "./Styles";
 
 import Select from "../../shared/components/Select";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { createTask } from "../../shared/api/tasksApi";
 
 const AddTask = () => {
   const { boards, active } = useOutletContext();
@@ -35,18 +37,20 @@ const AddTask = () => {
   const [taskName, setTaskName] = useState("");
   const [description, setdescription] = useState("");
   const [status, setStatus] = useState("");
-
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
-
-  console.log(boards);
 
   useEffect(() => {
     const yay = async () => {
       const { data } = await axios.get(
         `http://localhost:5000/columns/${active}`
       );
-      setColumnNames(data);
-      setStatus(data[0]);
+      console.log(data);
+
+      const names = data.map((item) => item.name);
+      // console.log(names);
+      setColumnNames(names);
+      setStatus(names[0]);
     };
 
     yay();
@@ -71,6 +75,12 @@ const AddTask = () => {
     const newArr = [...subtasks].filter((item) => item.id !== id);
     setSubtasks(newArr);
   };
+
+  const addTaskMutation = useMutation(createTask, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(["columns"]);
+    },
+  });
 
   const handleInputChange = (e) => {
     let subtasksTest = subtasks.slice();
@@ -101,16 +111,16 @@ const AddTask = () => {
     );
   };
 
-  const addTask = async () => {
-    const { data } = await axios.post("http://localhost:5000/tasks", {
-      title: taskName,
-      description,
-      subtasks,
-      status,
-    });
-    console.log(data);
-    navigate("/");
-  };
+  // const addTask = async () => {
+  //   const { data } = await axios.post("http://localhost:5000/tasks", {
+  //     title: taskName,
+  //     description,
+  //     subtasks,
+  //     status,
+  //   });
+  //   console.log(data);
+  //   navigate("/");
+  // };
 
   return (
     <Modal
@@ -152,7 +162,19 @@ const AddTask = () => {
             return <SelectDropdownOption
           })}</SelectDropdown>
         </SelectStatus> */}
-        <CreateTask onClick={addTask}>Create New Task</CreateTask>
+        <CreateTask
+          onClick={() => {
+            addTaskMutation.mutate({
+              title: taskName,
+              description,
+              subtasks,
+              status,
+            });
+            navigate("/");
+          }}
+        >
+          Create New Task
+        </CreateTask>
       </TaskAdd>
     </Modal>
   );

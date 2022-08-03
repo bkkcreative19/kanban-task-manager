@@ -18,6 +18,8 @@ import {
 import ThemeToggle from "./ThemeToggle";
 import { useNavigate } from "react-router-dom";
 import useIsActive from "../../shared/hooks/useIsActive";
+import { deleteBoard } from "../../shared/api/boardsApi";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const KabanSideBar = ({
   boards,
@@ -30,6 +32,14 @@ const KabanSideBar = ({
 }) => {
   const navigate = useNavigate();
   // const [active, setActive] = useIsActive();
+  const queryClient = useQueryClient();
+
+  const mutateDeleteBoard = useMutation(deleteBoard, {
+    onSuccess: (data) => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries(["boards"]);
+    },
+  });
 
   const handleClick = (e, id) => {
     localStorage.setItem("active", id);
@@ -41,7 +51,11 @@ const KabanSideBar = ({
 
   return (
     <SideBar isOpen={isOpen}>
-      <Title>{`All Boards (${boards.length})`}</Title>
+      <Title
+        onClick={() => {
+          mutateDeleteBoard.mutate(active);
+        }}
+      >{`All Boards (${boards.length})`}</Title>
       <BoardList>
         {boards.map((board, idx) => {
           // console.log(board);

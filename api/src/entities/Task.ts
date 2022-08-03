@@ -31,10 +31,15 @@ class Task extends BaseEntity {
   @UpdateDateColumn({ type: "timestamp" })
   updatedAt: Date;
 
-  @ManyToOne(() => ColumnType, (columnType) => columnType.tasks)
+  @ManyToOne(() => ColumnType, (columnType) => columnType.tasks, {
+    cascade: true,
+    onDelete: "CASCADE",
+  })
   columnType: ColumnType;
 
-  @OneToMany(() => SubTask, (subtask) => subtask.task)
+  @OneToMany(() => SubTask, (subtask) => subtask.task, {
+    eager: true,
+  })
   subtasks: SubTask[];
 
   //   @OneToMany()

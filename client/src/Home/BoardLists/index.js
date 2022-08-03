@@ -22,8 +22,6 @@ const BoardLists = ({ active }) => {
     data: columns,
   } = useQuery(["columns", active], () => getColumns(active));
 
-  console.log(columns);
-
   const onDragEnd = (result) => {
     if (!result.destination) return;
     const { source, destination } = result;
