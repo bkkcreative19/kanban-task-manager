@@ -12,8 +12,12 @@ export const createTask = async (data) => {
 
 export const getTask = async (title) => {
   const response = await tasksApi.get(`/tasks/${title}`);
-  console.log(response.data);
   return response.data;
+};
+
+export const editTask = async (data) => {
+  console.log(data);
+  return await tasksApi.put(`/tasks/${data.taskId}`, data);
 };
 
 // export const getBoardWithColumns = async (active) => {

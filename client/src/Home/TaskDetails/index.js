@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useParams, useNavigate, useOutletContext } from "react-router-dom";
 
 import Modal from "../../shared/components/Modal";
@@ -12,11 +12,10 @@ import OptionsLogo from "../../shared/components/OptionsLogo";
 import DetailsSubTasks from "./DetailsSubTasks";
 import CurrentStatus from "./CurrentStatus";
 
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { getTask } from "../../shared/api/tasksApi";
 const TaskDetails = () => {
   const params = useParams();
-  const { actives } = useOutletContext();
 
   const [currentStatus, setCurrentStatus] = useState();
 
@@ -28,7 +27,6 @@ const TaskDetails = () => {
     data: task,
   } = useQuery(["task", params.taskTitle], () => getTask(params.taskTitle));
 
-  console.log(task);
   return (
     <Modal
       isOpen={true}
@@ -40,7 +38,7 @@ const TaskDetails = () => {
         <Details>
           <DetailsHead>
             <DetailsHeadText>{task.title}</DetailsHeadText>
-            <OptionsLogo />
+            <OptionsLogo route={`editTask/${params.taskTitle}`} />
           </DetailsHead>
           <DetailsDescription>{task.description}</DetailsDescription>
           <DetailsSubTasks subtasks={task.subtasks} />
@@ -53,20 +51,6 @@ const TaskDetails = () => {
         </Details>
       )}
     </Modal>
-
-    // <Modal
-    //   isOpen={undefined}
-    //   width={480}
-    //   withCloseIcon={false}
-    //   onClose={() => navigate("/")}
-    //   Content={(modal) => (
-    // <Details>
-    //   {params.taskTitle}
-    //   hi
-    //   <h1 onClick={() => modal.close()}>hi</h1>
-    // </Details>
-    //   )}
-    // />
   );
 };
 

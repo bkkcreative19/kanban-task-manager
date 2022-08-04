@@ -5,6 +5,7 @@ import EditBoard from "../Home/EditBoard";
 import AddBoard from "../Home/SideBar/AddBoard";
 import AddTask from "../Home/AddTask";
 import TaskDetails from "../Home/TaskDetails";
+import EditTask from "../Home/TaskDetails/EditTask";
 
 // import history from "browserHistory";
 // import Project from "Project";
@@ -18,6 +19,7 @@ const RouteHandler = ({ yay, theme }) => (
       <Route path="/addBoard" element={<AddBoard />} />
       <Route path="/editBoard" element={<EditBoard />} />
       <Route path="/addTask" element={<AddTask />} />
+      <Route path="editTask/:taskTitle" element={<EditTask />} />
     </Route>
 
     {/* <Route path="/authenticate" component={Authenticate} /> */}

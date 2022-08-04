@@ -17,11 +17,6 @@ import {
   TaskAddSubtaskInput,
   TaskAddSubtaskX,
   AddSubtaskBtn,
-  SelectStatus,
-  SelectStatusText,
-  SelctStausIcon,
-  SelectDropdown,
-  SelectDropdownOption,
   CreateTask,
   StatusTitle,
 } from "./Styles";
@@ -31,7 +26,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createTask } from "../../shared/api/tasksApi";
 
 const AddTask = () => {
-  const { boards, active } = useOutletContext();
+  const { active } = useOutletContext();
   const [columnNames, setColumnNames] = useState([]);
   const [subtasks, setSubtasks] = useState([]);
   const [taskName, setTaskName] = useState("");
@@ -45,9 +40,9 @@ const AddTask = () => {
       const { data } = await axios.get(
         `http://localhost:5000/columns/${active}`
       );
-      console.log(data);
 
       const names = data.map((item) => item.name);
+      console.log(names);
       // console.log(names);
       setColumnNames(names);
       setStatus(names[0]);

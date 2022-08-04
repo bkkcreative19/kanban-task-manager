@@ -1,0 +1,228 @@
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useOutletContext, useParams } from "react-router-dom";
+import Modal from "../../../shared/components/Modal";
+import {
+  TaskEdit,
+  TaskEditHead,
+  TaskEditInput,
+  TaskEditInputField,
+  TaskEditInputLabel,
+  TaskEditTextArea,
+  TaskEditTextAreaLabel,
+  TaskEditTextAreaInput,
+  TaskEditSubtaskList,
+  TaskEditSubtaskHead,
+  TaskEditSubtaskItem,
+  TaskEditSubtaskInput,
+  TaskEditSubtaskX,
+  AddSubtaskBtn,
+  CreateTask,
+  StatusTitle,
+} from "./Styles";
+
+import Select from "../../../shared/components/Select";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { editTask, getTask } from "../../../shared/api/tasksApi";
+import { deleteSubtask } from "../../../shared/api/subtasksApi";
+// import { createTask } from "../../shared/api/tasksApi";
+
+const EditTask = () => {
+  const { boards, active } = useOutletContext();
+  const [columnNames, setColumnNames] = useState([]);
+  const [columns, setColumns] = useState([]);
+  const [subtasks, setSubtasks] = useState([]);
+  const [taskName, setTaskName] = useState("");
+  const [columnId, setColumnId] = useState();
+  const params = useParams();
+  const [description, setdescription] = useState("");
+  const [status, setStatus] = useState();
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+
+  //   console.log(params);
+
+  useEffect(() => {
+    const yay = async () => {
+      const { data } = await axios.get(
+        `http://localhost:5000/columns/${active}`
+      );
+      console.log(data);
+      const names = data.map((item) => item.name);
+      const ids = data.map((item) => item.id);
+      // console.log(names);
+      setColumnNames(names);
+      setColumns(data);
+      //   setStatus({ name: names[0], id: ids[0] });
+    };
+
+    yay();
+  }, []);
+
+  console.log(status);
+  //   console.log(columnIds);
+
+  const {
+    isLoading,
+    isError,
+    data: task,
+  } = useQuery(["task", params.taskTitle], () => getTask(params.taskTitle));
+
+  const addSubtask = () => {
+    let test = [...subtasks];
+    // console.log(test.length);
+    let newSubtask = {
+      type: "text",
+      placeholder: "placeholder text",
+      name: `text${test.length}`,
+      id: test.length,
+      value: "",
+    };
+    test.push(newSubtask);
+    setSubtasks(test);
+  };
+
+  useEffect(() => {
+    if (task) {
+      setSubtasks(task.subtasks);
+    }
+  }, [task]);
+
+  const removeSubtask = (id) => {
+    // let test = [...columns];
+    const newArr = [...subtasks].filter((item) => item.id !== id);
+    setSubtasks(newArr);
+  };
+
+  const editTaskMutation = useMutation(editTask, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(["columns"]);
+    },
+  });
+  const deleteSubtaskMutation = useMutation(deleteSubtask, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(["task"]);
+    },
+  });
+
+  const handleInputChange = (e) => {
+    let subtasksTest = subtasks.slice();
+
+    for (let i in subtasksTest) {
+      if (subtasksTest[i].title == e.target.name) {
+        subtasksTest[i].title = e.target.value;
+        setSubtasks(subtasksTest);
+        break;
+      }
+    }
+  };
+
+  const renderInput = (input, i) => {
+    return (
+      <TaskEditSubtaskItem key={i}>
+        <TaskEditSubtaskInput
+          type={input.type}
+          name={input.title}
+          placeholder={input.placeholder}
+          // onBlur={this.saveModule}
+          value={input.title}
+          onChange={handleInputChange}
+        />
+        <TaskEditSubtaskX
+          onClick={() => {
+            deleteSubtaskMutation.mutate(input.id);
+            removeSubtask(input.id);
+          }}
+        >
+          X
+        </TaskEditSubtaskX>
+      </TaskEditSubtaskItem>
+    );
+  };
+
+  const handleSetSelected = (e) => {
+    const test = columns.find((item) => item.name === e);
+    setStatus((prevState) => {
+      return { ...prevState, name: e, id: test.id };
+    });
+  };
+
+  // const addTask = async () => {
+  //   const { data } = await axios.post("http://localhost:5000/tasks", {
+  //     title: taskName,
+  //     description,
+  //     subtasks,
+  //     status,
+  //   });
+  //   console.log(data);
+  //   navigate("/");
+  // };
+
+  return (
+    <Modal
+      isOpen={true}
+      width={480}
+      withCloseIcon={false}
+      onClose={() => navigate("/")}
+    >
+      {task && (
+        <TaskEdit>
+          <TaskEditHead>Edit Task</TaskEditHead>
+          <TaskEditInput>
+            <TaskEditInputLabel>Title</TaskEditInputLabel>
+            <TaskEditInputField
+              value={!taskName ? task.title : taskName}
+              onChange={(e) => setTaskName(e.target.value)}
+            />
+          </TaskEditInput>
+          <TaskEditTextArea>
+            <TaskEditTextAreaLabel>Description</TaskEditTextAreaLabel>
+            <TaskEditTextAreaInput
+              onChange={(e) => setdescription(e.target.value)}
+            />
+          </TaskEditTextArea>
+          <TaskEditSubtaskList>
+            <TaskEditSubtaskHead>Subtasks</TaskEditSubtaskHead>
+            {subtasks.length > 0
+              ? subtasks.map(renderInput)
+              : task.subtasks.map(renderInput)}
+          </TaskEditSubtaskList>
+          <AddSubtaskBtn onClick={addSubtask}>+ Add new Subtask</AddSubtaskBtn>
+          <StatusTitle>Status</StatusTitle>
+          {columnNames && (
+            <Select
+              setSelected={handleSetSelected}
+              selected={status ? status.name : task.status}
+              options={columnNames}
+            />
+          )}
+
+          {/* <SelectStatus>
+          <SelectStatusText>Todo</SelectStatusText>
+          <SelctStausIcon src={ChevronDown} />
+          <SelectDropdown>{columnNames.map((columns, idx) => {
+            return <SelectDropdownOption
+          })}</SelectDropdown>
+        </SelectStatus> */}
+          <CreateTask
+            onClick={() => {
+              editTaskMutation.mutate({
+                title: taskName ? taskName : task.title,
+                description,
+                taskId: task.id,
+                subtasks,
+                status: !status ? task.status : status.name,
+                columnType: !status ? task.columnType : status.id,
+              });
+              navigate(`/`);
+            }}
+          >
+            Save Changes
+          </CreateTask>
+        </TaskEdit>
+      )}
+    </Modal>
+  );
+};
+
+export default EditTask;

@@ -159,8 +159,7 @@ const EditBoard = () => {
                 navigate("/");
                 return;
               }
-              console.log(board.columnTypes);
-              console.log(columns);
+
               mutateEditBoard.mutate({
                 boardName,
                 boardId: board.id,
