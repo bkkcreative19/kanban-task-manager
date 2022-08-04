@@ -43,7 +43,11 @@ const BoardHeader = () => {
             <Cross>
               <img src={Cross} alt="" />
             </Cross>
-            <OptionsLogo route={"editBoard"} />
+            <OptionsLogo
+              type={"Board"}
+              editRoute={"/editBoard"}
+              deleteRoute={"/deleteBoard"}
+            />
           </Options>
         </Right>
       </Nav>

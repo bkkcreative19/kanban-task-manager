@@ -38,7 +38,11 @@ const TaskDetails = () => {
         <Details>
           <DetailsHead>
             <DetailsHeadText>{task.title}</DetailsHeadText>
-            <OptionsLogo route={`editTask/${params.taskTitle}`} />
+            <OptionsLogo
+              type={"Task"}
+              editRoute={`/editTask/${params.taskTitle}`}
+              deleteRoute={`/deleteTask/${params.taskTitle}`}
+            />
           </DetailsHead>
           <DetailsDescription>{task.description}</DetailsDescription>
           <DetailsSubTasks subtasks={task.subtasks} />
