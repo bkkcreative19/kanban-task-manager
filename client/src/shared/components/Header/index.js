@@ -18,9 +18,21 @@ import {
 } from "./Styles";
 import OptionsLogo from "../OptionsLogo";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useEffect } from "react";
+import useIsActive from "../../hooks/useIsActive";
 
 const BoardHeader = () => {
   const navigate = useNavigate();
+  const [boardName, setBoardName] = useState(localStorage.getItem("boardName"));
+
+  const [active, setActive] = useIsActive(
+    Number(localStorage.getItem("active"))
+  );
+
+  useEffect(() => {
+    setBoardName(localStorage.getItem("boardName"));
+  }, [active]);
   return (
     <Header>
       <Nav>
@@ -33,7 +45,7 @@ const BoardHeader = () => {
           <LogoName>kanban</LogoName>
         </Logo>
         <Right>
-          <Title>Platform Launch</Title>
+          <Title>{boardName}</Title>
           <DownArrow src={ChevronDown} />
 
           <Options>

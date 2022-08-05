@@ -32,14 +32,14 @@ const KabanSideBar = ({
 }) => {
   const navigate = useNavigate();
   // const [active, setActive] = useIsActive();
-  const queryClient = useQueryClient();
+  // const queryClient = useQueryClient();
 
-  const mutateDeleteBoard = useMutation(deleteBoard, {
-    onSuccess: (data) => {
-      // Invalidate and refetch
-      queryClient.invalidateQueries(["boards"]);
-    },
-  });
+  // const mutateDeleteBoard = useMutation(deleteBoard, {
+  //   onSuccess: (data) => {
+  //     // Invalidate and refetch
+  //     queryClient.invalidateQueries(["boards"]);
+  //   },
+  // });
 
   const handleClick = (e, id) => {
     localStorage.setItem("active", id);
@@ -52,9 +52,9 @@ const KabanSideBar = ({
   return (
     <SideBar isOpen={isOpen}>
       <Title
-        onClick={() => {
-          mutateDeleteBoard.mutate(active);
-        }}
+      // onClick={() => {
+      //   mutateDeleteBoard.mutate(active);
+      // }}
       >{`All Boards (${boards.length})`}</Title>
       <BoardList>
         {boards.map((board, idx) => {

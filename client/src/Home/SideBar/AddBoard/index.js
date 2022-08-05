@@ -18,13 +18,16 @@ import {
 } from "./Styles";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { addBoard } from "../../../shared/api/boardsApi";
+import { useCreateBoardMutation } from "../../../shared/features/api/apiSlice";
 
 const AddBoard = () => {
   const navigate = useNavigate();
   const [columns, setColumns] = useState([]);
   const { setActive } = useOutletContext();
   const [boardName, setBoardName] = useState("");
-  const queryClient = useQueryClient();
+
+  const [createBoard] = useCreateBoardMutation();
+  // const queryClient = useQueryClient();
   const addColumn = (columnName) => {
     let test = [...columns];
     // console.log(test.length);
@@ -59,14 +62,14 @@ const AddBoard = () => {
   // Queries
 
   // Mutations
-  const mutation = useMutation(addBoard, {
-    onSuccess: (data) => {
-      // Invalidate and refetch
-      queryClient.invalidateQueries(["boards"]);
-      localStorage.setItem("active", data.board.id);
-      setActive(Number(localStorage.getItem("active")));
-    },
-  });
+  // const mutation = useMutation(addBoard, {
+  //   onSuccess: (data) => {
+  //     // Invalidate and refetch
+  //     queryClient.invalidateQueries(["boards"]);
+  //     localStorage.setItem("active", data.board.id);
+  //     setActive(Number(localStorage.getItem("active")));
+  //   },
+  // });
 
   // console.log(columns);
   const renderInput = (input, i) => {
@@ -108,11 +111,15 @@ const AddBoard = () => {
         </BoardAddColumnList>
         <AddColumnBtn onClick={addColumn}>+ Add new Column</AddColumnBtn>
         <CreateBoard
+          // onClick={() => {
+          //   mutation.mutate({
+          //     name: boardName,
+          //     columns,
+          //   });
+          //   navigate("/");
+          // }}
           onClick={() => {
-            mutation.mutate({
-              name: boardName,
-              columns,
-            });
+            createBoard({ name: boardName, columns });
             navigate("/");
           }}
         >

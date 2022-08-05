@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route, Redirect } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Home from "../Home";
 import EditBoard from "../Home/EditBoard";
 import AddBoard from "../Home/SideBar/AddBoard";
