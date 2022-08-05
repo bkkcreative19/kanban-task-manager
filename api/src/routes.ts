@@ -15,6 +15,7 @@ export const routes = (app: any): void => {
   app.get(`/tasks/:title`, tasks.getTaskAndSubtasks);
   app.post(`/tasks`, tasks.createTaskWithSubtasks);
   app.put(`/tasks/:taskId`, tasks.editTaskWithSubtasks);
+  app.delete(`/tasks/:taskTitle`, tasks.deleteTask);
 
   // subtask routes
   app.delete("/subtasks/:subtaskId", subtasks.deleteSubtask);

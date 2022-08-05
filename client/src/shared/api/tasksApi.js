@@ -20,6 +20,10 @@ export const editTask = async (data) => {
   return await tasksApi.put(`/tasks/${data.taskId}`, data);
 };
 
+export const deleteTask = async (title) => {
+  return await tasksApi.delete(`tasks/${title}`);
+};
+
 // export const getBoardWithColumns = async (active) => {
 //   const response = await tasksApi.get(`boards/${active}`);
 //   return response.data[0];

@@ -42,7 +42,7 @@ const AddTask = () => {
       );
 
       const names = data.map((item) => item.name);
-      console.log(names);
+      console.log(data);
       // console.log(names);
       setColumnNames(names);
       setStatus(names[0]);
@@ -50,7 +50,7 @@ const AddTask = () => {
 
     yay();
   }, []);
-
+  console.log(columnNames);
   const addSubtask = () => {
     let test = [...subtasks];
     // console.log(test.length);

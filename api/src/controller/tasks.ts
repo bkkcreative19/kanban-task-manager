@@ -66,8 +66,12 @@ export const editTaskWithSubtasks = catchErrors(async (req, res) => {
   // res.json({ board, newColumns });
 });
 
-// export const deleteBoard = catchErrors(async (req, res) => {
-//   const board = await deleteEntity(Board, req.params.boardId);
-
-//   res.json(board);
-// });
+export const deleteTask = catchErrors(async (req, res) => {
+  const task = await findEntityOrThrow(Task, {
+    where: {
+      title: req.params.taskTitle,
+    },
+  });
+  await task[0].remove();
+  res.json(task[0]);
+});
