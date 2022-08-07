@@ -1,22 +1,22 @@
 import React from "react";
 import { ColumnAdd, ColumnText } from "./Styles";
-import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
-import { addColumn2 } from "../../../shared/api/columnsApi";
+
 import { useState } from "react";
+import { useCreateColumnMutation } from "../../../shared/features/columns/columnsSlice";
 
 const AddColumn = ({ boardId }) => {
-  const queryClient = useQueryClient();
   const [readyType, setReadyType] = useState(false);
   const [name, setName] = useState("");
 
-  const mutation = useMutation(addColumn2, {
-    onSuccess: () => {
-      // Invalidate and refetch
-      queryClient.invalidateQueries(["columns"]);
-      // localStorage.setItem("active", data.board.id);
-      // setActive(Number(localStorage.getItem("active")));
-    },
-  });
+  const [createColumn, { isLoading }] = useCreateColumnMutation();
+  // const mutation = useMutation(addColumn2, {
+  //   onSuccess: () => {
+  //     // Invalidate and refetch
+  //     queryClient.invalidateQueries(["columns"]);
+  //     // localStorage.setItem("active", data.board.id);
+  //     // setActive(Number(localStorage.getItem("active")));
+  //   },
+  // });
 
   return (
     <ColumnAdd
@@ -28,10 +28,10 @@ const AddColumn = ({ boardId }) => {
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            mutation.mutate({
-              name: name,
-              boardId,
-            });
+            createColumn({ name, boardId });
+            // mutation.mutate({
+
+            // });
             setReadyType(false);
           }}
         >

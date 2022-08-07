@@ -52,7 +52,7 @@ export const editBoardWithColumns = catchErrors(async (req, res) => {
   // const board = await createEntity(Board, { name: req.body.name });
   const board = await updateEntity(Board, req.params.boardId, req.body);
   let columns: any[] = [];
-  console.log(req.body);
+  console.log("tt", req.body);
 
   req.body.columns.forEach((column: any) => {
     columns.push(

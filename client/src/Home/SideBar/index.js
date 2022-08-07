@@ -18,36 +18,36 @@ import {
 import ThemeToggle from "./ThemeToggle";
 import { useNavigate } from "react-router-dom";
 import useIsActive from "../../shared/hooks/useIsActive";
-import { deleteBoard } from "../../shared/api/boardsApi";
+import { deleteBoard, getBoardWithColumns } from "../../shared/api/boardsApi";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useDispatch, useSelector } from "react-redux";
+import { setActive } from "../../shared/features/board/boardSlice";
+import { useEffect } from "react";
 
-const KabanSideBar = ({
-  boards,
-  yay,
-  theme,
-  isOpen,
-  setIsOpen,
-  active,
-  setActive,
-}) => {
+const KabanSideBar = ({ boards, yay, theme, isOpen, setIsOpen }) => {
   const navigate = useNavigate();
   // const [active, setActive] = useIsActive();
   // const queryClient = useQueryClient();
-
+  const dispatch = useDispatch();
   // const mutateDeleteBoard = useMutation(deleteBoard, {
   //   onSuccess: (data) => {
   //     // Invalidate and refetch
   //     queryClient.invalidateQueries(["boards"]);
   //   },
   // });
+  const activeBoard = useSelector((state) => state.activeBoard);
 
   const handleClick = (e, id) => {
     localStorage.setItem("active", id);
-    setActive(Number(localStorage.getItem("active")));
+    dispatch(setActive(Number(id)));
+
+    // setActive(Number(localStorage.getItem("active")));
     // console.log(typeof );
     // setActives(test);
     // setActive(2);
   };
+
+  useEffect(() => {}, []);
 
   return (
     <SideBar isOpen={isOpen}>
@@ -58,16 +58,17 @@ const KabanSideBar = ({
       >{`All Boards (${boards.length})`}</Title>
       <BoardList>
         {boards.map((board, idx) => {
-          // console.log(board);
           return (
             <Board
               data-id={idx}
               onClick={(e) => handleClick(e, board.id)}
               key={idx}
-              isActive={active === board.id ? true : false}
+              isActive={activeBoard.active === board.id ? true : false}
             >
               <BoardIcon src={BoardIconImg} />
-              <BoardTitle isActive={active === board.id ? true : false}>
+              <BoardTitle
+                isActive={activeBoard.active === board.id ? true : false}
+              >
                 {board.name}
               </BoardTitle>
             </Board>

@@ -7,20 +7,23 @@ import { getColumns } from "../../shared/api/columnsApi";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import AddColumn from "./AddColumn";
+import { useGetColumnsQuery } from "../../shared/features/columns/columnsSlice";
 
 const BoardLists = ({ active }) => {
-  const queryClient = useQueryClient();
-
   // const {
   //   isLoading,
   //   isError,
   //   data: board,
   // } = useQuery(["board", active], () => getBoardWithColumns(active));
-  const {
-    isLoading,
-    isError,
-    data: columns,
-  } = useQuery(["columns", active], () => getColumns(active));
+  // const {
+  //   isLoading,
+  //   isError,
+  //   data: columns,
+  // } = useQuery(["columns", active], () => getColumns(active));
+
+  const { data: columns } = useGetColumnsQuery(
+    active === 0 ? Number(localStorage.getItem("active")) : active
+  );
 
   const onDragEnd = (result) => {
     if (!result.destination) return;

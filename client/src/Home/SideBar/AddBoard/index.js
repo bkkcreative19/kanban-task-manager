@@ -18,15 +18,15 @@ import {
 } from "./Styles";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { addBoard } from "../../../shared/api/boardsApi";
-import { useCreateBoardMutation } from "../../../shared/features/api/apiSlice";
+import { useCreateBoardMutation } from "../../../shared/features/board/boardSlice";
 
 const AddBoard = () => {
   const navigate = useNavigate();
   const [columns, setColumns] = useState([]);
   const { setActive } = useOutletContext();
   const [boardName, setBoardName] = useState("");
-
-  const [createBoard] = useCreateBoardMutation();
+  const [createBoard, { isLoading }] = useCreateBoardMutation();
+  // const [createBoard] = useCreateBoardMutation();
   // const queryClient = useQueryClient();
   const addColumn = (columnName) => {
     let test = [...columns];

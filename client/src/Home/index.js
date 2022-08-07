@@ -8,7 +8,10 @@ import BoardLists from "./BoardLists";
 import { useQuery } from "@tanstack/react-query";
 import useIsActive from "../shared/hooks/useIsActive";
 import { getBoards } from "../shared/api/boardsApi";
-import { useGetBoardsQuery } from "../shared/features/api/apiSlice";
+// import { useGetBoardsQuery } from "../shared/features/api/apiSlice";
+
+import { useGetBoardsQuery } from "../shared/features/board/boardSlice";
+import { useSelector } from "react-redux";
 
 const Home = ({ yay, theme }) => {
   const [isOpen, setIsOpen] = useState(true);
@@ -21,11 +24,10 @@ const Home = ({ yay, theme }) => {
     error,
   } = useGetBoardsQuery();
 
-  const [active, setActive] = useIsActive(
-    Number(localStorage.getItem("active"))
-  );
+  const activeBoard = useSelector((state) => state.activeBoard);
+  // console.log(activeBoard);
 
-  console.log(boards);
+  // console.log(boards);
 
   // useEffect(() => {
   //   if (boards && active) {
@@ -48,17 +50,15 @@ const Home = ({ yay, theme }) => {
           theme={theme}
           isOpen={isOpen}
           setIsOpen={setIsOpen}
-          active={active}
-          setActive={setActive}
         />
       )}
       {/* {!isOpen && (
         <OpenStuff onClick={() => setIsOpen(true)}>
           <img src={ShowSide} alt="" />
         </OpenStuff>
-      )}
-      <BoardLists active={active} /> */}
-      <Outlet context={{ boards, setActive, active }} />
+      )} */}
+      <BoardLists active={activeBoard.active} />
+      <Outlet context={{ boards }} />
     </HomePage>
   );
 };

@@ -8,22 +8,22 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteColumn } from "../../../shared/api/columnsApi";
 
 const BoardList = ({ column, index }) => {
-  const queryClient = useQueryClient();
+  // const queryClient = useQueryClient();
 
-  const mutateDeleteColumn = useMutation(deleteColumn, {
-    onSuccess: () => {
-      // Invalidate and refetch
-      queryClient.invalidateQueries(["columns"]);
-    },
-  });
+  // const mutateDeleteColumn = useMutation(deleteColumn, {
+  //   onSuccess: () => {
+  //     // Invalidate and refetch
+  //     queryClient.invalidateQueries(["columns"]);
+  //   },
+  // });
   return (
     <List>
       <ListHead>
         <ListHeadCircle index={index} color={randomColor()} />
         <ListHeadText
-          onClick={() => {
-            mutateDeleteColumn.mutate(column.id);
-          }}
+        // onClick={() => {
+        //   mutateDeleteColumn.mutate(column.id);
+        // }}
         >
           {column.name} ({column.tasks.length})
         </ListHeadText>

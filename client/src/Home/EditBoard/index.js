@@ -22,23 +22,42 @@ import { addColumn2 } from "../../shared/api/columnsApi";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import { deleteColumn, getColumns } from "../../shared/api/columnsApi";
 import { isEqual } from "../../shared/utils/isEqual";
+import { useSelector } from "react-redux";
+import {
+  selectBoardsResult,
+  selectAllBoards,
+  selectBoardById,
+  useUpdateBoardMutation,
+} from "../../shared/features/board/boardSlice";
 
 const EditBoard = () => {
   const navigate = useNavigate();
-  const { active } = useOutletContext();
+  // const { active } = useOutletContext();
 
   //   const board = boards.find((board) => board.id === actives[0]);
   // const [board, setBoard] = useState();
   const [boardName, setBoardName] = useState("");
   const [columns, setColumns] = useState([]);
+  const { active } = useSelector((state) => state.activeBoard);
+  const [updateBoard, { isLoading }] = useUpdateBoardMutation();
+  const board = useSelector((state) =>
+    selectBoardById(
+      state,
+      active === 0 ? Number(localStorage.getItem("active")) : active
+    )
+  );
 
-  const queryClient = useQueryClient();
+  // console.log(
+  //   yay.data.find((item) => item.id === Number(localStorage.getItem("active")))
+  //     .columnTypes
+  // );
+  // const queryClient = useQueryClient();
 
-  const {
-    // isLoading,
-    // isError,
-    data: board,
-  } = useQuery(["board", active], () => getBoardWithColumns(active));
+  // const {
+  //   // isLoading,
+  //   // isError,
+  //   data: board,
+  // } = useQuery(["board", active], () => getBoardWithColumns(active));
   // const {
   //   // isLoading,
   //   // isError,
@@ -46,11 +65,11 @@ const EditBoard = () => {
   // } = useQuery(["columns", active], () => getColumns(active));
   //   console.log(board);
 
-  useEffect(() => {
-    if (board) {
-      setColumns(board.columnTypes);
-    }
-  }, [board]);
+  // useEffect(() => {
+  //   if (board) {
+  //     setColumns(board.columnTypes);
+  //   }
+  // }, [board]);
 
   const addColumn = (columnName) => {
     let test = [...columns];
@@ -73,26 +92,26 @@ const EditBoard = () => {
     setColumns(newArr);
   };
 
-  const mutateDeleteColumn = useMutation(deleteColumn, {
-    onSuccess: (data) => {
-      // Invalidate and refetch
-      queryClient.invalidateQueries(["columns"]);
-    },
-  });
-  const mutateAddColumn = useMutation(addColumn2, {
-    onSuccess: (data) => {
-      // Invalidate and refetch
-      queryClient.invalidateQueries(["columns"]);
-    },
-  });
+  // const mutateDeleteColumn = useMutation(deleteColumn, {
+  //   onSuccess: (data) => {
+  //     // Invalidate and refetch
+  //     queryClient.invalidateQueries(["columns"]);
+  //   },
+  // });
+  // const mutateAddColumn = useMutation(addColumn2, {
+  //   onSuccess: (data) => {
+  //     // Invalidate and refetch
+  //     queryClient.invalidateQueries(["columns"]);
+  //   },
+  // });
 
-  const mutateEditBoard = useMutation(editBoard, {
-    onSuccess: (data) => {
-      // Invalidate and refetch
-      queryClient.invalidateQueries(["boards"]);
-      queryClient.invalidateQueries(["columns"]);
-    },
-  });
+  // const mutateEditBoard = useMutation(editBoard, {
+  //   onSuccess: (data) => {
+  //     // Invalidate and refetch
+  //     queryClient.invalidateQueries(["boards"]);
+  //     queryClient.invalidateQueries(["columns"]);
+  //   },
+  // });
 
   const handleInputChange = (e) => {
     let columnsTest = columns.slice();
@@ -118,7 +137,7 @@ const EditBoard = () => {
         />
         <BoardEditColumnX
           onClick={() => {
-            mutateDeleteColumn.mutate(input.id);
+            // mutateDeleteColumn.mutate(input.id);
             removeColumn(input.id);
           }}
         >
@@ -128,7 +147,7 @@ const EditBoard = () => {
     );
   };
 
-  console.log(columns);
+  // console.log(columns);
   return (
     <Modal
       isOpen={true}
@@ -159,12 +178,13 @@ const EditBoard = () => {
                 navigate("/");
                 return;
               }
+              updateBoard({ id: board.id, boardName, columns });
 
-              mutateEditBoard.mutate({
-                boardName,
-                boardId: board.id,
-                columns,
-              });
+              // mutateEditBoard.mutate({
+              //   boardName,
+              //   boardId: board.id,
+              //   columns,
+              // });
               navigate("/");
             }}
           >

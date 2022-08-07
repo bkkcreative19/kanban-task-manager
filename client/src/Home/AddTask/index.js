@@ -22,9 +22,11 @@ import {
 } from "./Styles";
 
 import Select from "../../shared/components/Select";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createTask } from "../../shared/api/tasksApi";
-
+import { useSelector } from "react-redux";
+import {
+  selectAllColumns,
+  selectColumnById,
+} from "../../shared/features/columns/columnsSlice";
 const AddTask = () => {
   const { active } = useOutletContext();
   const [columnNames, setColumnNames] = useState([]);
@@ -32,8 +34,10 @@ const AddTask = () => {
   const [taskName, setTaskName] = useState("");
   const [description, setdescription] = useState("");
   const [status, setStatus] = useState("");
-  const queryClient = useQueryClient();
+  // const queryClient = useQueryClient();
+  const columns = useSelector(selectColumnById);
   const navigate = useNavigate();
+  console.log(columns);
 
   useEffect(() => {
     const yay = async () => {
@@ -42,15 +46,16 @@ const AddTask = () => {
       );
 
       const names = data.map((item) => item.name);
-      console.log(data);
+      // console.log(data);
       // console.log(names);
       setColumnNames(names);
       setStatus(names[0]);
     };
 
-    yay();
+    // yay();
   }, []);
-  console.log(columnNames);
+
+  // console.log(columnNames);
   const addSubtask = () => {
     let test = [...subtasks];
     // console.log(test.length);
@@ -71,11 +76,11 @@ const AddTask = () => {
     setSubtasks(newArr);
   };
 
-  const addTaskMutation = useMutation(createTask, {
-    onSuccess: () => {
-      queryClient.invalidateQueries(["columns"]);
-    },
-  });
+  // const addTaskMutation = useMutation(createTask, {
+  //   onSuccess: () => {
+  //     queryClient.invalidateQueries(["columns"]);
+  //   },
+  // });
 
   const handleInputChange = (e) => {
     let subtasksTest = subtasks.slice();
@@ -159,12 +164,12 @@ const AddTask = () => {
         </SelectStatus> */}
         <CreateTask
           onClick={() => {
-            addTaskMutation.mutate({
-              title: taskName,
-              description,
-              subtasks,
-              status,
-            });
+            // addTaskMutation.mutate({
+            //   title: taskName,
+            //   description,
+            //   subtasks,
+            //   status,
+            // });
             navigate("/");
           }}
         >

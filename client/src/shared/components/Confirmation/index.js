@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { useNavigate, useOutletContext, useParams } from "react-router-dom";
 import { deleteBoard } from "../../api/boardsApi";
 import { deleteTask } from "../../api/tasksApi";
+import { useDeleteBoardMutation } from "../../features/board/boardSlice";
 import Modal from "../Modal";
 import {
   Confirm,
@@ -19,25 +20,25 @@ const Confirmation = () => {
   const navigate = useNavigate();
   const params = useParams();
   const { active, setActive, boards } = useOutletContext();
+  const [deleteBoard, { isLoading }] = useDeleteBoardMutation();
   // console.log(params);
   // console.log(active);
 
   const [index, setIndex] = useState();
-  const queryClient = useQueryClient();
 
-  const deleteTaskMutation = useMutation(deleteTask, {
-    onSuccess: () => {
-      queryClient.invalidateQueries(["columns"]);
-    },
-  });
+  // const deleteTaskMutation = useMutation(deleteTask, {
+  //   onSuccess: () => {
+  //     queryClient.invalidateQueries(["columns"]);
+  //   },
+  // });
 
-  const deleteBoardMutation = useMutation(deleteBoard, {
-    onSuccess: (data) => {
-      // Invalidate and refetch
-      queryClient.invalidateQueries(["boards"]);
-      queryClient.invalidateQueries(["columns"]);
-    },
-  });
+  // const deleteBoardMutation = useMutation(deleteBoard, {
+  //   onSuccess: (data) => {
+  //     // Invalidate and refetch
+  //     queryClient.invalidateQueries(["boards"]);
+  //     queryClient.invalidateQueries(["columns"]);
+  //   },
+  // });
 
   // console.log(!!params);
 
@@ -71,11 +72,10 @@ const Confirmation = () => {
           <ConfirmDelete
             onClick={() => {
               if (params.taskTitle) {
-                deleteTaskMutation.mutate(params.taskTitle);
+                // deleteTaskMutation.mutate(params.taskTitle);
               } else {
-                deleteBoardMutation.mutate(active);
-                setActive(index);
-                localStorage.setItem("active", index);
+                // deleteBoardMutation.mutate(active);
+                deleteBoard(active);
               }
 
               navigate("/");

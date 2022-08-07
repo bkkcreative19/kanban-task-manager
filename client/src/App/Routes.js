@@ -26,8 +26,6 @@ const RouteHandler = ({ yay, theme }) => (
       <Route path="editTask/:taskTitle" element={<EditTask />} />
       <Route path="/deleteTask/:taskTitle" element={<Confirmation />} />
     </Route>
-
-    {/* <Route path="/authenticate" component={Authenticate} /> */}
     {/* <Route path="/project" component={Project} /> */}
     {/* <Route component={PageError} /> */}
   </Routes>
