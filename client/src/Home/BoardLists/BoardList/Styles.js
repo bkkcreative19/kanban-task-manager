@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 export const List = styled.div`
   width: 280px;
+  min-width: 280px;
 `;
 
 export const ListHead = styled.div`

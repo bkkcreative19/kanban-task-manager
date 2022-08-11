@@ -55,11 +55,11 @@ const Home = ({ yay, theme }) => {
           setIsOpen={setIsOpen}
         />
       )}
-      {/* {!isOpen && (
+      {!isOpen && (
         <OpenStuff onClick={() => setIsOpen(true)}>
           <img src={ShowSide} alt="" />
         </OpenStuff>
-      )} */}
+      )}
       <BoardLists active={activeBoard.active} />
       <Outlet context={{ boards }} />
     </HomePage>

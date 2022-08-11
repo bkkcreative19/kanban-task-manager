@@ -1,17 +1,15 @@
 import styled from "styled-components";
 
 export const ColumnAdd = styled.div`
-  background: linear-gradient(
-    180deg,
-    #e9effa 0%,
-    rgba(233, 239, 250, 0.5) 100%
-  );
+  background: ${({ theme }) => theme.addColumn};
   border-radius: 6px;
   padding: 4.5em;
   text-align: center;
   display: flex;
   align-items: center;
   cursor: pointer;
+  width: 280px;
+  min-width: 280px;
 `;
 export const ColumnText = styled.h2`
   text-align: center;

@@ -72,7 +72,8 @@ const BoardLists = ({ active }) => {
           <AddColumn boardId={active} />
         </Lists>
       ) : (
-        <NoColumns />
+        // <AddColumn boardId={active} />
+        <NoColumns boardId={active} />
       )}
     </>
   );

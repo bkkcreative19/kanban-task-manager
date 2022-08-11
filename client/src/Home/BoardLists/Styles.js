@@ -4,7 +4,8 @@ export const Lists = styled.section`
   display: flex;
   gap: 2em;
   padding: 2.5em;
-
-  // flex: 3;
-  // overflow-x: scroll;
+  width: 100%;
+  // flex: 100%;
+  overflow: auto;
+  overflow-x: scroll;
 `;

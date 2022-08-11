@@ -3,13 +3,17 @@ import styled from "styled-components";
 export const SideBar = styled.aside`
   border-right: 1px solid ${({ theme }) => theme.mainBorder};
   display: ${({ isOpen }) => (isOpen ? "flex" : "none")};
+
   flex-direction: column;
   background: ${({ theme }) => theme.headerBG};
   width: 300px;
-  height: 91vh;
+  flex: none;
+  height: 90vh;
+  position: sticky;
+  // height: -webkit-fill-available;
   // margin-top: 2rem;
   // flex: 1;
-  // position: fixed;
+  // height: 100%;
   // box-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
 `;
 

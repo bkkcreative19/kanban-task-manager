@@ -3,7 +3,9 @@ import styled from "styled-components";
 export const HomePage = styled.section`
   position: relative;
   display: flex;
-  // overflow: hidden;
+
+  height: 90vh;
+  overflow: hidden;
   // justify-content: space-between;
 `;
 

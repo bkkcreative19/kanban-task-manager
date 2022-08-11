@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const Toggle = styled.div`
-  background: #f4f7fd;
+  background: ${({ theme }) => theme.themeToogleBG};
   display: flex;
   padding: 1.3em 0;
   margin: auto 2.4em 1em;

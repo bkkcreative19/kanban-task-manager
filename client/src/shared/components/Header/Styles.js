@@ -4,14 +4,17 @@ import { color, sizes, font, mixin, zIndexValues } from "../../utils/styles";
 
 export const Header = styled.div`
   background: ${({ theme }) => theme.headerBG};
+  height: 10vh;
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
+  // position: fixed;
+  // width: 100%;
 `;
 
 export const Nav = styled.nav`
   display: flex;
   // padding: 0 2em;
   // margin-top: 2em;
-
+  height: inherit;
   @media screen and (max-width: 768px) {
     padding: 0;
   }

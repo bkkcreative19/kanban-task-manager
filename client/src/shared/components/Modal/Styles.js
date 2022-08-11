@@ -34,7 +34,7 @@ export const StyledModal = styled.div`
   display: inline-block;
   position: relative;
   width: 100%;
-  background: #fff;
+  background: ${({ theme }) => theme.modalBG};
   ${(props) => modalStyles[props.variant]}
 `;
 
