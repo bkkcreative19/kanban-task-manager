@@ -24,7 +24,7 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
           name: column.name,
         },
       }),
-      invalidatesTags: ["Column"],
+      invalidatesTags: ["Column", "Board"],
     }),
     // getBoard: builder.query({
     //   query: (id) => `board/${id}`,

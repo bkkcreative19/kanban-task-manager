@@ -16,9 +16,10 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
     //   query: () => `/boards`,
     //   providesTags: ["Board"],
     // }),
-    // getBoard: builder.query({
-    //   query: (id) => `board/${id}`,
-    // }),
+    getTask: builder.query({
+      query: (title) => `tasks/${title}`,
+      invalidatesTags: ["Task"],
+    }),
     createTask: builder.mutation({
       query: (task) => ({
         url: "/tasks",
@@ -27,14 +28,16 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Column"],
     }),
-    // updateBoard: builder.mutation({
-    //   query: (board) => ({
-    //     url: `/boards/${board.id}`,
-    //     method: "PUT",
-    //     body: { name: board.boardName, columns: board.columns },
-    //   }),
-    //   invalidatesTags: ["Board"],
-    // }),
+    updateTask: builder.mutation({
+      query: (task) => ({
+        url: `/tasks/${task.taskId}`,
+        method: "PUT",
+        body: task,
+      }),
+      invalidatesTags: ["Column", "Task"],
+      // query: (task) => console.log(task),
+      // invalidatesTags: ["Task"],
+    }),
     // deleteBoard: builder.mutation({
     //   query: (id) => ({
     //     url: `/boards/${id}`,
@@ -45,4 +48,5 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useCreateTaskMutation } = extendedApiSlice;
+export const { useCreateTaskMutation, useGetTaskQuery, useUpdateTaskMutation } =
+  extendedApiSlice;

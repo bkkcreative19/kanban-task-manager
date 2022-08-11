@@ -16,6 +16,7 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
       query: () => `/boards`,
       providesTags: ["Board"],
     }),
+
     getBoard: builder.query({
       query: (id) => `board/${id}`,
     }),
@@ -33,14 +34,14 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
         method: "PUT",
         body: { name: board.boardName, columns: board.columns },
       }),
-      invalidatesTags: ["Board"],
+      invalidatesTags: ["Board", "Column"],
     }),
     deleteBoard: builder.mutation({
       query: (id) => ({
         url: `/boards/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: ["Board"],
+      invalidatesTags: ["Board", "Column"],
     }),
   }),
 });

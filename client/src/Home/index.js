@@ -10,7 +10,10 @@ import useIsActive from "../shared/hooks/useIsActive";
 import { getBoards } from "../shared/api/boardsApi";
 // import { useGetBoardsQuery } from "../shared/features/api/apiSlice";
 
-import { useGetBoardsQuery } from "../shared/features/board/boardSlice";
+import {
+  useGetBoardsQuery,
+  selectAllBoards,
+} from "../shared/features/board/boardSlice";
 import { useSelector } from "react-redux";
 
 const Home = ({ yay, theme }) => {
@@ -25,7 +28,7 @@ const Home = ({ yay, theme }) => {
   } = useGetBoardsQuery();
 
   const activeBoard = useSelector((state) => state.activeBoard);
-  // console.log(activeBoard);
+  const test = useSelector(selectAllBoards);
 
   // console.log(boards);
 

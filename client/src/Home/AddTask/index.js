@@ -22,38 +22,40 @@ import {
 } from "./Styles";
 
 import Select from "../../shared/components/Select";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { apiSlice } from "../../shared/features/api/apiSlice";
 import {
   selectAllColumns,
   selectColumnById,
 } from "../../shared/features/columns/columnsSlice";
+import { useCreateTaskMutation } from "../../shared/features/task/tasksSlice";
+
+import { selectBoardById } from "../../shared/features/board/boardSlice";
 const AddTask = () => {
-  const { active } = useOutletContext();
-  const [columnNames, setColumnNames] = useState([]);
+  // const { active } = useOutletContext();
+  // const [columnNames, setColumnNames] = useState([]);
   const [subtasks, setSubtasks] = useState([]);
   const [taskName, setTaskName] = useState("");
   const [description, setdescription] = useState("");
   const [status, setStatus] = useState("");
-  // const queryClient = useQueryClient();
-  const columns = useSelector(selectColumnById);
+  const { active } = useSelector((state) => state.activeBoard);
+  const [createTask, { isLoading }] = useCreateTaskMutation();
+  const board = useSelector((state) =>
+    selectBoardById(
+      state,
+      active === 0 ? Number(localStorage.getItem("active")) : active
+    )
+  );
   const navigate = useNavigate();
-  console.log(columns);
+  // console.log(board.columnTypes);
+  const columnNames = board && board.columnTypes.map((column) => column.name);
+  // console.log(columnNames);
 
   useEffect(() => {
-    const yay = async () => {
-      const { data } = await axios.get(
-        `http://localhost:5000/columns/${active}`
-      );
-
-      const names = data.map((item) => item.name);
-      // console.log(data);
-      // console.log(names);
-      setColumnNames(names);
-      setStatus(names[0]);
-    };
-
-    // yay();
-  }, []);
+    if (board) {
+      setStatus(columnNames[0]);
+    }
+  }, [board]);
 
   // console.log(columnNames);
   const addSubtask = () => {
@@ -165,11 +167,12 @@ const AddTask = () => {
         <CreateTask
           onClick={() => {
             // addTaskMutation.mutate({
-            //   title: taskName,
-            //   description,
-            //   subtasks,
-            //   status,
+            // title: taskName,
+            // description,
+            // subtasks,
+            // status,
             // });
+            createTask({ title: taskName, description, subtasks, status });
             navigate("/");
           }}
         >

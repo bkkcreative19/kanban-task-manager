@@ -22,6 +22,7 @@ import { addColumn2 } from "../../shared/api/columnsApi";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import { deleteColumn, getColumns } from "../../shared/api/columnsApi";
 import { isEqual } from "../../shared/utils/isEqual";
+import { Formik, Field, Form, ErrorMessage, FieldArray } from "formik";
 import { useSelector } from "react-redux";
 import {
   selectBoardsResult,
@@ -29,24 +30,22 @@ import {
   selectBoardById,
   useUpdateBoardMutation,
 } from "../../shared/features/board/boardSlice";
+import { values } from "lodash";
 
 const EditBoard = () => {
   const navigate = useNavigate();
   // const { active } = useOutletContext();
 
   //   const board = boards.find((board) => board.id === actives[0]);
+
   // const [board, setBoard] = useState();
   const [boardName, setBoardName] = useState("");
   const [columns, setColumns] = useState([]);
   const { active } = useSelector((state) => state.activeBoard);
   const [updateBoard, { isLoading }] = useUpdateBoardMutation();
-  const board = useSelector((state) =>
-    selectBoardById(
-      state,
-      active === 0 ? Number(localStorage.getItem("active")) : active
-    )
-  );
+  const board = useSelector((state) => selectBoardById(state, active));
 
+  // console.log(columns);
   // console.log(
   //   yay.data.find((item) => item.id === Number(localStorage.getItem("active")))
   //     .columnTypes
@@ -65,14 +64,14 @@ const EditBoard = () => {
   // } = useQuery(["columns", active], () => getColumns(active));
   //   console.log(board);
 
-  // useEffect(() => {
-  //   if (board) {
-  //     setColumns(board.columnTypes);
-  //   }
-  // }, [board]);
+  useEffect(() => {
+    if (board) {
+      setColumns(board.columnTypes);
+    }
+  }, [board]);
 
   const addColumn = (columnName) => {
-    let test = [...columns];
+    let test = [...board.columnTypes];
     // console.log(test.length);
     let newColumn = {
       type: "text",
@@ -115,7 +114,9 @@ const EditBoard = () => {
 
   const handleInputChange = (e) => {
     let columnsTest = columns.slice();
+
     for (let i in columnsTest) {
+      console.log(e.target);
       if (columnsTest[i].name === e.target.name) {
         columnsTest[i].name = e.target.value;
         setColumns(columnsTest);
@@ -125,6 +126,7 @@ const EditBoard = () => {
   };
 
   const renderInput = (input, i) => {
+    // console.log(input);
     return (
       <BoardEditColumnItem key={i}>
         <BoardEditColumnInput
@@ -167,29 +169,75 @@ const EditBoard = () => {
           </BoardEditInput>
           <BoardEditColumnList>
             <BoardEditColumnHead>Board Columns</BoardEditColumnHead>
-            {columns.length > 0
-              ? columns.map(renderInput)
-              : board.columnTypes.map(renderInput)}
-          </BoardEditColumnList>
-          <AddColumnBtn onClick={addColumn}>+ Add new Column</AddColumnBtn>
-          <SaveBoard
-            onClick={() => {
-              if (!boardName) {
+            <Formik
+              initialValues={{ columns: board.columnTypes }}
+              onSubmit={(values) => {
+                if (!boardName) {
+                  navigate("/");
+                  return;
+                }
+                updateBoard({
+                  id: board.id,
+                  boardName,
+                  columns: values.columns,
+                });
                 navigate("/");
-                return;
-              }
-              updateBoard({ id: board.id, boardName, columns });
+              }}
+            >
+              <Form>
+                <div className="form-control">
+                  <FieldArray name="columns">
+                    {(props) => {
+                      const { push, remove, form } = props;
+                      const { values } = form;
+                      const { columns } = values;
+                      console.log(columns);
+                      return (
+                        <div>
+                          {columns.map((column, idx) => (
+                            <div key={idx}>
+                              <Field name={`columns.${idx}.name`} />
+                            </div>
+                          ))}
+                          <AddColumnBtn
+                            type="button"
+                            onClick={() => push({ name: "" })}
+                          >
+                            + Add new Column
+                          </AddColumnBtn>
+                        </div>
+                      );
+                    }}
+                  </FieldArray>
+                </div>
 
-              // mutateEditBoard.mutate({
-              //   boardName,
-              //   boardId: board.id,
-              //   columns,
-              // });
-              navigate("/");
-            }}
-          >
-            Save Changes
-          </SaveBoard>
+                <SaveBoard
+                  type="submit"
+                  onClick={() => {
+                    // console.log(values);
+                    // if (!boardName) {
+                    //   navigate("/");
+                    //   return;
+                    // }
+                    // updateBoard({ id: board.id, boardName, columns });
+                    // mutateEditBoard.mutate({
+                    //   boardName,
+                    //   boardId: board.id,
+                    //   columns,
+                    // });
+                    // navigate("/");
+                  }}
+                >
+                  Save Changes
+                </SaveBoard>
+              </Form>
+            </Formik>
+            {/* {columns.length > 0
+              ? columns.map(renderInput)
+              : board.columnTypes.map(renderInput)} */}
+          </BoardEditColumnList>
+          {/* <AddColumnBtn onClick={addColumn}>+ Add new Column</AddColumnBtn> */}
+
           {/* onChange={(e) => setBoardName(e.target.value)} */}
         </BoardEdit>
       )}

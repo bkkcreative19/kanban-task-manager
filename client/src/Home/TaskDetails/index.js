@@ -12,20 +12,16 @@ import OptionsLogo from "../../shared/components/OptionsLogo";
 import DetailsSubTasks from "./DetailsSubTasks";
 import CurrentStatus from "./CurrentStatus";
 
-import { useQuery } from "@tanstack/react-query";
 import { getTask } from "../../shared/api/tasksApi";
+import { useGetTaskQuery } from "../../shared/features/task/tasksSlice";
 const TaskDetails = () => {
   const params = useParams();
 
   const [currentStatus, setCurrentStatus] = useState();
 
+  const { data: task } = useGetTaskQuery(params.taskTitle);
+  console.log(task);
   const navigate = useNavigate();
-
-  const {
-    isLoading,
-    isError,
-    data: task,
-  } = useQuery(["task", params.taskTitle], () => getTask(params.taskTitle));
 
   return (
     <Modal

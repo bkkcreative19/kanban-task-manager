@@ -21,9 +21,7 @@ const BoardLists = ({ active }) => {
   //   data: columns,
   // } = useQuery(["columns", active], () => getColumns(active));
 
-  const { data: columns } = useGetColumnsQuery(
-    active === 0 ? Number(localStorage.getItem("active")) : active
-  );
+  const { data: columns } = useGetColumnsQuery(active);
 
   const onDragEnd = (result) => {
     if (!result.destination) return;

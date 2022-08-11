@@ -18,6 +18,7 @@ import {
 } from "./Styles";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { addBoard } from "../../../shared/api/boardsApi";
+import { Formik, Field, Form, ErrorMessage, FieldArray } from "formik";
 import { useCreateBoardMutation } from "../../../shared/features/board/boardSlice";
 
 const AddBoard = () => {
@@ -25,7 +26,7 @@ const AddBoard = () => {
   const [columns, setColumns] = useState([]);
   const { setActive } = useOutletContext();
   const [boardName, setBoardName] = useState("");
-  const [createBoard, { isLoading }] = useCreateBoardMutation();
+  const [createBoard, { isLoading, data }] = useCreateBoardMutation();
   // const [createBoard] = useCreateBoardMutation();
   // const queryClient = useQueryClient();
   const addColumn = (columnName) => {
@@ -107,10 +108,59 @@ const AddBoard = () => {
         </BoardAddInput>
         <BoardAddColumnList>
           <BoardAddColumnHead>Columns</BoardAddColumnHead>
-          {columns.map(renderInput)}
+          {/* {columns.map(renderInput)} */}
+          <Formik
+            initialValues={{ columns: [] }}
+            onSubmit={(values) => {
+              console.log(values.columns);
+              createBoard({ name: boardName, columns: values.columns });
+              navigate("/");
+            }}
+          >
+            <Form>
+              <div className="form-control">
+                <FieldArray name="columns">
+                  {(props) => {
+                    const { push, remove, form } = props;
+                    const { values } = form;
+                    const { columns } = values;
+
+                    return (
+                      <div>
+                        {columns.map((column, idx) => (
+                          <div key={idx}>
+                            <Field name={`columns.${idx}.name`} />
+                          </div>
+                        ))}
+                        <AddColumnBtn
+                          type="button"
+                          onClick={() => push({ name: "" })}
+                        >
+                          + Add new Column
+                        </AddColumnBtn>
+                      </div>
+                    );
+                  }}
+                </FieldArray>
+              </div>
+
+              <CreateBoard
+                type="submit"
+                // onClick={() => {
+                //   mutation.mutate({
+                //     name: boardName,
+                //     columns,
+                //   });
+                //   navigate("/");
+                // }}
+              >
+                Create New Board
+              </CreateBoard>
+            </Form>
+          </Formik>
         </BoardAddColumnList>
-        <AddColumnBtn onClick={addColumn}>+ Add new Column</AddColumnBtn>
-        <CreateBoard
+        {/* <AddColumnBtn onClick={addColumn}>+ Add new Column</AddColumnBtn> */}
+        {/* <CreateBoard
           // onClick={() => {
           //   mutation.mutate({
           //     name: boardName,
@@ -124,7 +174,7 @@ const AddBoard = () => {
           }}
         >
           Create New Board
-        </CreateBoard>
+        </CreateBoard> */}
       </BoardAdd>
     </Modal>
   );

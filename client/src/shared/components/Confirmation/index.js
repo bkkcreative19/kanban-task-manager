@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate, useOutletContext, useParams } from "react-router-dom";
 import { deleteBoard } from "../../api/boardsApi";
 import { deleteTask } from "../../api/tasksApi";
@@ -19,11 +20,11 @@ import {
 const Confirmation = () => {
   const navigate = useNavigate();
   const params = useParams();
-  const { active, setActive, boards } = useOutletContext();
+  const { boards } = useOutletContext();
   const [deleteBoard, { isLoading }] = useDeleteBoardMutation();
   // console.log(params);
   // console.log(active);
-
+  const { active } = useSelector((state) => state.activeBoard);
   const [index, setIndex] = useState();
 
   // const deleteTaskMutation = useMutation(deleteTask, {

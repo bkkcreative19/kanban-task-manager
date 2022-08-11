@@ -25,21 +25,42 @@ import Select from "../../../shared/components/Select";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { editTask, getTask } from "../../../shared/api/tasksApi";
 import { deleteSubtask } from "../../../shared/api/subtasksApi";
+import {
+  useGetTaskQuery,
+  useUpdateTaskMutation,
+} from "../../../shared/features/task/tasksSlice";
+import { useSelector } from "react-redux";
+import { selectBoardById } from "../../../shared/features/board/boardSlice";
+import { useDeleteSubtaskMutation } from "../../../shared/features/subtask/subtasksSlice";
 // import { createTask } from "../../shared/api/tasksApi";
 
 const EditTask = () => {
-  const { boards, active } = useOutletContext();
-  const [columnNames, setColumnNames] = useState([]);
-  const [columns, setColumns] = useState([]);
+  const { boards } = useOutletContext();
+  // const [columnNames, setColumnNames] = useState([]);
+  // const [columns, setColumns] = useState([]);
   const [subtasks, setSubtasks] = useState([]);
   const [taskName, setTaskName] = useState("");
   const [columnId, setColumnId] = useState();
   const params = useParams();
   const [description, setdescription] = useState("");
   const [status, setStatus] = useState();
-  const queryClient = useQueryClient();
+  const [updateTask, { isLoading }] = useUpdateTaskMutation();
+  const [deleteSubtask] = useDeleteSubtaskMutation();
+  // const queryClient = useQueryClient();
   const navigate = useNavigate();
+  const { active } = useSelector((state) => state.activeBoard);
+  const { data: task } = useGetTaskQuery(params.taskTitle);
 
+  const board = useSelector((state) =>
+    selectBoardById(
+      state,
+      active === 0 ? Number(localStorage.getItem("active")) : active
+    )
+  );
+
+  // console.log(board.columnTypes);
+  const columns = board && board.columnTypes;
+  const columnNames = board && board.columnTypes.map((column) => column.name);
   //   console.log(params);
 
   useEffect(() => {
@@ -51,22 +72,21 @@ const EditTask = () => {
       const names = data.map((item) => item.name);
       const ids = data.map((item) => item.id);
       // console.log(names);
-      setColumnNames(names);
-      setColumns(data);
+      // setColumnNames(names);
+      // setColumns(data);
       //   setStatus({ name: names[0], id: ids[0] });
     };
 
-    yay();
+    // yay();
   }, []);
 
-  console.log(status);
   //   console.log(columnIds);
 
-  const {
-    isLoading,
-    isError,
-    data: task,
-  } = useQuery(["task", params.taskTitle], () => getTask(params.taskTitle));
+  // const {
+  //   isLoading,
+  //   isError,
+  //   data: task,
+  // } = useQuery(["task", params.taskTitle], () => getTask(params.taskTitle));
 
   const addSubtask = () => {
     let test = [...subtasks];
@@ -84,6 +104,7 @@ const EditTask = () => {
 
   useEffect(() => {
     if (task) {
+      setStatus(task.status);
       setSubtasks(task.subtasks);
     }
   }, [task]);
@@ -94,16 +115,16 @@ const EditTask = () => {
     setSubtasks(newArr);
   };
 
-  const editTaskMutation = useMutation(editTask, {
-    onSuccess: () => {
-      queryClient.invalidateQueries(["columns"]);
-    },
-  });
-  const deleteSubtaskMutation = useMutation(deleteSubtask, {
-    onSuccess: () => {
-      queryClient.invalidateQueries(["task"]);
-    },
-  });
+  // const editTaskMutation = useMutation(editTask, {
+  //   onSuccess: () => {
+  //     queryClient.invalidateQueries(["columns"]);
+  //   },
+  // });
+  // const deleteSubtaskMutation = useMutation(deleteSubtask, {
+  //   onSuccess: () => {
+  //     queryClient.invalidateQueries(["task"]);
+  //   },
+  // });
 
   const handleInputChange = (e) => {
     let subtasksTest = subtasks.slice();
@@ -130,7 +151,7 @@ const EditTask = () => {
         />
         <TaskEditSubtaskX
           onClick={() => {
-            deleteSubtaskMutation.mutate(input.id);
+            deleteSubtask(input.id);
             removeSubtask(input.id);
           }}
         >
@@ -192,7 +213,7 @@ const EditTask = () => {
           {columnNames && (
             <Select
               setSelected={handleSetSelected}
-              selected={status ? status.name : task.status}
+              selected={status}
               options={columnNames}
             />
           )}
@@ -206,7 +227,15 @@ const EditTask = () => {
         </SelectStatus> */}
           <CreateTask
             onClick={() => {
-              editTaskMutation.mutate({
+              // editTaskMutation.mutate({
+              // title: taskName ? taskName : task.title,
+              // description,
+              // taskId: task.id,
+              // subtasks,
+              // status: !status ? task.status : status.name,
+              // columnType: !status ? task.columnType : status.id,
+              // });
+              updateTask({
                 title: taskName ? taskName : task.title,
                 description,
                 taskId: task.id,
