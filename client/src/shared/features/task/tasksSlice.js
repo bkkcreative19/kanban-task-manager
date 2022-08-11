@@ -38,15 +38,19 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
       // query: (task) => console.log(task),
       // invalidatesTags: ["Task"],
     }),
-    // deleteBoard: builder.mutation({
-    //   query: (id) => ({
-    //     url: `/boards/${id}`,
-    //     method: "DELETE",
-    //   }),
-    //   invalidatesTags: ["Board"],
-    // }),
+    deleteTask: builder.mutation({
+      query: (title) => ({
+        url: `/tasks/${title}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Column"],
+    }),
   }),
 });
 
-export const { useCreateTaskMutation, useGetTaskQuery, useUpdateTaskMutation } =
-  extendedApiSlice;
+export const {
+  useCreateTaskMutation,
+  useGetTaskQuery,
+  useUpdateTaskMutation,
+  useDeleteTaskMutation,
+} = extendedApiSlice;

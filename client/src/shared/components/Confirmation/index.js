@@ -1,12 +1,11 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useOutletContext, useParams } from "react-router-dom";
-import { deleteBoard } from "../../api/boardsApi";
-import { deleteTask } from "../../api/tasksApi";
+
 import { useDeleteBoardMutation } from "../../features/board/boardSlice";
+import { useDeleteTaskMutation } from "../../features/task/tasksSlice";
 import Modal from "../Modal";
 import {
   Confirm,
@@ -22,38 +21,10 @@ const Confirmation = () => {
   const params = useParams();
   const { boards } = useOutletContext();
   const [deleteBoard, { isLoading }] = useDeleteBoardMutation();
-  // console.log(params);
-  // console.log(active);
+  const [deleteTask] = useDeleteTaskMutation();
+
   const { active } = useSelector((state) => state.activeBoard);
-  const [index, setIndex] = useState();
 
-  // const deleteTaskMutation = useMutation(deleteTask, {
-  //   onSuccess: () => {
-  //     queryClient.invalidateQueries(["columns"]);
-  //   },
-  // });
-
-  // const deleteBoardMutation = useMutation(deleteBoard, {
-  //   onSuccess: (data) => {
-  //     // Invalidate and refetch
-  //     queryClient.invalidateQueries(["boards"]);
-  //     queryClient.invalidateQueries(["columns"]);
-  //   },
-  // });
-
-  // console.log(!!params);
-
-  useEffect(() => {
-    if (boards) {
-      let testt;
-      const test = boards.find((item, idx) => {
-        testt = idx - 1;
-        return item.id === active;
-      });
-      setIndex(boards[testt].id);
-    }
-  }, [active]);
-  // console.log(index);
   return (
     <Modal
       isOpen={true}
@@ -73,9 +44,8 @@ const Confirmation = () => {
           <ConfirmDelete
             onClick={() => {
               if (params.taskTitle) {
-                // deleteTaskMutation.mutate(params.taskTitle);
+                deleteTask(params.taskTitle);
               } else {
-                // deleteBoardMutation.mutate(active);
                 deleteBoard(active);
               }
 

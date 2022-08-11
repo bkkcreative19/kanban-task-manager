@@ -55,8 +55,8 @@ export const editTaskWithSubtasks = catchErrors(async (req, res) => {
     subtasks.push(
       createEntity(Subtask, {
         id: subtask.id,
-        title: subtask.name,
-        isCompleted: subtask.isCompleted ? true : false,
+        title: subtask.title,
+        isCompleted: false,
         task: task.id,
       })
     );

@@ -32,6 +32,7 @@ import {
 import { useSelector } from "react-redux";
 import { selectBoardById } from "../../../shared/features/board/boardSlice";
 import { useDeleteSubtaskMutation } from "../../../shared/features/subtask/subtasksSlice";
+import { Field, FieldArray, Form, Formik } from "formik";
 // import { createTask } from "../../shared/api/tasksApi";
 
 const EditTask = () => {
@@ -51,115 +52,17 @@ const EditTask = () => {
   const { active } = useSelector((state) => state.activeBoard);
   const { data: task } = useGetTaskQuery(params.taskTitle);
 
-  const board = useSelector((state) =>
-    selectBoardById(
-      state,
-      active === 0 ? Number(localStorage.getItem("active")) : active
-    )
-  );
+  const board = useSelector((state) => selectBoardById(state, active));
 
   // console.log(board.columnTypes);
   const columns = board && board.columnTypes;
   const columnNames = board && board.columnTypes.map((column) => column.name);
-  //   console.log(params);
-
-  useEffect(() => {
-    const yay = async () => {
-      const { data } = await axios.get(
-        `http://localhost:5000/columns/${active}`
-      );
-      console.log(data);
-      const names = data.map((item) => item.name);
-      const ids = data.map((item) => item.id);
-      // console.log(names);
-      // setColumnNames(names);
-      // setColumns(data);
-      //   setStatus({ name: names[0], id: ids[0] });
-    };
-
-    // yay();
-  }, []);
-
-  //   console.log(columnIds);
-
-  // const {
-  //   isLoading,
-  //   isError,
-  //   data: task,
-  // } = useQuery(["task", params.taskTitle], () => getTask(params.taskTitle));
-
-  const addSubtask = () => {
-    let test = [...subtasks];
-    // console.log(test.length);
-    let newSubtask = {
-      type: "text",
-      placeholder: "placeholder text",
-      name: `text${test.length}`,
-      id: test.length,
-      value: "",
-    };
-    test.push(newSubtask);
-    setSubtasks(test);
-  };
 
   useEffect(() => {
     if (task) {
       setStatus(task.status);
-      setSubtasks(task.subtasks);
     }
   }, [task]);
-
-  const removeSubtask = (id) => {
-    // let test = [...columns];
-    const newArr = [...subtasks].filter((item) => item.id !== id);
-    setSubtasks(newArr);
-  };
-
-  // const editTaskMutation = useMutation(editTask, {
-  //   onSuccess: () => {
-  //     queryClient.invalidateQueries(["columns"]);
-  //   },
-  // });
-  // const deleteSubtaskMutation = useMutation(deleteSubtask, {
-  //   onSuccess: () => {
-  //     queryClient.invalidateQueries(["task"]);
-  //   },
-  // });
-
-  const handleInputChange = (e) => {
-    let subtasksTest = subtasks.slice();
-
-    for (let i in subtasksTest) {
-      if (subtasksTest[i].title == e.target.name) {
-        subtasksTest[i].title = e.target.value;
-        setSubtasks(subtasksTest);
-        break;
-      }
-    }
-  };
-
-  const renderInput = (input, i) => {
-    return (
-      <TaskEditSubtaskItem key={i}>
-        <TaskEditSubtaskInput
-          type={input.type}
-          name={input.title}
-          placeholder={input.placeholder}
-          // onBlur={this.saveModule}
-          value={input.title}
-          onChange={handleInputChange}
-        />
-        <TaskEditSubtaskX
-          onClick={() => {
-            deleteSubtask(input.id);
-            removeSubtask(input.id);
-          }}
-        >
-          X
-        </TaskEditSubtaskX>
-      </TaskEditSubtaskItem>
-    );
-  };
 
   const handleSetSelected = (e) => {
     const test = columns.find((item) => item.name === e);
@@ -204,11 +107,61 @@ const EditTask = () => {
           </TaskEditTextArea>
           <TaskEditSubtaskList>
             <TaskEditSubtaskHead>Subtasks</TaskEditSubtaskHead>
-            {subtasks.length > 0
-              ? subtasks.map(renderInput)
-              : task.subtasks.map(renderInput)}
+            <Formik
+              initialValues={{ subtasks: task.subtasks }}
+              onSubmit={(values) => {
+                // if (!boardName) {
+                //   navigate("/");
+                //   return;
+                // }
+                // console.log(values.subtasks);
+                updateTask({
+                  title: taskName ? taskName : task.title,
+                  description,
+                  taskId: task.id,
+                  subtasks: values.subtasks,
+                  status: !status ? task.status : status.name,
+                  columnType: !status ? task.columnType : status.id,
+                });
+                navigate("/");
+              }}
+            >
+              <Form>
+                <div className="form-control">
+                  <FieldArray name="subtasks">
+                    {(props) => {
+                      const { push, remove, form } = props;
+                      const { values } = form;
+                      const { subtasks } = values;
+
+                      return (
+                        <div>
+                          {subtasks.map((column, idx) => (
+                            <div key={idx}>
+                              <Field name={`subtasks.${idx}.title`} />
+                            </div>
+                          ))}
+                          <AddSubtaskBtn
+                            type="button"
+                            onClick={() => {
+                              push({ title: "" });
+                            }}
+                          >
+                            + Add new Subtask
+                          </AddSubtaskBtn>
+                        </div>
+                      );
+                    }}
+                  </FieldArray>
+                </div>
+
+                <CreateTask type="submit" onClick={() => {}}>
+                  Save Changes
+                </CreateTask>
+              </Form>
+            </Formik>
           </TaskEditSubtaskList>
-          <AddSubtaskBtn onClick={addSubtask}>+ Add new Subtask</AddSubtaskBtn>
+
           <StatusTitle>Status</StatusTitle>
           {columnNames && (
             <Select
@@ -225,29 +178,6 @@ const EditTask = () => {
             return <SelectDropdownOption
           })}</SelectDropdown>
         </SelectStatus> */}
-          <CreateTask
-            onClick={() => {
-              // editTaskMutation.mutate({
-              // title: taskName ? taskName : task.title,
-              // description,
-              // taskId: task.id,
-              // subtasks,
-              // status: !status ? task.status : status.name,
-              // columnType: !status ? task.columnType : status.id,
-              // });
-              updateTask({
-                title: taskName ? taskName : task.title,
-                description,
-                taskId: task.id,
-                subtasks,
-                status: !status ? task.status : status.name,
-                columnType: !status ? task.columnType : status.id,
-              });
-              navigate(`/`);
-            }}
-          >
-            Save Changes
-          </CreateTask>
         </TaskEdit>
       )}
     </Modal>

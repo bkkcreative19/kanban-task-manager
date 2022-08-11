@@ -8,6 +8,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import AddColumn from "./AddColumn";
 import { useGetColumnsQuery } from "../../shared/features/columns/columnsSlice";
+import NoColumns from "./NoColumns";
 
 const BoardLists = ({ active }) => {
   // const {
@@ -60,15 +61,19 @@ const BoardLists = ({ active }) => {
 
   return (
     <>
-      <Lists>
-        <DragDropContext onDragEnd={(result) => onDragEnd(result)}>
-          {columns &&
-            columns.map((column, idx) => {
-              return <BoardList key={idx} column={column} index={idx} />;
-            })}
-        </DragDropContext>
-        <AddColumn boardId={active} />
-      </Lists>
+      {columns && columns.length > 0 ? (
+        <Lists>
+          <DragDropContext onDragEnd={(result) => onDragEnd(result)}>
+            {columns &&
+              columns.map((column, idx) => {
+                return <BoardList key={idx} column={column} index={idx} />;
+              })}
+          </DragDropContext>
+          <AddColumn boardId={active} />
+        </Lists>
+      ) : (
+        <NoColumns />
+      )}
     </>
   );
 };

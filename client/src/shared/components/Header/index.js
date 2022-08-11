@@ -1,5 +1,4 @@
 import React from "react";
-import Ellipsis from "../../../assets/icon-vertical-ellipsis.svg";
 
 import ChevronDown from "../../../assets/icon-chevron-down.svg";
 import {
@@ -14,25 +13,20 @@ import {
   Options,
   AddTask,
   Cross,
-  Dots,
 } from "./Styles";
 import OptionsLogo from "../OptionsLogo";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
-import { useEffect } from "react";
-import useIsActive from "../../hooks/useIsActive";
+
+import { useSelector } from "react-redux";
+import { selectAllBoards } from "../../features/board/boardSlice";
 
 const BoardHeader = () => {
   const navigate = useNavigate();
-  const [boardName, setBoardName] = useState(localStorage.getItem("boardName"));
 
-  const [active, setActive] = useIsActive(
-    Number(localStorage.getItem("active"))
-  );
+  const { active } = useSelector((state) => state.activeBoard);
+  const boards = useSelector(selectAllBoards);
+  const board = boards.find((board) => board.id === active);
 
-  useEffect(() => {
-    setBoardName(localStorage.getItem("boardName"));
-  }, [active]);
   return (
     <Header>
       <Nav>
@@ -45,7 +39,7 @@ const BoardHeader = () => {
           <LogoName>kanban</LogoName>
         </Logo>
         <Right>
-          <Title>{boardName}</Title>
+          <Title>{board && board.name}</Title>
           <DownArrow src={ChevronDown} />
 
           <Options>

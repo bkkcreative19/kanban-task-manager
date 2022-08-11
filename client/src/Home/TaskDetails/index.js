@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useParams, useNavigate, useOutletContext } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 import Modal from "../../shared/components/Modal";
 import {
@@ -12,17 +12,14 @@ import OptionsLogo from "../../shared/components/OptionsLogo";
 import DetailsSubTasks from "./DetailsSubTasks";
 import CurrentStatus from "./CurrentStatus";
 
-import { getTask } from "../../shared/api/tasksApi";
 import { useGetTaskQuery } from "../../shared/features/task/tasksSlice";
 const TaskDetails = () => {
   const params = useParams();
 
-  const [currentStatus, setCurrentStatus] = useState();
-
   const { data: task } = useGetTaskQuery(params.taskTitle);
-  console.log(task);
-  const navigate = useNavigate();
 
+  const navigate = useNavigate();
+  console.log(task);
   return (
     <Modal
       isOpen={true}
@@ -42,12 +39,7 @@ const TaskDetails = () => {
           </DetailsHead>
           <DetailsDescription>{task.description}</DetailsDescription>
           <DetailsSubTasks subtasks={task.subtasks} />
-          <CurrentStatus
-            currentStatus={currentStatus}
-            setCurrentStatus={setCurrentStatus}
-          />
-
-          {/* <button onClick={closeModal}>click</button> */}
+          <CurrentStatus currentStatus={task.status} />
         </Details>
       )}
     </Modal>
