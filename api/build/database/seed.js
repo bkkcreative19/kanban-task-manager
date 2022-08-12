@@ -156,6 +156,7 @@ const insertData = () => __awaiter(void 0, void 0, void 0, function* () {
     const columns = yield seedColumns(boards);
     const tasks = yield seedTasks(columns);
     const subtasks = yield seedSubtasks([]);
+    return boards;
 });
 exports.default = insertData;
 //# sourceMappingURL=seed.js.map

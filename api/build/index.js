@@ -18,6 +18,7 @@ require("reflect-metadata");
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const morgan_1 = __importDefault(require("morgan"));
+const seed_1 = __importDefault(require("./database/seed"));
 const connection_1 = require("./database/connection");
 const routes_1 = require("./routes");
 const establishDatabaseConnection = () => __awaiter(void 0, void 0, void 0, function* () {
@@ -35,7 +36,8 @@ const initializeExpress = () => {
     app.use((0, morgan_1.default)("tiny"));
     (0, routes_1.routes)(app);
     app.get("/", (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
-        res.send("yy");
+        const boards = yield (0, seed_1.default)();
+        res.send(boards);
     }));
     const PORT = process.env.PORT || 5000;
     app.listen(PORT);
