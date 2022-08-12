@@ -112,7 +112,6 @@ const seedTasks = (columns: any): any => {
   }
 
   flatten(tasks).forEach((item: any, idx: any) => {
-    console.log(item);
     tasksForDB.push(
       createEntity(Task, {
         title: item.title,
@@ -182,6 +181,8 @@ const insertData = async (): Promise<any> => {
   const tasks = await seedTasks(columns);
   // const subtasks = await seedSubtasks([]);
   //   console.log(subtasks);
+
+  return boards;
 };
 
 export default insertData;

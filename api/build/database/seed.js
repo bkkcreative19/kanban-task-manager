@@ -110,7 +110,6 @@ const seedTasks = (columns) => {
         }
     }
     flatten(tasks).forEach((item, idx) => {
-        console.log(item);
         tasksForDB.push((0, typeorm_1.createEntity)(entities_1.Task, {
             title: item.title,
             description: item.description,
@@ -155,6 +154,7 @@ const insertData = () => __awaiter(void 0, void 0, void 0, function* () {
     const boards = yield seedBoards();
     const columns = yield seedColumns(boards);
     const tasks = yield seedTasks(columns);
+    return boards;
 });
 exports.default = insertData;
 //# sourceMappingURL=seed.js.map
