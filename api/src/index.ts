@@ -55,8 +55,8 @@ const initializeExpress = (): void => {
     // await createTestAccount();
     // await createGuestAccount();
     // const test = await findEntityOrThrow(User);
-    await insertData();
-    res.send("yy");
+    // await insertData();
+    res.send("yyy");
     // console.log(test);
   });
 
@@ -66,8 +66,9 @@ const initializeExpress = (): void => {
 
   //   app.use((req, _res, next) => next(new RouteNotFoundError(req.originalUrl)));
   //   app.use(handleError);
+  const PORT = process.env.PORT || 5000;
 
-  app.listen(5000);
+  app.listen(PORT);
 };
 
 const initializeApp = async (): Promise<void> => {

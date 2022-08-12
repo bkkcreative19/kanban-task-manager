@@ -3,8 +3,12 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "engines": {
+    "node": "14.17.5"
+  },
   "scripts": {
-    "start": "nodemon --exec ts-node --files src/index.ts",
+    "start": "node build/index.js",
+    "dev": "nodemon --exec ts-node --files src/index.ts",
     "start:test": "cross-env NODE_ENV='test' DB_DATABASE='jira_test' npm start",
     "start:production": "pm2 start --name 'jira_api' node -- -r ./tsconfig-paths.js build/index.js",
     "build": "cd src && tsc"
