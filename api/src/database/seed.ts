@@ -182,7 +182,7 @@ const insertData = async (): Promise<any> => {
   const tasks = await seedTasks(columns);
   const subtasks = await seedSubtasks([]);
   //   console.log(subtasks);
-  //   return boards;
+  return boards;
 };
 
 export default insertData;
