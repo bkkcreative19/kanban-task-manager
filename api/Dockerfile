@@ -16,7 +16,7 @@ RUN npm install
 
 RUN npm run build
 
-RUN npm start
+CMD ["node", "/build/index.js"]
 
 # Runs the dev npm script to build & start the server
 # CMD npm start:production
