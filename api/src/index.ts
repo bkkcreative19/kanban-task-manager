@@ -1,5 +1,3 @@
-require("module-alias/register");
-import "module-alias/register";
 import "dotenv/config";
 import "reflect-metadata";
 
