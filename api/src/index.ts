@@ -56,7 +56,7 @@ const initializeExpress = (): void => {
     // const test = await findEntityOrThrow(User);
     // await insertData();
     // const boards = await insertData();
-    res.send("hi");
+    res.send("his");
     // console.log(test);
   });
 
