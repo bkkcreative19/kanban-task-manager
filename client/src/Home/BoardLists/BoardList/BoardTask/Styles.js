@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const Task = styled.div`
-  background: #ffffff;
+  background: ${({ theme }) => theme.taskBG};
   margin-top: 2em;
   cursor: pointer;
   box-shadow: 0px 4px 6px rgba(54, 78, 126, 0.101545);
@@ -13,7 +13,7 @@ export const TaskTitle = styled.h3`
   font-weight: 700;
   font-size: 15px;
   line-height: 19px;
-  color: #000112;
+  color: ${({ theme }) => theme.mainText};
 `;
 
 export const TaskSub = styled.p`

@@ -8,7 +8,7 @@ export const TaskEditHead = styled.h3`
   font-weight: 700;
   font-size: 18px;
   line-height: 23px;
-  color: #000112;
+  color: ${({ theme }) => theme.mainText};
 `;
 
 export const TaskEditInput = styled.form`

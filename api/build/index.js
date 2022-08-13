@@ -17,7 +17,7 @@ require("dotenv/config");
 require("reflect-metadata");
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
-const seed_1 = __importDefault(require("./database/seed"));
+const morgan_1 = __importDefault(require("morgan"));
 const connection_1 = require("./database/connection");
 const routes_1 = require("./routes");
 const establishDatabaseConnection = () => __awaiter(void 0, void 0, void 0, function* () {
@@ -32,10 +32,10 @@ const initializeExpress = () => {
     const app = (0, express_1.default)();
     app.use((0, cors_1.default)());
     app.use(express_1.default.json());
+    app.use((0, morgan_1.default)("tiny"));
     (0, routes_1.routes)(app);
     app.get("/", (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
-        const boards = yield (0, seed_1.default)();
-        res.send(boards);
+        res.send("hi");
     }));
     const PORT = process.env.PORT || 5000;
     app.listen(PORT);

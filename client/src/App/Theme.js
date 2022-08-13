@@ -12,6 +12,7 @@ export const lightTheme = {
     "linear-gradient(180deg, #E9EFFA 0%, rgba(233, 239, 250, 0.5) 100%);",
   themeToogleBG: "#F4F7FD",
   modalBG: "#fff",
+  taskBG: "#ffffff",
 };
 export const darkTheme = {
   mainBG: color.darkMainBG,
@@ -27,4 +28,5 @@ export const darkTheme = {
     "linear-gradient(180deg, rgba(43, 44, 55, 0.25) 0%, rgba(43, 44, 55, 0.125) 100%);",
   themeToogleBG: "#20212C",
   modalBG: "#2b2c37",
+  taskBG: "#2B2C37",
 };

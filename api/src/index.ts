@@ -44,7 +44,7 @@ const initializeExpress = (): void => {
   const app = express();
   app.use(cors());
   app.use(express.json());
-  // app.use(morgan("tiny"));
+  app.use(morgan("tiny"));
 
   //   app.use(addRespondToResponse);
 
@@ -56,8 +56,8 @@ const initializeExpress = (): void => {
     // await createGuestAccount();
     // const test = await findEntityOrThrow(User);
     // await insertData();
-    const boards = await insertData();
-    res.send(boards);
+    // const boards = await insertData();
+    res.send("hi");
     // console.log(test);
   });
 

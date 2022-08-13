@@ -27,14 +27,14 @@ exports.AppDataSource = void 0;
 const typeorm_1 = require("typeorm");
 const entities = __importStar(require("../entities"));
 const AppDataSource = new typeorm_1.DataSource({
-    name: "default",
     type: "postgres",
-    url: process.env.DATABASE_URL,
+    host: process.env.DB_HOST,
+    username: process.env.DB_USER,
+    database: process.env.DB_NAME,
+    password: process.env.DB_PASSWORD,
+    port: parseInt(process.env.DB_PORT || "5432"),
     entities: Object.values(entities),
     synchronize: true,
-    extra: {
-        ssl: true,
-    },
 });
 exports.AppDataSource = AppDataSource;
 //# sourceMappingURL=connection.js.map
