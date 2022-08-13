@@ -8,6 +8,7 @@
   },
   "scripts": {
     "start": "node build/index.js",
+    "dev": "node build/index.js",
     "start:test": "cross-env NODE_ENV='test' DB_DATABASE='jira_test' npm start",
     "start:production": "npm run build && npm start",
     "build": "cd src && tsc"
