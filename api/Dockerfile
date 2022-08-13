@@ -18,7 +18,7 @@ RUN npm install
 
 COPY . /usr/src/app
 
-# CMD ["npm", "start"]
+CMD ["npm", "start"]
 
 # Runs the dev npm script to build & start the server
 # CMD npm start:production
