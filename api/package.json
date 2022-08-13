@@ -10,7 +10,7 @@
     "start": "node build/index.js",
     "dev": "nodemon -L -e ts --exec \"npm run build && npm start\"",
     "start:test": "cross-env NODE_ENV='test' DB_DATABASE='jira_test' npm start",
-    "start:production": "pm2 start --name 'jira_api' node -- -r ./tsconfig-paths.js build/index.js",
+    "start:production": "npm run build && npm start",
     "build": "cd src && tsc"
   },
   "keywords": [],
