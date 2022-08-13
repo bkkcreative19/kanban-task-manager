@@ -3,7 +3,7 @@
 
 import express from "express";
 import cors from "cors";
-import morgan from "morgan";
+// import morgan from "morgan";
 import insertData from "./database/seed";
 import fs from "fs";
 // import { AppDataSource } from 'database/createConnection';
@@ -43,7 +43,7 @@ const initializeExpress = (): void => {
   const app = express();
   app.use(cors());
   app.use(express.json());
-  app.use(morgan("tiny"));
+  // app.use(morgan("tiny"));
 
   //   app.use(addRespondToResponse);
 
