@@ -9,10 +9,14 @@ WORKDIR /usr/src/app
 COPY ["package.json", "package-lock.json", "tsconfig.json", "./"]
 
 # Copies everything in the src directory to WORKDIR/src
-COPY ./build ./build
+COPY ./src ./src
 
 # Installs all packages
 RUN npm install
 
+RUN npm run build
+
+RUN npm start
+
 # Runs the dev npm script to build & start the server
-CMD npm start:production
+# CMD npm start:production
