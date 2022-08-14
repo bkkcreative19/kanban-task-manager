@@ -3,22 +3,36 @@ services:
   api:
     container_name: api
     restart: always
-    build: .
+    build: ./api
     ports:
       - ${PORT}:${PORT}
     depends_on:
       - db
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: password
+      DB_NAME: postgres
 
   db:
     container_name: postgres
     image: postgres
     ports:
-      - "5433:${DB_PORT}"
+      - "5432:5432"
     volumes:
       - data:/data/db
     environment:
       - POSTGRES_PASSWORD=${DB_PASSWORD}
       - POSTGRES_DB=${DB_NAME}
+  app:
+    container_name: app
+    build:
+      context: ./client
+
+    ports:
+      - "8000:3000"
+    restart: unless-stopped
 
 volumes:
   data: {}

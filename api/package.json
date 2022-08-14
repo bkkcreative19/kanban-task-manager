@@ -1,13 +1,11 @@
 {
-  "name": "api",
+  "name": "app",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "start": "node build/index.js",
-    "dev": "npm run build && node build/index.js",
-    "start:test": "cross-env NODE_ENV='test' DB_DATABASE='jira_test' npm start",
-    "start:production": "npm run build && npm start",
+    "dev": "npm run build && npm start",
     "build": "cd src && tsc"
   },
   "keywords": [],
