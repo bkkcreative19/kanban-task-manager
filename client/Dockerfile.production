@@ -16,7 +16,7 @@ ENV REACT_APP_BASE_URL=${BASE_URL}
 RUN npm run build
 
 ### Second Stage ###
-FROM caddy:2.1.1
+FROM caddy:2.5.2
 
 ARG CADDYFILE
 COPY ${CADDYFILE} /etc/caddy/Caddyfile
