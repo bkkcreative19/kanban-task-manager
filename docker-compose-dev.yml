@@ -6,6 +6,8 @@ services:
     build: ./api
     ports:
       - ${PORT}:${PORT}
+    networks:
+      - pern-app
     depends_on:
       - db
     environment:
@@ -22,17 +24,25 @@ services:
       - "5432:5432"
     volumes:
       - data:/data/db
+    networks:
+      - pern-app
     environment:
       - POSTGRES_PASSWORD=${DB_PASSWORD}
       - POSTGRES_DB=${DB_NAME}
   app:
-    container_name: app
-    build:
-      context: ./client
-
+    image: react-app-dev
+    stdin_open: true
     ports:
-      - "8000:3000"
-    restart: unless-stopped
+      - "3000:3000"
+    networks:
+      - pern-app
+    volumes:
+      - ./client/:/usr/src/app
+      - /usr/src/app/node_modules
+
+networks:
+  pern-app:
+    driver: bridge
 
 volumes:
   data: {}

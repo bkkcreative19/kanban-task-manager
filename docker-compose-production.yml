@@ -1,0 +1,53 @@
+version: "3.8"
+services:
+  api:
+    image: api
+    restart: unless-stopped
+    ports:
+      - ${PORT}:${PORT}
+    networks:
+      - pern-app
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: password
+      DB_NAME: postgres
+
+  db:
+    container_name: postgres
+    image: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - data:/data/db
+    networks:
+      - pern-app
+    environment:
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+  app:
+    image: react-app-production:${ENV}
+    stdin_open: true
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - pern-app
+    volumes:
+      - caddy-data:/data
+      - caddy-config:/config
+
+networks:
+  pern-app:
+    driver: bridge
+
+volumes:
+  data:
+    driver: local
+  caddy-data:
+    driver: local
+  caddy-config:
+    driver: local
