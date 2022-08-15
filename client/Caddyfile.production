@@ -5,7 +5,7 @@ kris-taskmanager.com:443 {
     try_files {path} {path}/ /index.html
     file_server
   }
-  handle_path /backend/* {
+  handle_path /api/* {
         reverse_proxy api:5000
     }
 }
