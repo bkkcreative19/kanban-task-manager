@@ -2,7 +2,7 @@ kris-taskmanager.com:443 {
   tls sid.palas@gmail.com
   root * /srv
   route {
-    reverse_proxy /api* kris-taskmanager.com:5000
+    reverse_proxy /api* kris-taskmanager.com
     try_files {path} {path}/ /index.html
     file_server
   }
