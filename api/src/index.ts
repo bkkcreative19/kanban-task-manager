@@ -9,7 +9,7 @@ import fs from "fs";
 // import { AppDataSource } from 'database/createConnection';
 import { AppDataSource } from "./database/connection";
 // import { findEntityOrThrow } from 'utils/typeorm';
-import { routes } from "./routes";
+import { router } from "./routes";
 // import { Project } from 'entities';
 // import { addRespondToResponse } from 'middleware/response';
 // import resetDatabase from 'database/resetDatabase';
@@ -48,7 +48,7 @@ const initializeExpress = (): void => {
   //   app.use(addRespondToResponse);
 
   //   attachPublicRoutes(app);
-  routes(app);
+
   app.get("/", async (_req, res) => {
     // await resetDatabase();
     // await createTestAccount();
@@ -59,7 +59,7 @@ const initializeExpress = (): void => {
     res.send("his");
     // console.log(test);
   });
-
+  app.use("/api", router);
   //   app.use("/", authenticateUser);
 
   //   attachPrivateRoutes(app);

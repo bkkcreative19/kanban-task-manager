@@ -1,27 +1,29 @@
+import express from "express";
+
 import * as boards from "./controller/boards";
 import * as tasks from "./controller/tasks";
 import * as columns from "./controller/columns";
 import * as subtasks from "./controller/subtasks";
 
-export const routes = (app: any): void => {
-  app.get("/boards", boards.getBoards);
-  app.get("/boards/:boardId", boards.getBoardWithColumns);
-  app.delete("/boards/:boardId", boards.deleteBoard);
+export const router = express.Router();
 
-  app.post("/boards", boards.createBoardWithColumns);
-  app.put("/boards/:boardId", boards.editBoardWithColumns);
+router.get("/boards", boards.getBoards);
+router.get("/boards/:boardId", boards.getBoardWithColumns);
+router.delete("/boards/:boardId", boards.deleteBoard);
 
-  // task routes
-  app.get(`/tasks/:title`, tasks.getTaskAndSubtasks);
-  app.post(`/tasks`, tasks.createTaskWithSubtasks);
-  app.put(`/tasks/:taskId`, tasks.editTaskWithSubtasks);
-  app.delete(`/tasks/:taskTitle`, tasks.deleteTask);
+router.post("/boards", boards.createBoardWithColumns);
+router.put("/boards/:boardId", boards.editBoardWithColumns);
 
-  // subtask routes
-  app.delete("/subtasks/:subtaskId", subtasks.deleteSubtask);
-  // column routes
-  app.get("/columns/:boardId", columns.getColumns);
-  app.post("/columns/:boardId", columns.addColumn);
-  app.put("/columns/:boardId", columns.updateColumns);
-  app.delete("/columns/:columnId", columns.deleteColumn);
-};
+// task routes
+router.get(`/tasks/:title`, tasks.getTaskAndSubtasks);
+router.post(`/tasks`, tasks.createTaskWithSubtasks);
+router.put(`/tasks/:taskId`, tasks.editTaskWithSubtasks);
+router.delete(`/tasks/:taskTitle`, tasks.deleteTask);
+
+// subtask routes
+router.delete("/subtasks/:subtaskId", subtasks.deleteSubtask);
+// column routes
+router.get("/columns/:boardId", columns.getColumns);
+router.post("/columns/:boardId", columns.addColumn);
+router.put("/columns/:boardId", columns.updateColumns);
+router.delete("/columns/:columnId", columns.deleteColumn);
