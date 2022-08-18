@@ -8,7 +8,7 @@ import useOnEscapeKeyDown from "../../hooks/onEscapeKeyDown";
 const propTypes = {
   className: PropTypes.string,
   testid: PropTypes.string,
-  variant: PropTypes.oneOf(["center", "aside"]),
+  variant: PropTypes.oneOf(["center", "aside", "top"]),
   width: PropTypes.number,
   withCloseIcon: PropTypes.bool,
   isOpen: PropTypes.bool,
@@ -39,7 +39,6 @@ const Modal = (props) => {
   const [stateIsOpen, setStateOpen] = useState(false);
   const isControlled = typeof propsIsOpen === "boolean";
   const isOpen = isControlled ? propsIsOpen : stateIsOpen;
-
   const $modalRef = useRef();
   const $clickableOverlayRef = useRef();
 

@@ -6,14 +6,12 @@ export const Header = styled.div`
   background: ${({ theme }) => theme.headerBG};
   height: 10vh;
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
-  // position: fixed;
-  // width: 100%;
+  position: relative;
 `;
 
 export const Nav = styled.nav`
   display: flex;
-  // padding: 0 2em;
-  // margin-top: 2em;
+
   height: inherit;
   @media screen and (max-width: 768px) {
     padding: 0;
@@ -25,11 +23,16 @@ export const Logo = styled.div`
   align-items: center;
   border-right: 1px solid ${({ theme }) => theme.mainBorder};
   padding-left: 24px;
-  // box-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
+
   width: 300px;
 
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 900px) {
+    width: 261px;
+  }
+  @media screen and (max-width: 700px) {
+    width: auto;
     border: none;
+    // padding: 0;
   }
 `;
 
@@ -58,7 +61,7 @@ export const LogoName = styled.h1`
   margin-left: 0.5em;
   color: ${({ theme }) => theme.mainText};
 
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 700px) {
     display: none;
   }
 `;
@@ -90,8 +93,8 @@ export const DownArrow = styled.img`
   src: url(${(props) => props.src});
   display: none;
   margin-left: 1.7em;
-
-  @media screen and (max-width: 768px) {
+  cursor: pointer;
+  @media screen and (max-width: 700px) {
     display: flex;
   }
 `;
@@ -115,14 +118,14 @@ export const AddTask = styled.button`
   margin-right: 2em;
   cursor: pointer;
 
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 700px) {
     display: none;
   }
 `;
 export const Cross = styled.button`
   display: none;
 
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 700px) {
     display: flex;
     background: #635fc7;
     color: #fff;

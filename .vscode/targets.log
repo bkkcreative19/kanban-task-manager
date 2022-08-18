@@ -8,7 +8,7 @@ make: *** No rule to make target 'all'.  Stop.
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Wed Aug 17 21:22:23 2022
+# Make data base, printed on Thu Aug 18 17:29:32 2022
 
 # Variables
 
@@ -37,7 +37,7 @@ MAKE_COMMAND := C:/ProgramData/chocolatey/lib/make/tools/install/bin/make.exe
 # automatic
 @D = $(patsubst %/,%,$(patsubst %\,%,$(dir $@)))
 # environment
-CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_2140_SZEISRVMIKACMYJS
+CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_9832_YDBAUZTMKYCAQGDS
 # environment
 FPS_BROWSER_USER_PROFILE_STRING = Default
 # environment
@@ -89,7 +89,7 @@ MAKEFILE_LIST := Makefile
 # environment
 PT8HOME = C:\Program Files\Cisco Packet Tracer 8.1.1
 # environment
-VSCODE_PID = 2140
+VSCODE_PID = 9832
 # automatic
 ?D = $(patsubst %/,%,$(patsubst %\,%,$(dir $?)))
 # automatic
@@ -152,8 +152,6 @@ USERDOMAIN = DESKTOP-R48R26H
 GNUMAKEFLAGS := 
 # environment
 OS = Windows_NT
-# environment
-__COMPAT_LAYER = DetectorsAppHealth
 # makefile
 .DEFAULT_GOAL := build-dev
 # default
@@ -201,7 +199,7 @@ CHOCOLATEYTOOLSLOCATION = C:\tools
 # environment
 PROCESSOR_IDENTIFIER = Intel64 Family 6 Model 165 Stepping 3, GenuineIntel
 # variable set hash-table stats:
-# Load=94/1024=9%, Rehash=0, Collisions=8/121=7%
+# Load=93/1024=9%, Rehash=0, Collisions=8/120=7%
 
 # Pattern-specific Variable Values
 
@@ -223,7 +221,8 @@ run-dev:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 6):
+#  recipe to execute (from 'Ma 
+kefile', line 6):
 	docker-compose -f docker-compose-dev.yml up
 
 build-production:
@@ -299,8 +298,7 @@ build-dev:
 
 # No 'vpath' search paths.
 
-# No general ('VP 
-ATH' variable) search path.
+# No general ('VPATH' variable) search path.
 
 # strcache buffers: 1 (0) / strings = 23 / storage = 230 B / avg = 10 B
 # current buf: size = 8174 B / used = 230 B / count = 23 / avg = 10 B
@@ -308,6 +306,6 @@ ATH' variable) search path.
 # strcache performance: lookups = 34 / hit rate = 32%
 # hash-table stats:
 # Load=23/8192=0%, Rehash=0, Collisions=1/34=3%
-# Finished Make data base on Wed Aug 17 21:22:23 2022
+# Finished Make data base on Thu Aug 18 17:29:32 2022
 
  

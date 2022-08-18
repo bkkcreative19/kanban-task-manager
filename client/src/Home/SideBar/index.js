@@ -23,36 +23,21 @@ import { useEffect } from "react";
 
 const KabanSideBar = ({ boards, yay, theme, isOpen, setIsOpen }) => {
   const navigate = useNavigate();
-  // const [active, setActive] = useIsActive();
-  // const queryClient = useQueryClient();
+
   const dispatch = useDispatch();
-  // const mutateDeleteBoard = useMutation(deleteBoard, {
-  //   onSuccess: (data) => {
-  //     // Invalidate and refetch
-  //     queryClient.invalidateQueries(["boards"]);
-  //   },
-  // });
+
   const activeBoard = useSelector((state) => state.activeBoard);
 
   const handleClick = (e, id) => {
     localStorage.setItem("active", id);
     dispatch(setActive(Number(id)));
-
-    // setActive(Number(localStorage.getItem("active")));
-    // console.log(typeof );
-    // setActives(test);
-    // setActive(2);
   };
 
   useEffect(() => {}, []);
 
   return (
     <SideBar isOpen={isOpen}>
-      <Title
-      // onClick={() => {
-      //   mutateDeleteBoard.mutate(active);
-      // }}
-      >{`All Boards (${boards.length})`}</Title>
+      <Title>{`All Boards (${boards.length})`}</Title>
       <BoardList>
         {boards.map((board, idx) => {
           return (

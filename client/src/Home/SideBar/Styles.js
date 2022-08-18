@@ -10,11 +10,13 @@ export const SideBar = styled.aside`
   flex: none;
   height: 90vh;
   position: sticky;
-  // height: -webkit-fill-available;
-  // margin-top: 2rem;
-  // flex: 1;
-  // height: 100%;
-  // box-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
+
+  @media only screen and (max-width: 900px) {
+    width: 261px;
+  }
+  @media only screen and (max-width: 700px) {
+    display: none;
+  }
 `;
 
 export const Title = styled.h3`

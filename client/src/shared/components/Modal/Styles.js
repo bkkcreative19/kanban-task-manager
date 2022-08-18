@@ -27,7 +27,11 @@ const clickOverlayStyles = {
     align-items: center;
     padding: 50px;
   `,
-  aside: "",
+  top: css`
+    display: flex;
+    justify-content: center;
+    // align-items: center;
+  `,
 };
 
 export const StyledModal = styled.div`
@@ -45,10 +49,13 @@ const modalStyles = {
     border-radius: 3px;
     ${mixin.boxShadowMedium}
   `,
-  aside: css`
-    min-height: 100vh;
+  top: css`
+    // min-height: 100vh;
     max-width: ${(props) => props.width}px;
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.15);
+    position: relative;
+    height: fit-content;
+    top: 11vh;
   `,
 };
 

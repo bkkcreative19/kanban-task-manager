@@ -13,6 +13,11 @@ export const EmptyText = styled.h2`
   font-size: 18px;
   line-height: 23px;
   color: #828fa3;
+
+  @media screen and (max-width: 900px) {
+    text-align: center;
+    margin: 0 1.5em;
+  }
 `;
 export const EmptyBtn = styled.button`
   background: #635fc7;

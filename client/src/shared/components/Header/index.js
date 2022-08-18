@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 
 import ChevronDown from "../../../assets/icon-chevron-down.svg";
+import { FaPlus } from "react-icons/fa";
 import {
   Header,
   Nav,
@@ -14,14 +15,19 @@ import {
   AddTask,
   Cross,
 } from "./Styles";
+
 import OptionsLogo from "../OptionsLogo";
 import { useNavigate } from "react-router-dom";
 
 import { useSelector } from "react-redux";
 import { selectAllBoards } from "../../services/board/boardSlice";
+import useIsSidebar from "../../hooks/useIsSideBarOpen";
+import MobileSide from "../../../Home/SideBar/MobileSide";
 
-const BoardHeader = () => {
+const BoardHeader = ({ theme, yay }) => {
   const navigate = useNavigate();
+
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const { active } = useSelector((state) => state.activeBoard);
   const boards = useSelector(selectAllBoards);
@@ -40,14 +46,17 @@ const BoardHeader = () => {
         </Logo>
         <Right>
           <Title>{board && board.name}</Title>
-          <DownArrow src={ChevronDown} />
+          <DownArrow
+            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+            src={ChevronDown}
+          />
 
           <Options>
             <AddTask onClick={() => navigate("/addTask")}>
               + Add New Task
             </AddTask>
             <Cross>
-              <img src={Cross} alt="" />
+              <FaPlus onClick={() => navigate("/addTask")} size={"1.1em"} />
             </Cross>
             <OptionsLogo
               type={"Board"}
@@ -57,6 +66,15 @@ const BoardHeader = () => {
           </Options>
         </Right>
       </Nav>
+
+      {isSidebarOpen && (
+        <MobileSide
+          setIsSidebarOpen={setIsSidebarOpen}
+          isSidebarOpen={isSidebarOpen}
+          theme={theme}
+          yay={yay}
+        />
+      )}
     </Header>
   );
 };

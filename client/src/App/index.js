@@ -23,7 +23,7 @@ export const App = () => {
       <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
         {/* <NormalizeStyles />*/}
         <BaseStyles />
-        <Header />
+        <Header yay={yay} theme={theme} />
         <RouteHandler yay={yay} theme={theme} />
         {/* <Header /> */}
       </ThemeProvider>
