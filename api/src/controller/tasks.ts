@@ -34,7 +34,7 @@ export const createTaskWithSubtasks = catchErrors(async (req, res) => {
   req.body.subtasks.forEach((subtask: any) => {
     subtasks.push(
       createEntity(Subtask, {
-        title: subtask.value,
+        title: subtask.title,
         task: task.id,
         isCompleted: false,
       })

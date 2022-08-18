@@ -19,7 +19,7 @@ const TaskDetails = () => {
   const { data: task } = useGetTaskQuery(params.taskTitle);
 
   const navigate = useNavigate();
-  console.log(task);
+
   return (
     <Modal
       isOpen={true}

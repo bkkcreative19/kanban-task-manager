@@ -153,7 +153,7 @@ const AddTask = () => {
                       <div>
                         {subtasks.map((subtask, idx) => (
                           <TaskAddSubtaskItem key={idx}>
-                            <Field name={`subtasks.${idx}.name`}>
+                            <Field name={`subtasks.${idx}.title`}>
                               {({ field }) => {
                                 return (
                                   <TaskAddSubtaskInput
@@ -173,7 +173,7 @@ const AddTask = () => {
                         ))}
                         <AddSubtaskBtn
                           type="button"
-                          onClick={() => push({ name: "" })}
+                          onClick={() => push({ title: "" })}
                         >
                           + Add new Subtask
                         </AddSubtaskBtn>
