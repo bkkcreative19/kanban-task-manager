@@ -1,6 +1,5 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useNavigate, useOutletContext } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Modal from "../../shared/components/Modal";
 import {
   TaskAdd,
@@ -22,18 +21,14 @@ import {
 } from "./Styles";
 
 import Select from "../../shared/components/Select";
-import { useSelector, useDispatch } from "react-redux";
-import { apiSlice } from "../../shared/features/api/apiSlice";
-import {
-  selectAllColumns,
-  selectColumnById,
-} from "../../shared/features/columns/columnsSlice";
-import { useCreateTaskMutation } from "../../shared/features/task/tasksSlice";
+import { useSelector } from "react-redux";
 
-import { selectBoardById } from "../../shared/features/board/boardSlice";
+import { useCreateTaskMutation } from "../../shared/services/task/tasksSlice";
+
+import { selectBoardById } from "../../shared/services/board/boardSlice";
+import { Field, FieldArray, Form, Formik } from "formik";
+import { BiX } from "react-icons/bi";
 const AddTask = () => {
-  // const { active } = useOutletContext();
-  // const [columnNames, setColumnNames] = useState([]);
   const [subtasks, setSubtasks] = useState([]);
   const [taskName, setTaskName] = useState("");
   const [description, setdescription] = useState("");
@@ -113,17 +108,6 @@ const AddTask = () => {
     );
   };
 
-  // const addTask = async () => {
-  //   const { data } = await axios.post("http://localhost:5000/tasks", {
-  //     title: taskName,
-  //     description,
-  //     subtasks,
-  //     status,
-  //   });
-  //   console.log(data);
-  //   navigate("/");
-  // };
-
   return (
     <Modal
       isOpen={true}
@@ -145,9 +129,65 @@ const AddTask = () => {
         </TaskAddTextArea>
         <TaskAddSubtaskList>
           <TaskAddSubtaskHead>Subtasks</TaskAddSubtaskHead>
-          {subtasks.map(renderInput)}
+          <Formik
+            initialValues={{ subtasks: [] }}
+            onSubmit={(values) => {
+              createTask({
+                title: taskName,
+                description,
+                subtasks: values.subtasks,
+                status,
+              });
+              navigate("/");
+            }}
+          >
+            <Form>
+              <div className="form-control">
+                <FieldArray name="subtasks">
+                  {(props) => {
+                    const { push, remove, form } = props;
+                    const { values } = form;
+                    const { subtasks } = values;
+
+                    return (
+                      <div>
+                        {subtasks.map((subtask, idx) => (
+                          <TaskAddSubtaskItem key={idx}>
+                            <Field name={`subtasks.${idx}.name`}>
+                              {({ field }) => {
+                                return (
+                                  <TaskAddSubtaskInput
+                                    {...field}
+                                    placeholder="e.g. Make coffee"
+                                  />
+                                );
+                              }}
+                            </Field>
+                            <BiX
+                              color="#828FA3"
+                              size={"4em"}
+                              cursor="pointer"
+                              onClick={() => remove(idx)}
+                            />
+                          </TaskAddSubtaskItem>
+                        ))}
+                        <AddSubtaskBtn
+                          type="button"
+                          onClick={() => push({ name: "" })}
+                        >
+                          + Add new Subtask
+                        </AddSubtaskBtn>
+                      </div>
+                    );
+                  }}
+                </FieldArray>
+              </div>
+
+              <CreateTask type="submit">Create New Board</CreateTask>
+            </Form>
+          </Formik>
         </TaskAddSubtaskList>
-        <AddSubtaskBtn onClick={addSubtask}>+ Add new Subtask</AddSubtaskBtn>
+
         <StatusTitle>Status</StatusTitle>
         {columnNames && (
           <Select
@@ -164,7 +204,7 @@ const AddTask = () => {
             return <SelectDropdownOption
           })}</SelectDropdown>
         </SelectStatus> */}
-        <CreateTask
+        {/* <CreateTask
           onClick={() => {
             // addTaskMutation.mutate({
             // title: taskName,
@@ -177,7 +217,7 @@ const AddTask = () => {
           }}
         >
           Create New Task
-        </CreateTask>
+        </CreateTask> */}
       </TaskAdd>
     </Modal>
   );

@@ -4,8 +4,8 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useOutletContext, useParams } from "react-router-dom";
 
-import { useDeleteBoardMutation } from "../../features/board/boardSlice";
-import { useDeleteTaskMutation } from "../../features/task/tasksSlice";
+import { useDeleteBoardMutation } from "../../services/board/boardSlice";
+import { useDeleteTaskMutation } from "../../services/task/tasksSlice";
 import Modal from "../Modal";
 import {
   Confirm,
@@ -54,7 +54,7 @@ const Confirmation = () => {
           >
             Delete
           </ConfirmDelete>
-          <ConfirmCancel>Cancel</ConfirmCancel>
+          <ConfirmCancel onClick={() => navigate("/")}>Cancel</ConfirmCancel>
         </ConfirmButtons>
       </Confirm>
     </Modal>

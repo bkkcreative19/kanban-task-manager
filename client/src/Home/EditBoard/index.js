@@ -22,7 +22,8 @@ import { useSelector } from "react-redux";
 import {
   selectBoardById,
   useUpdateBoardMutation,
-} from "../../shared/features/board/boardSlice";
+} from "../../shared/services/board/boardSlice";
+import { BiX } from "react-icons/bi";
 
 const EditBoard = () => {
   const navigate = useNavigate();
@@ -55,13 +56,14 @@ const EditBoard = () => {
             <Formik
               initialValues={{ columns: board.columnTypes }}
               onSubmit={(values) => {
-                if (!boardName) {
-                  navigate("/");
-                  return;
-                }
+                // if (!boardName) {
+                //   navigate("/");
+                //   return;
+                // }
+
                 updateBoard({
                   id: board.id,
-                  boardName,
+                  boardName: !boardName ? board.name : boardName,
                   columns: values.columns,
                 });
                 navigate("/");
@@ -77,9 +79,24 @@ const EditBoard = () => {
                       return (
                         <div>
                           {columns.map((column, idx) => (
-                            <div key={idx}>
-                              <Field name={`columns.${idx}.name`} />
-                            </div>
+                            <BoardEditColumnItem key={idx}>
+                              <Field name={`columns.${idx}.name`}>
+                                {({ field }) => {
+                                  return (
+                                    <BoardEditColumnInput
+                                      {...field}
+                                      placeholder="e.g. Make coffee"
+                                    />
+                                  );
+                                }}
+                              </Field>
+                              <BiX
+                                color="#828FA3"
+                                size={"4em"}
+                                cursor="pointer"
+                                onClick={() => remove(idx)}
+                              />
+                            </BoardEditColumnItem>
                           ))}
                           <AddColumnBtn
                             type="button"

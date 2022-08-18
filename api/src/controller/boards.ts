@@ -38,7 +38,7 @@ export const createBoardWithColumns = catchErrors(async (req, res) => {
   req.body.columns.forEach((column: any) => {
     columns.push(
       createEntity(ColumnType, {
-        name: column.value,
+        name: column.name,
         board: board.id,
       })
     );

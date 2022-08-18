@@ -2,10 +2,8 @@ import React from "react";
 import BoardTask from "./BoardTask";
 import { List, ListHead, ListHeadCircle, ListHeadText } from "./Styles";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
-import { useState } from "react";
+
 import randomColor from "randomcolor";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteColumn } from "../../../shared/api/columnsApi";
 
 const BoardList = ({ column, index }) => {
   // const queryClient = useQueryClient();

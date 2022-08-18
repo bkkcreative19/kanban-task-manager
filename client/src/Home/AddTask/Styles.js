@@ -24,7 +24,13 @@ export const TaskAddInputLabel = styled.label`
   margin-bottom: 0.8em;
 `;
 export const TaskAddInputField = styled.input`
-  padding: 0.5em 1em;
+  width: 100%;
+  padding: 0.8em 0.8em;
+  border: 1px solid rgba(130, 143, 163, 0.25);
+  border-radius: 4px;
+  &::placeholder {
+    opacity: 0.25;
+  }
 `;
 
 export const TaskAddTextArea = styled.form`
@@ -43,6 +49,13 @@ export const TaskAddTextAreaInput = styled.textarea`
   // padding: 0.5em 1em;
   resize: none;
   height: 112px;
+  width: 100%;
+  padding: 0.8em 0.8em;
+  border: 1px solid rgba(130, 143, 163, 0.25);
+  border-radius: 4px;
+  &::placeholder {
+    opacity: 0.25;
+  }
 `;
 
 export const TaskAddSubtaskList = styled.div`
@@ -61,7 +74,12 @@ export const TaskAddSubtaskItem = styled.div`
 `;
 export const TaskAddSubtaskInput = styled.input`
   width: 100%;
-  padding: 0.5em 0;
+  padding: 0.8em 0.8em;
+  border: 1px solid rgba(130, 143, 163, 0.25);
+  border-radius: 4px;
+  &::placeholder {
+    opacity: 0.25;
+  }
 `;
 export const TaskAddSubtaskX = styled.span`
   font-size: 1.3rem;

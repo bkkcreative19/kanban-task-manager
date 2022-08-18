@@ -49,7 +49,6 @@ export const editTaskWithSubtasks = catchErrors(async (req, res) => {
   // const board = await createEntity(Board, { name: req.body.name });
   const task = await updateEntity(Task, req.params.taskId, req.body);
   let subtasks: any[] = [];
-  console.log(req.body);
 
   req.body.subtasks.forEach((subtask: any) => {
     subtasks.push(

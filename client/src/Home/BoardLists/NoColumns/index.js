@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useCreateColumnMutation } from "../../../shared/features/columns/columnsSlice";
+import { useCreateColumnMutation } from "../../../shared/services/columns/columnsSlice";
 import { EmptyBtn, EmptyColumns, EmptyText } from "./Styles";
 
 const NoColumns = ({ boardId }) => {

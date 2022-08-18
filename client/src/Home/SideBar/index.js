@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import BoardIconImg from "../../assets/icon-board.svg";
 import HideIconImg from "../../assets/icon-hide-sidebar.svg";
 
@@ -17,11 +17,8 @@ import {
 } from "./Styles";
 import ThemeToggle from "./ThemeToggle";
 import { useNavigate } from "react-router-dom";
-import useIsActive from "../../shared/hooks/useIsActive";
-import { deleteBoard, getBoardWithColumns } from "../../shared/api/boardsApi";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useDispatch, useSelector } from "react-redux";
-import { setActive } from "../../shared/features/board/boardSlice";
+import { setActive } from "../../shared/services/board/boardSlice";
 import { useEffect } from "react";
 
 const KabanSideBar = ({ boards, yay, theme, isOpen, setIsOpen }) => {

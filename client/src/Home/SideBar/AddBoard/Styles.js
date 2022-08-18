@@ -23,7 +23,13 @@ export const BoardAddInputLabel = styled.label`
   margin-bottom: 0.8em;
 `;
 export const BoardAddInputField = styled.input`
-  padding: 0.5em 1em;
+  width: 100%;
+  padding: 0.8em 0.8em;
+  border: 1px solid rgba(130, 143, 163, 0.25);
+  border-radius: 4px;
+  &::placeholder {
+    opacity: 0.25;
+  }
 `;
 export const BoardAddColumnList = styled.div`
   margin-top: 1em;
@@ -41,7 +47,13 @@ export const BoardAddColumnItem = styled.div`
 `;
 export const BoardAddColumnInput = styled.input`
   width: 100%;
-  padding: 0.5em 0;
+  padding: 0.8em 0.8em;
+  border: 1px solid rgba(130, 143, 163, 0.25);
+  border-radius: 4px;
+  margin-right: 0.5em;
+  &::placeholder {
+    opacity: 0.25;
+  }
 `;
 export const BoardAddColumnX = styled.span`
   font-size: 1.3rem;

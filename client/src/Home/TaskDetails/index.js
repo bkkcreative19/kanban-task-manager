@@ -12,7 +12,7 @@ import OptionsLogo from "../../shared/components/OptionsLogo";
 import DetailsSubTasks from "./DetailsSubTasks";
 import CurrentStatus from "./CurrentStatus";
 
-import { useGetTaskQuery } from "../../shared/features/task/tasksSlice";
+import { useGetTaskQuery } from "../../shared/services/task/tasksSlice";
 const TaskDetails = () => {
   const params = useParams();
 

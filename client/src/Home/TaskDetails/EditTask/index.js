@@ -22,17 +22,16 @@ import {
 } from "./Styles";
 
 import Select from "../../../shared/components/Select";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { editTask, getTask } from "../../../shared/api/tasksApi";
-import { deleteSubtask } from "../../../shared/api/subtasksApi";
+
 import {
   useGetTaskQuery,
   useUpdateTaskMutation,
-} from "../../../shared/features/task/tasksSlice";
+} from "../../../shared/services/task/tasksSlice";
 import { useSelector } from "react-redux";
-import { selectBoardById } from "../../../shared/features/board/boardSlice";
-import { useDeleteSubtaskMutation } from "../../../shared/features/subtask/subtasksSlice";
+import { selectBoardById } from "../../../shared/services/board/boardSlice";
+import { useDeleteSubtaskMutation } from "../../../shared/services/subtask/subtasksSlice";
 import { Field, FieldArray, Form, Formik } from "formik";
+import { BiX } from "react-icons/bi";
 // import { createTask } from "../../shared/api/tasksApi";
 
 const EditTask = () => {
@@ -114,7 +113,7 @@ const EditTask = () => {
                 //   navigate("/");
                 //   return;
                 // }
-                // console.log(values.subtasks);
+
                 updateTask({
                   title: taskName ? taskName : task.title,
                   description,
@@ -136,10 +135,26 @@ const EditTask = () => {
 
                       return (
                         <div>
-                          {subtasks.map((column, idx) => (
-                            <div key={idx}>
-                              <Field name={`subtasks.${idx}.title`} />
-                            </div>
+                          {subtasks.map((subtask, idx) => (
+                            <TaskEditSubtaskItem key={idx}>
+                              <Field name={`subtasks.${idx}.title`}>
+                                {({ field }) => {
+                                  return (
+                                    <TaskEditSubtaskInput
+                                      {...field}
+                                      value={subtask.title}
+                                      placeholder="e.g. Make coffee"
+                                    />
+                                  );
+                                }}
+                              </Field>
+                              <BiX
+                                color="#828FA3"
+                                size={"4em"}
+                                cursor="pointer"
+                                onClick={() => remove(idx)}
+                              />
+                            </TaskEditSubtaskItem>
                           ))}
                           <AddSubtaskBtn
                             type="button"

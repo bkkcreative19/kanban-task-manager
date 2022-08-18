@@ -18,7 +18,7 @@ import OptionsLogo from "../OptionsLogo";
 import { useNavigate } from "react-router-dom";
 
 import { useSelector } from "react-redux";
-import { selectAllBoards } from "../../features/board/boardSlice";
+import { selectAllBoards } from "../../services/board/boardSlice";
 
 const BoardHeader = () => {
   const navigate = useNavigate();

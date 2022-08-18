@@ -179,7 +179,7 @@ const insertData = async (): Promise<any> => {
   const boards = await seedBoards();
   const columns = await seedColumns(boards);
   const tasks = await seedTasks(columns);
-  // const subtasks = await seedSubtasks([]);
+  const subtasks = await seedSubtasks([]);
   //   console.log(subtasks);
 
   return boards;

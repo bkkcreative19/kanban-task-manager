@@ -2,7 +2,7 @@ import React from "react";
 import { ColumnAdd, ColumnText } from "./Styles";
 
 import { useState } from "react";
-import { useCreateColumnMutation } from "../../../shared/features/columns/columnsSlice";
+import { useCreateColumnMutation } from "../../../shared/services/columns/columnsSlice";
 
 const AddColumn = ({ boardId }) => {
   const [readyType, setReadyType] = useState(false);
