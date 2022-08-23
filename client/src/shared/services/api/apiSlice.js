@@ -8,6 +8,6 @@ const baseUrl =
 export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({ baseUrl: baseUrl }),
-  tagTypes: ["Board", "Column", "Task"],
+  tagTypes: ["Boards", "Board", "Column", "Task"],
   endpoints: (builder) => ({}),
 });

@@ -4,13 +4,13 @@ cd client && C:/ProgramData/chocolatey/lib/make/tools/install/bin/make.exe build
  
 make[1]: Entering directory 'c:/Users/User/Desktop/projects/task-manager/client'
 docker build -t react-app-dev -f Dockerfile.dev .
- 
 make[1]: Leaving directory 'c:/Users/User/Desktop/projects/task-manager/client'
  
 cd api && C:/ProgramData/chocolatey/lib/make/tools/install/bin/make.exe build
  
 make[1]: Entering directory 'c:/Users/User/Desktop/projects/task-manager/api'
 docker build -t api .
+ 
 make[1]: Leaving directory 'c:/Users/User/Desktop/projects/task-manager/api'
  
 make: Leaving directory 'c:/Users/User/Desktop/projects/task-manager'

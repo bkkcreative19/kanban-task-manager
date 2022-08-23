@@ -86,18 +86,9 @@ export const deleteTask = catchErrors(async (req, res) => {
 });
 
 export const dragTask = catchErrors(async (req, res) => {
-  const task = await updateEntity(Task, 270, {
-    listPosition: req.body.destination.index,
-    status: req.body.status,
-  });
+  const task = await updateEntity(Task, req.params.taskId, req.body);
 
-  // sourceTask[0].listPosition = destinationTask[0].listPosition;
-  // destinationTask[0].listPosition = sourceTask[0].listPosition;
-
-  // console.log(sourceTask[0]);
-  // console.log(destinationTask[0]);
-
-  res.send(task);
+  res.json(task);
 });
 
 const calculateListPosition = async ({
@@ -106,7 +97,9 @@ const calculateListPosition = async ({
 }: Task): Promise<number> => {
   const repository = AppDataSource.getRepository(Task);
   const tasks = await repository.findBy({ boardId, status });
+
   const listPositions = tasks.map(({ listPosition }) => listPosition);
+
   if (listPositions.length > 0) {
     return Math.min(...listPositions) - 1;
   }

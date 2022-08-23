@@ -7,7 +7,7 @@ import useDeepCompareMemoize from "../deepCompareMemoize";
 
 const useQuery = (url, propsVariables = {}, options = {}) => {
   const { lazy = false, cachePolicy = "cache-first" } = options;
-
+  let newUrl = url;
   const wasCalled = useRef(false);
 
   const propsVariablesMemoized = useDeepCompareMemoize(propsVariables);
@@ -27,6 +27,9 @@ const useQuery = (url, propsVariables = {}, options = {}) => {
 
   const makeRequest = useCallback(
     (newVariables) => {
+      if (newVariables) {
+        newUrl = `/boards/${newVariables}`;
+      }
       const variables = { ...state.variables, ...(newVariables || {}) };
       const apiVariables = { ...propsVariablesMemoized, ...variables };
 
@@ -38,7 +41,7 @@ const useQuery = (url, propsVariables = {}, options = {}) => {
         mergeState({ variables });
       }
 
-      api.get(url, apiVariables).then(
+      api.get(newUrl, apiVariables).then(
         (data) => {
           cache[url] = { data, apiVariables };
           mergeState({ data, error: null, isLoading: false });

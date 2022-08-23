@@ -30,8 +30,8 @@ class Board extends BaseEntity {
   @OneToMany(() => Task, (task) => task.board, {
     eager: true,
   })
-  columnTypes: ColumnType[];
   tasks: Task[];
+  columnTypes: ColumnType[];
 }
 
 export default Board;

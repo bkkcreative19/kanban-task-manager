@@ -47,8 +47,8 @@ const AddTask = () => {
   const columnNames = useSelector(selectAllColumns);
 
   useEffect(() => {
-    if (board) {
-      setStatus(columnNames[0].name);
+    if (columnNames.length > 0) {
+      setStatus(columnNames[0]);
     }
   }, [board]);
 
@@ -138,7 +138,7 @@ const AddTask = () => {
           <Select
             setSelected={setStatus}
             selected={status}
-            options={columnNames.map((column) => column.name)}
+            options={columnNames}
           />
         )}
       </TaskAdd>

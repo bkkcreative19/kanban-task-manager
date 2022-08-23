@@ -28,7 +28,7 @@ class Task extends BaseEntity {
   @Column("varchar")
   status: string;
 
-  @Column("int")
+  @Column("double precision")
   listPosition: number;
 
   @CreateDateColumn({ type: "timestamp" })

@@ -18,6 +18,9 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
     getColumns: builder.query({
       query: (boardId) => `/columns/${boardId}`,
       providesTags: ["Column"],
+      transformResponse: (response) => {
+        return response.map((column) => column.name);
+      },
     }),
     createColumn: builder.mutation({
       query: (column) => ({

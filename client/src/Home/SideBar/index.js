@@ -43,7 +43,9 @@ const KabanSideBar = ({ boards, yay, theme, isOpen, setIsOpen }) => {
           return (
             <Board
               data-id={idx}
-              onClick={(e) => handleClick(e, board.id)}
+              onClick={(e) => {
+                handleClick(e, board.id);
+              }}
               key={idx}
               isActive={activeBoard.active === board.id ? true : false}
             >

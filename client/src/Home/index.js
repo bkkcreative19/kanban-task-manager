@@ -9,6 +9,7 @@ import useApi from "../shared/hooks/api";
 import {
   useGetBoardsQuery,
   selectAllBoards,
+  useGetBoardQuery,
 } from "../shared/services/board/boardSlice";
 
 import {
@@ -17,6 +18,7 @@ import {
 } from "../shared/services/columns/columnsSlice";
 
 import { useSelector } from "react-redux";
+import { useEffect } from "react";
 
 const Home = ({ yay, theme }) => {
   const [isOpen, setIsOpen] = useState(true);
@@ -27,9 +29,18 @@ const Home = ({ yay, theme }) => {
   //   useApi.get("/boards");
 
   const activeBoard = useSelector((state) => state.activeBoard);
-  const test = useSelector(selectAllColumns);
 
-  console.log(boards);
+  // const { data: board } = useGetBoardQuery(activeBoard.active);
+
+  const [{ data: board, error, setLocalData }, fetchBoard] = useApi.get(
+    `/boards/${activeBoard.active}`
+  );
+
+  useEffect(() => {
+    fetchBoard(activeBoard.active);
+  }, [activeBoard.active]);
+
+  const test = useSelector(selectAllColumns);
 
   return (
     <HomePage>
@@ -49,8 +60,15 @@ const Home = ({ yay, theme }) => {
           <img src={ShowSide} alt="" />
         </OpenStuff>
       )}
-      <BoardLists active={activeBoard.active} />
-      <Outlet context={{ boards }} />
+      {board && (
+        <BoardLists
+          setLocalData={setLocalData}
+          board={board}
+          active={activeBoard.active}
+        />
+      )}
+
+      <Outlet />
     </HomePage>
   );
 };

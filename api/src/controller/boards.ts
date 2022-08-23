@@ -11,7 +11,6 @@ import { createMultipleColumns } from "./columns";
 export const getBoards = catchErrors(async (_req, res) => {
   const boards = await findEntityOrThrow(Board, {});
 
-  console.log(boards);
   res.json(boards);
 });
 
@@ -23,7 +22,7 @@ export const getBoardWithColumns = catchErrors(async (req, res) => {
     relations: ["tasks"],
   });
 
-  res.json(board);
+  res.json(board[0]);
 });
 
 export const createBoardWithColumns = catchErrors(async (req, res) => {

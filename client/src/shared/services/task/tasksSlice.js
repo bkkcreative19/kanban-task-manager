@@ -26,7 +26,7 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
         method: "POST",
         body: task,
       }),
-      invalidatesTags: ["Column"],
+      invalidatesTags: ["Board"],
     }),
     updateTask: builder.mutation({
       query: (task) => ({
@@ -34,7 +34,7 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
         method: "PUT",
         body: task,
       }),
-      invalidatesTags: ["Column", "Task"],
+      invalidatesTags: ["Board", "Task"],
       // query: (task) => console.log(task),
       // invalidatesTags: ["Task"],
     }),
@@ -43,15 +43,35 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
         url: `/tasks/${title}`,
         method: "DELETE",
       }),
-      invalidatesTags: ["Column"],
+      invalidatesTags: ["Board"],
     }),
     updateDragTask: builder.mutation({
       query: (task) => ({
-        url: `/drag-task`,
+        url: `/drag-task/${task.taskId}`,
         method: "PUT",
         body: task,
       }),
-      invalidatesTags: ["Column"],
+      invalidatesTags: ["Board"],
+      // async onQueryStarted({ id, ...put }, { dispatch, queryFulfilled }) {
+      //   const putResult = dispatch(
+      //     apiSlice.util.updateQueryData("getTask", id, (draft) => {
+      //       console.log(draft);
+      //       Object.assign(draft, put);
+      //     })
+      //   );
+      //   try {
+      //     await queryFulfilled;
+      //   } catch {
+      //     putResult.undo();
+
+      //     /**
+      //      * Alternatively, on failure you can invalidate the corresponding cache tags
+      //      * to trigger a re-fetch:
+      //      * dispatch(api.util.invalidateTags(['Post']))
+      //      */
+      //   }
+      // },
+
       // query: (task) => console.log(task),
       // invalidatesTags: ["Task"],
     }),

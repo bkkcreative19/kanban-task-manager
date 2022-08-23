@@ -17,7 +17,7 @@ import {
   updateArrayItemById,
 } from "../../shared/utils/javascript";
 
-const BoardLists = ({ active }) => {
+const BoardLists = ({ active, board, setLocalData }) => {
   const { data: columns } = useGetColumnsQuery(active);
   const [updateDragTask, { isLoading }] = useUpdateDragTaskMutation();
   // const [{ data: columns, error, setLocalData }, fetchColumns] = useApi.get(
@@ -40,17 +40,57 @@ const BoardLists = ({ active }) => {
   //     },
   //   }));
   // };
+  const updateLocalProjectTasks = (taskId, updatedFields) => {
+    console.log(setLocalData);
+    // setLocalData((currentData) => ({
+    //   board: {
+    //     ...currentData.board,
+    //     tasks: updateArrayItemById(
+    //       currentData.board.tasks,
+    //       taskId,
+    //       updatedFields
+    //     ),
+    //   },
+    setLocalData((currentData) => ({
+      ...currentData,
+      tasks: updateArrayItemById(currentData.tasks, taskId, updatedFields),
+    }));
+  };
 
   const handleDrop = ({ draggableId, destination, source }) => {
-    const allTasks = columns.map((column) => column.tasks).flat();
+    // console.log(destination);
+    // console.log(source);
 
-    const destColumn = columns.find(
-      (column) => column.name === destination.droppableId
-    );
+    const taskId = Number(draggableId);
 
-    const task = allTasks.find((task) => task.id === Number(draggableId));
+    // console.log(
+    //   calculateIssueListPosition(board.tasks, destination, source, taskId)
+    // );
 
-    console.log(task);
+    api.optimisticUpdate(`/drag-task/${taskId}`, {
+      updatedFields: {
+        listPosition: calculateIssueListPosition(
+          board.tasks,
+          destination,
+          source,
+          taskId
+        ),
+        status: destination.droppableId,
+      },
+      currentFields: board.tasks.find(({ id }) => id === taskId),
+      setLocalData: (fields) => updateLocalProjectTasks(taskId, fields),
+    });
+
+    // updateDragTask({
+    //   taskId,
+    //   status: destination.droppableId,
+    //   listPosition: calculateIssueListPosition(
+    //     board.tasks,
+    //     destination,
+    //     source,
+    //     taskId
+    //   ),
+    // });
   };
 
   return (
@@ -59,7 +99,14 @@ const BoardLists = ({ active }) => {
         <DragDropContext onDragEnd={handleDrop}>
           <Lists>
             {columns.map((column, idx) => {
-              return <BoardList key={idx} column={column} index={idx} />;
+              return (
+                <BoardList
+                  key={idx}
+                  board={board}
+                  column={column}
+                  index={idx}
+                />
+              );
             })}
 
             <AddColumn boardId={active} />
@@ -72,5 +119,70 @@ const BoardLists = ({ active }) => {
     </>
   );
 };
+
+const isPositionChanged = (destination, source) => {
+  if (!destination) return false;
+  const isSameList = destination.droppableId === source.droppableId;
+  const isSamePosition = destination.index === source.index;
+  return !isSameList || !isSamePosition;
+};
+
+const calculateIssueListPosition = (...args) => {
+  // console.log(args);
+  const { prevIssue, nextIssue } = getAfterDropPrevNextIssue(...args);
+  let position;
+
+  if (!prevIssue && !nextIssue) {
+    position = 1;
+  } else if (!prevIssue) {
+    position = nextIssue.listPosition - 1;
+  } else if (!nextIssue) {
+    position = prevIssue.listPosition + 1;
+  } else {
+    position =
+      prevIssue.listPosition +
+      (nextIssue.listPosition - prevIssue.listPosition) / 2;
+  }
+
+  // console.log(position);
+  return position;
+};
+
+const getAfterDropPrevNextIssue = (
+  allIssues,
+  destination,
+  source,
+  droppedIssueId
+) => {
+  const beforeDropDestinationIssues = getSortedListIssues(
+    allIssues,
+    destination.droppableId
+  );
+  const droppedIssue = allIssues.find((issue) => issue.id === droppedIssueId);
+
+  const isSameList = destination.droppableId === source.droppableId;
+
+  const afterDropDestinationIssues = isSameList
+    ? moveItemWithinArray(
+        beforeDropDestinationIssues,
+        droppedIssue,
+        destination.index
+      )
+    : insertItemIntoArray(
+        beforeDropDestinationIssues,
+        droppedIssue,
+        destination.index
+      );
+
+  return {
+    prevIssue: afterDropDestinationIssues[destination.index - 1],
+    nextIssue: afterDropDestinationIssues[destination.index + 1],
+  };
+};
+
+const getSortedListIssues = (issues, status) =>
+  issues
+    .filter((issue) => issue.status === status)
+    .sort((a, b) => a.listPosition - b.listPosition);
 
 export default BoardLists;

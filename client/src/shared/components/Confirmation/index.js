@@ -19,7 +19,7 @@ import {
 const Confirmation = () => {
   const navigate = useNavigate();
   const params = useParams();
-  const { boards } = useOutletContext();
+
   const [deleteBoard, { isLoading }] = useDeleteBoardMutation();
   const [deleteTask] = useDeleteTaskMutation();
 

@@ -14,20 +14,35 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getBoards: builder.query({
       query: () => `/boards`,
-      providesTags: ["Board"],
+      providesTags: ["Boards"],
     }),
 
     getBoard: builder.query({
-      query: (id) => `board/${id}`,
+      query: (id) => `http://localhost:5001/api/boards/${id}`,
+      providesTags: ["Board"],
     }),
+
     createBoard: builder.mutation({
       query: (board) => ({
         url: "/boards",
         method: "POST",
         body: board,
       }),
-      invalidatesTags: ["Board"],
+
+      async onQueryStarted({ id, ...patch }, { dispatch, queryFulfilled }) {
+        try {
+          const { data: createdBoard } = await queryFulfilled;
+
+          const patchResult = dispatch(
+            apiSlice.util.updateQueryData("getBoards", id, (draft) => {
+              console.log(draft);
+              Object.assign(draft, createdBoard);
+            })
+          );
+        } catch {}
+      },
     }),
+
     updateBoard: builder.mutation({
       query: (board) => ({
         url: `/boards/${board.id}`,
