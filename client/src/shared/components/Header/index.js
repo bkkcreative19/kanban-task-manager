@@ -21,7 +21,7 @@ import { useNavigate } from "react-router-dom";
 
 import { useSelector } from "react-redux";
 import { selectAllBoards } from "../../services/board/boardSlice";
-import useIsSidebar from "../../hooks/useIsSideBarOpen";
+
 import MobileSide from "../../../Home/SideBar/MobileSide";
 
 const BoardHeader = ({ theme, yay }) => {

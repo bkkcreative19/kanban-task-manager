@@ -20,7 +20,7 @@ const initializeExpress = (): void => {
   const app = express();
   app.use(cors());
   app.use(express.json());
-  // app.use(morgan("tiny"));
+  app.use(morgan("tiny"));
 
   app.get("/", async (_req, res) => {
     res.send("his");
@@ -29,7 +29,7 @@ const initializeExpress = (): void => {
 
   const PORT = process.env.PORT || 5000;
 
-  app.listen(PORT);
+  app.listen(5001);
 };
 
 const initializeApp = async (): Promise<void> => {

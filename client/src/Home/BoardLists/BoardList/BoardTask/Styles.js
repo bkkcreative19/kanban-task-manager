@@ -1,12 +1,19 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 export const Task = styled.div`
   background: ${({ theme }) => theme.taskBG};
-  margin-top: 2em;
+  // margin-top: 2em;
   cursor: pointer;
   box-shadow: 0px 4px 6px rgba(54, 78, 126, 0.101545);
   border-radius: 8px;
   padding: 2em 1.5em;
+  margin-bottom: 2em;
+  ${(props) =>
+    props.isBeingDragged &&
+    css`
+      transform: rotate(3deg);
+      box-shadow: 5px 10px 30px 0px rgba(9, 30, 66, 0.15);
+    `}
 `;
 
 export const TaskTitle = styled.h3`

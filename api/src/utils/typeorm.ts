@@ -74,6 +74,8 @@ export const updateEntity = async <T extends EntityConstructor>(
     },
   });
 
+  console.log(input);
+
   Object.assign(instance[0], input);
   // console.log(instance[0]);
   return validateAndSaveEntity(instance[0]);

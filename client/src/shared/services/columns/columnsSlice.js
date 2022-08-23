@@ -5,6 +5,9 @@ import {
 } from "@reduxjs/toolkit";
 
 import { apiSlice } from "../api/apiSlice";
+import { boardSlice } from "../board/boardSlice";
+
+import { store } from "../../../store";
 
 const columnsAdapter = createEntityAdapter();
 
@@ -34,11 +37,15 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
 
 export const { useGetColumnsQuery, useCreateColumnMutation } = extendedApiSlice;
 
-export const selectColumnsResult = apiSlice.endpoints.getColumns.select();
+const activeBoard = store.getState().activeBoard;
+
+export const selectColumnsResult = apiSlice.endpoints.getColumns.select(
+  activeBoard.active
+);
 
 export const selectAllColumns = createSelector(
   selectColumnsResult,
-  (columnsResult) => columnsResult?.data ?? []
+  (columnsResult) => columnsResult?.data ?? ["s"]
 );
 
 export const selectColumnById = createSelector(

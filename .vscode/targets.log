@@ -8,7 +8,7 @@ make: *** No rule to make target 'all'.  Stop.
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Thu Aug 18 17:29:32 2022
+# Make data base, printed on Mon Aug 22 20:56:52 2022
 
 # Variables
 
@@ -23,7 +23,7 @@ USERPROFILE = C:\Users\User
 # environment
 LOCALAPPDATA = C:\Users\User\AppData\Local
 # environment
-VSCODE_CWD = C:\Users\User\AppData\Local\Programs\Microsoft VS Code
+VSCODE_CWD = C:\Windows\system32
 # environment
 CHOCOLATEYINSTALL = C:\ProgramData\chocolatey
 # environment
@@ -37,7 +37,7 @@ MAKE_COMMAND := C:/ProgramData/chocolatey/lib/make/tools/install/bin/make.exe
 # automatic
 @D = $(patsubst %/,%,$(patsubst %\,%,$(dir $@)))
 # environment
-CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_9832_YDBAUZTMKYCAQGDS
+CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_6440_SUMSQRQNSWAGUYDG
 # environment
 FPS_BROWSER_USER_PROFILE_STRING = Default
 # environment
@@ -89,7 +89,7 @@ MAKEFILE_LIST := Makefile
 # environment
 PT8HOME = C:\Program Files\Cisco Packet Tracer 8.1.1
 # environment
-VSCODE_PID = 9832
+VSCODE_PID = 6440
 # automatic
 ?D = $(patsubst %/,%,$(patsubst %\,%,$(dir $?)))
 # automatic
@@ -184,7 +184,8 @@ VSCODE_IPC_HOOK = \\.\pipe\ddf78b73f802b4b105ac4da8ec09dfcf-1.70.2-main-sock
 .RECIPEPREFIX := 
 # automatic
 <F = $(notdir $<)
-# default
+#  
+default
 SUFFIXES := 
 # environment
 ALLUSERSPROFILE = C:\ProgramData
@@ -221,8 +222,7 @@ run-dev:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Ma 
-kefile', line 6):
+#  recipe to execute (from 'Makefile', line 6):
 	docker-compose -f docker-compose-dev.yml up
 
 build-production:
@@ -306,6 +306,6 @@ build-dev:
 # strcache performance: lookups = 34 / hit rate = 32%
 # hash-table stats:
 # Load=23/8192=0%, Rehash=0, Collisions=1/34=3%
-# Finished Make data base on Thu Aug 18 17:29:32 2022
+# Finished Make data base on Mon Aug 22 20:56:52 2022
 
  

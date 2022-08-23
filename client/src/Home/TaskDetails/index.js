@@ -11,12 +11,18 @@ import {
 import OptionsLogo from "../../shared/components/OptionsLogo";
 import DetailsSubTasks from "./DetailsSubTasks";
 import CurrentStatus from "./CurrentStatus";
+import useApi from "../../shared/hooks/api";
+import { selectTaskResult } from "../../shared/services/task/tasksSlice";
 
 import { useGetTaskQuery } from "../../shared/services/task/tasksSlice";
 const TaskDetails = () => {
   const params = useParams();
 
-  const { data: task } = useGetTaskQuery(params.taskTitle);
+  // const { data: task } = useGetTaskQuery(params.taskTitle);
+
+  const [{ data: task, error, setLocalData }, fetchTask] = useApi.get(
+    `/tasks/${params.taskTitle}`
+  );
 
   const navigate = useNavigate();
 

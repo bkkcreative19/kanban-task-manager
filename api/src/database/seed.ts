@@ -116,7 +116,6 @@ const seedTasks = (columns: any): any => {
       createEntity(Task, {
         title: item.title,
         description: item.description,
-        status: item.status,
         columnType: determineColumnId(idx),
       })
     );

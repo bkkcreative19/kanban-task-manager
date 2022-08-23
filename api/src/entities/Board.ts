@@ -8,6 +8,7 @@ import {
   OneToMany,
 } from "typeorm";
 import ColumnType from "./ColumnType";
+import Task from "./Task";
 
 @Entity()
 class Board extends BaseEntity {
@@ -26,7 +27,11 @@ class Board extends BaseEntity {
   @OneToMany(() => ColumnType, (columnType) => columnType.board, {
     eager: true,
   })
+  @OneToMany(() => Task, (task) => task.board, {
+    eager: true,
+  })
   columnTypes: ColumnType[];
+  tasks: Task[];
 }
 
 export default Board;

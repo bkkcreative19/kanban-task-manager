@@ -6,12 +6,12 @@ import {
   findEntityOrThrow,
   updateEntity,
 } from "../utils/typeorm";
+import { createMultipleColumns } from "./columns";
 
 export const getBoards = catchErrors(async (_req, res) => {
-  const boards = await findEntityOrThrow(Board, {
-    relations: [],
-  });
+  const boards = await findEntityOrThrow(Board, {});
 
+  console.log(boards);
   res.json(boards);
 });
 
@@ -20,11 +20,7 @@ export const getBoardWithColumns = catchErrors(async (req, res) => {
     where: {
       id: Number(req.params.boardId),
     },
-    relations: [
-      "columnTypes",
-      "columnTypes.tasks",
-      "columnTypes.tasks.subtasks",
-    ],
+    relations: ["tasks"],
   });
 
   res.json(board);
@@ -32,22 +28,10 @@ export const getBoardWithColumns = catchErrors(async (req, res) => {
 
 export const createBoardWithColumns = catchErrors(async (req, res) => {
   const board = await createEntity(Board, { name: req.body.name });
-
-  let columns: any[] = [];
-
-  req.body.columns.forEach((column: any) => {
-    columns.push(
-      createEntity(ColumnType, {
-        name: column.name,
-        board: board.id,
-      })
-    );
-  });
-
-  const newColumns = await Promise.all(columns);
-
-  res.json({ board, newColumns });
+  const columns = createMultipleColumns(req.body.columns, board.id);
+  res.json({ board });
 });
+
 export const editBoardWithColumns = catchErrors(async (req, res) => {
   // const board = await createEntity(Board, { name: req.body.name });
   const board = await updateEntity(Board, req.params.boardId, req.body);

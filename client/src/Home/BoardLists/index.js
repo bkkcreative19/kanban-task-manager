@@ -1,70 +1,70 @@
-import React from "react";
+import React, { useState } from "react";
 
 import BoardList from "./BoardList";
 import { Lists } from "./Styles";
 
-import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import { DragDropContext } from "react-beautiful-dnd";
 import AddColumn from "./AddColumn";
 import { useGetColumnsQuery } from "../../shared/services/columns/columnsSlice";
+import useApi from "../../shared/hooks/api";
+import api from "../../shared/utils/api";
 import NoColumns from "./NoColumns";
+import { useUpdateDragTaskMutation } from "../../shared/services/task/tasksSlice";
+import { useEffect } from "react";
+import {
+  moveItemWithinArray,
+  insertItemIntoArray,
+  updateArrayItemById,
+} from "../../shared/utils/javascript";
 
 const BoardLists = ({ active }) => {
   const { data: columns } = useGetColumnsQuery(active);
+  const [updateDragTask, { isLoading }] = useUpdateDragTaskMutation();
+  // const [{ data: columns, error, setLocalData }, fetchColumns] = useApi.get(
+  //   `/columns/${active}`
+  // );
 
-  const onDragEnd = (result) => {
-    if (!result.destination) return;
-    const { source, destination } = result;
+  const [testt, setTestt] = useState([]);
+  // console.log(columns);
+  // const [updateDragTask] = useUpdateDragTaskMutation();
 
-    console.log(source.index);
+  // const updateLocalTasks = (taskId, updatedFields) => {
+  //   setLocalData((currentData) => ({
+  //     columns: {
+  //       ...currentData.columns,
+  //       tasks: updateArrayItemById(
+  //         currentData.columns.tasks,
+  //         taskId,
+  //         updatedFields
+  //       ),
+  //     },
+  //   }));
+  // };
 
-    if (source.droppableId !== destination.droppableId) {
-      const sourceColumn = columns[source.droppableId];
-      const destColumn = columns[destination.droppableId];
+  const handleDrop = ({ draggableId, destination, source }) => {
+    const allTasks = columns.map((column) => column.tasks).flat();
 
-      const sourceItems = [...sourceColumn.tasks];
-      const destItems = [...destColumn.tasks];
+    const destColumn = columns.find(
+      (column) => column.name === destination.droppableId
+    );
 
-      const [removed] = sourceItems.splice(source.index, 1);
+    const task = allTasks.find((task) => task.id === Number(draggableId));
 
-      if (destItems.length > 0) {
-        destItems.splice(destination.index, 0, removed);
-      } else {
-        destItems.push(removed);
-      }
-    } else {
-      const column = columns[source.droppableId];
-      const copiedItems = [...column.tasks];
-
-      console.log(copiedItems);
-      const [removed] = copiedItems.splice(source.index, 1);
-
-      copiedItems.splice(destination.index, 0, removed);
-
-      console.log(copiedItems);
-    }
-
-    // console.log(result);
-    // const copiedItems = [...test.tasks];
-    // const [removed] = copiedItems.splice(source.index, 1);
-    // copiedItems.splice(destination.index, 0, removed);
-    // setTest({
-    //   ...test,
-    //   tasks: copiedItems,
-    // });
+    console.log(task);
   };
 
   return (
     <>
       {columns && columns.length > 0 ? (
-        <Lists>
-          <DragDropContext onDragEnd={(result) => onDragEnd(result)}>
-            {columns &&
-              columns.map((column, idx) => {
-                return <BoardList key={idx} column={column} index={idx} />;
-              })}
-          </DragDropContext>
-          <AddColumn boardId={active} />
-        </Lists>
+        <DragDropContext onDragEnd={handleDrop}>
+          <Lists>
+            {columns.map((column, idx) => {
+              return <BoardList key={idx} column={column} index={idx} />;
+            })}
+
+            <AddColumn boardId={active} />
+          </Lists>
+        </DragDropContext>
       ) : (
         // <AddColumn boardId={active} />
         <NoColumns boardId={active} />

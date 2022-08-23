@@ -29,57 +29,38 @@ import {
 } from "../../../shared/services/task/tasksSlice";
 import { useSelector } from "react-redux";
 import { selectBoardById } from "../../../shared/services/board/boardSlice";
-import { useDeleteSubtaskMutation } from "../../../shared/services/subtask/subtasksSlice";
 import { Field, FieldArray, Form, Formik } from "formik";
 import { BiX } from "react-icons/bi";
-// import { createTask } from "../../shared/api/tasksApi";
 
 const EditTask = () => {
-  const { boards } = useOutletContext();
-  // const [columnNames, setColumnNames] = useState([]);
-  // const [columns, setColumns] = useState([]);
-  const [subtasks, setSubtasks] = useState([]);
   const [taskName, setTaskName] = useState("");
-  const [columnId, setColumnId] = useState();
+  const [column, setColumn] = useState();
   const params = useParams();
   const [description, setdescription] = useState("");
-  const [status, setStatus] = useState();
+
   const [updateTask, { isLoading }] = useUpdateTaskMutation();
-  const [deleteSubtask] = useDeleteSubtaskMutation();
-  // const queryClient = useQueryClient();
+
   const navigate = useNavigate();
   const { active } = useSelector((state) => state.activeBoard);
   const { data: task } = useGetTaskQuery(params.taskTitle);
 
   const board = useSelector((state) => selectBoardById(state, active));
-
-  // console.log(board.columnTypes);
   const columns = board && board.columnTypes;
   const columnNames = board && board.columnTypes.map((column) => column.name);
 
+  console.log(column);
+
   useEffect(() => {
-    if (task) {
-      setStatus(task.status);
+    if (task && columns) {
+      const test = columns.find((item) => item.id === task.columnTypeId);
+      setColumn(test);
     }
-  }, [task]);
+  }, [task, columns]);
 
   const handleSetSelected = (e) => {
     const test = columns.find((item) => item.name === e);
-    setStatus((prevState) => {
-      return { ...prevState, name: e, id: test.id };
-    });
+    setColumn(test);
   };
-
-  // const addTask = async () => {
-  //   const { data } = await axios.post("http://localhost:5000/tasks", {
-  //     title: taskName,
-  //     description,
-  //     subtasks,
-  //     status,
-  //   });
-  //   console.log(data);
-  //   navigate("/");
-  // };
 
   return (
     <Modal
@@ -119,8 +100,7 @@ const EditTask = () => {
                   description,
                   taskId: task.id,
                   subtasks: values.subtasks,
-                  status: !status ? task.status : status.name,
-                  columnType: !status ? task.columnType : status.id,
+                  columnType: !column ? task.columnType : column.id,
                 });
                 navigate("/");
               }}
@@ -181,7 +161,7 @@ const EditTask = () => {
           {columnNames && (
             <Select
               setSelected={handleSetSelected}
-              selected={status}
+              selected={column && column.name}
               options={columnNames}
             />
           )}

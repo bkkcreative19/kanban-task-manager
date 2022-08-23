@@ -30,11 +30,6 @@ class ColumnType extends BaseEntity {
     onDelete: "CASCADE",
   })
   board: Board;
-
-  @OneToMany(() => Task, (task) => task.columnType, {
-    eager: true,
-  })
-  tasks: Task[];
 }
 
 export default ColumnType;

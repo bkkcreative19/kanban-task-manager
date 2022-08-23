@@ -26,10 +26,11 @@ import { useSelector } from "react-redux";
 import { useCreateTaskMutation } from "../../shared/services/task/tasksSlice";
 
 import { selectBoardById } from "../../shared/services/board/boardSlice";
+import { selectAllColumns } from "../../shared/services/columns/columnsSlice";
 import { Field, FieldArray, Form, Formik } from "formik";
 import { BiX } from "react-icons/bi";
+
 const AddTask = () => {
-  const [subtasks, setSubtasks] = useState([]);
   const [taskName, setTaskName] = useState("");
   const [description, setdescription] = useState("");
   const [status, setStatus] = useState("");
@@ -42,71 +43,14 @@ const AddTask = () => {
     )
   );
   const navigate = useNavigate();
-  // console.log(board.columnTypes);
-  const columnNames = board && board.columnTypes.map((column) => column.name);
-  // console.log(columnNames);
+
+  const columnNames = useSelector(selectAllColumns);
 
   useEffect(() => {
     if (board) {
-      setStatus(columnNames[0]);
+      setStatus(columnNames[0].name);
     }
   }, [board]);
-
-  // console.log(columnNames);
-  const addSubtask = () => {
-    let test = [...subtasks];
-    // console.log(test.length);
-    let newSubtask = {
-      type: "text",
-      placeholder: "placeholder text",
-      name: `text${test.length}`,
-      id: test.length,
-      value: "",
-    };
-    test.push(newSubtask);
-    setSubtasks(test);
-  };
-
-  const removeSubtask = (id) => {
-    // let test = [...columns];
-    const newArr = [...subtasks].filter((item) => item.id !== id);
-    setSubtasks(newArr);
-  };
-
-  // const addTaskMutation = useMutation(createTask, {
-  //   onSuccess: () => {
-  //     queryClient.invalidateQueries(["columns"]);
-  //   },
-  // });
-
-  const handleInputChange = (e) => {
-    let subtasksTest = subtasks.slice();
-    for (let i in subtasksTest) {
-      if (subtasksTest[i].name == e.target.name) {
-        subtasksTest[i].value = e.target.value;
-        setSubtasks(subtasksTest);
-        break;
-      }
-    }
-  };
-
-  const renderInput = (input, i) => {
-    return (
-      <TaskAddSubtaskItem key={input.id}>
-        <TaskAddSubtaskInput
-          type={input.type}
-          name={input.name}
-          placeholder={input.placeholder}
-          // onBlur={this.saveModule}
-          value={input.value}
-          onChange={handleInputChange}
-        />
-        <TaskAddSubtaskX onClick={() => removeSubtask(input.id)}>
-          X
-        </TaskAddSubtaskX>
-      </TaskAddSubtaskItem>
-    );
-  };
 
   return (
     <Modal
@@ -135,8 +79,9 @@ const AddTask = () => {
               createTask({
                 title: taskName,
                 description,
-                subtasks: values.subtasks,
+                // subtasks: values.subtasks,
                 status,
+                boardId: board.id,
               });
               navigate("/");
             }}
@@ -183,7 +128,7 @@ const AddTask = () => {
                 </FieldArray>
               </div>
 
-              <CreateTask type="submit">Create New Board</CreateTask>
+              <CreateTask type="submit">Create New Task</CreateTask>
             </Form>
           </Formik>
         </TaskAddSubtaskList>
@@ -193,31 +138,9 @@ const AddTask = () => {
           <Select
             setSelected={setStatus}
             selected={status}
-            options={columnNames}
+            options={columnNames.map((column) => column.name)}
           />
         )}
-
-        {/* <SelectStatus>
-          <SelectStatusText>Todo</SelectStatusText>
-          <SelctStausIcon src={ChevronDown} />
-          <SelectDropdown>{columnNames.map((columns, idx) => {
-            return <SelectDropdownOption
-          })}</SelectDropdown>
-        </SelectStatus> */}
-        {/* <CreateTask
-          onClick={() => {
-            // addTaskMutation.mutate({
-            // title: taskName,
-            // description,
-            // subtasks,
-            // status,
-            // });
-            createTask({ title: taskName, description, subtasks, status });
-            navigate("/");
-          }}
-        >
-          Create New Task
-        </CreateTask> */}
       </TaskAdd>
     </Modal>
   );

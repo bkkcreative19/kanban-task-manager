@@ -4,29 +4,36 @@ import { HomePage, OpenStuff } from "./Styles";
 import ShowSide from "../assets/icon-show-sidebar.svg";
 import { Outlet } from "react-router-dom";
 import BoardLists from "./BoardLists";
+import useApi from "../shared/hooks/api";
 
 import {
   useGetBoardsQuery,
   selectAllBoards,
 } from "../shared/services/board/boardSlice";
+
+import {
+  selectAllColumns,
+  selectColumnsResult,
+} from "../shared/services/columns/columnsSlice";
+
 import { useSelector } from "react-redux";
 
 const Home = ({ yay, theme }) => {
   const [isOpen, setIsOpen] = useState(true);
 
-  const {
-    data: boards,
-    isLoading,
-    isSuccess,
-    isError,
-    error,
-  } = useGetBoardsQuery();
+  const { data: boards, isLoading, isSuccess, isError } = useGetBoardsQuery();
+
+  // const [{ data: boards, error, setLocalData }, fetchBoards] =
+  //   useApi.get("/boards");
 
   const activeBoard = useSelector((state) => state.activeBoard);
+  const test = useSelector(selectAllColumns);
+
+  console.log(boards);
 
   return (
     <HomePage>
-      {isLoading && "loading"}
+      {!boards && "loading"}
       {isError && "error"}
       {boards && (
         <KabanSideBar

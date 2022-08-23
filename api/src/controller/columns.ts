@@ -13,7 +13,6 @@ export const getColumns = catchErrors(async (req, res) => {
         id: Number(req.params.boardId),
       },
     },
-    relations: ["tasks", "tasks.subtasks"],
   });
 
   res.json(columns);
@@ -33,6 +32,16 @@ export const addColumn = catchErrors(async (req, res) => {
 
   res.json(column);
 });
+
+export const createMultipleColumns = async (columns: any, boardId: any) => {
+  const arr = columns.map((column: any) => {
+    return createEntity(ColumnType, {
+      name: column.name,
+      board: boardId,
+    });
+  });
+  return await Promise.all(arr);
+};
 
 export const updateColumns = catchErrors(async (_req, _res) => {
   console.log("hi");

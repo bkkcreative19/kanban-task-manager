@@ -2,7 +2,6 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Modal from "../../../shared/components/Modal";
-import useIsSidebar from "../../../shared/hooks/useIsSideBarOpen";
 import BoardIconImg from "../../../assets/icon-board.svg";
 import {
   MobileSideMenu,

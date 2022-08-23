@@ -18,6 +18,7 @@ router.put("/boards/:boardId", boards.editBoardWithColumns);
 router.get(`/tasks/:title`, tasks.getTaskAndSubtasks);
 router.post(`/tasks`, tasks.createTaskWithSubtasks);
 router.put(`/tasks/:taskId`, tasks.editTaskWithSubtasks);
+router.put(`/drag-task`, tasks.dragTask);
 router.delete(`/tasks/:taskTitle`, tasks.deleteTask);
 
 // subtask routes

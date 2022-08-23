@@ -1,9 +1,11 @@
+import { AppDataSource } from "../database/connection";
 import { Task, Subtask, ColumnType } from "../entities";
 import { catchErrors } from "../errors";
 import {
   createEntity,
   findEntityOrThrow,
   updateEntity,
+  validateAndSaveEntity,
 } from "../utils/typeorm";
 
 export const getTaskAndSubtasks = catchErrors(async (req, res) => {
@@ -13,36 +15,44 @@ export const getTaskAndSubtasks = catchErrors(async (req, res) => {
     },
     relations: ["subtasks"],
   });
+
   res.json(task[0]);
 });
 
 export const createTaskWithSubtasks = catchErrors(async (req, res) => {
-  const column = await findEntityOrThrow(ColumnType, {
-    where: {
-      name: req.body.status,
-    },
-  });
+  const listPosition = await calculateListPosition(req.body);
 
-  const task = await createEntity(Task, {
-    title: req.body.title,
-    description: req.body.description,
-    status: req.body.status,
-    columnType: column[0].id,
-  });
-  // console.log(board);
-  let subtasks: any[] = [];
-  req.body.subtasks.forEach((subtask: any) => {
-    subtasks.push(
-      createEntity(Subtask, {
-        title: subtask.title,
-        task: task.id,
-        isCompleted: false,
-      })
-    );
-  });
-  const newSubtasks = await Promise.all(subtasks);
-  // console.log(newColumns);
-  res.json({ task, newSubtasks });
+  const task = await createEntity(Task, { ...req.body, listPosition });
+  res.json({ task });
+  // const column = await findEntityOrThrow(ColumnType, {
+  //   where: {
+  //     name: req.body.status,
+  //   },
+  // });
+
+  // console.log(column);
+
+  // const task = await createEntity(Task, {
+  //   title: req.body.title,
+  //   description: req.body.description,
+  //   board: column[0].id,
+  //   status: !req.body.status ? "gweag" : req.body.status,
+  //   listPosition: column[0].tasks.length + 1,
+  // });
+  // console.log(task);
+  // let subtasks: any[] = [];
+  // req.body.subtasks.forEach((subtask: any) => {
+  //   subtasks.push(
+  //     createEntity(Subtask, {
+  //       title: subtask.title,
+  //       task: task.id,
+  //       isCompleted: false,
+  //     })
+  //   );
+  // });
+  // const newSubtasks = await Promise.all(subtasks);
+  // // console.log(newColumns);
+  // res.json({ task, newSubtasks });
 });
 
 export const editTaskWithSubtasks = catchErrors(async (req, res) => {
@@ -74,3 +84,31 @@ export const deleteTask = catchErrors(async (req, res) => {
   await task[0].remove();
   res.json(task[0]);
 });
+
+export const dragTask = catchErrors(async (req, res) => {
+  const task = await updateEntity(Task, 270, {
+    listPosition: req.body.destination.index,
+    status: req.body.status,
+  });
+
+  // sourceTask[0].listPosition = destinationTask[0].listPosition;
+  // destinationTask[0].listPosition = sourceTask[0].listPosition;
+
+  // console.log(sourceTask[0]);
+  // console.log(destinationTask[0]);
+
+  res.send(task);
+});
+
+const calculateListPosition = async ({
+  boardId,
+  status,
+}: Task): Promise<number> => {
+  const repository = AppDataSource.getRepository(Task);
+  const tasks = await repository.findBy({ boardId, status });
+  const listPositions = tasks.map(({ listPosition }) => listPosition);
+  if (listPositions.length > 0) {
+    return Math.min(...listPositions) - 1;
+  }
+  return 1;
+};

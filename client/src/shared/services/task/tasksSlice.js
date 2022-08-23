@@ -45,6 +45,16 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Column"],
     }),
+    updateDragTask: builder.mutation({
+      query: (task) => ({
+        url: `/drag-task`,
+        method: "PUT",
+        body: task,
+      }),
+      invalidatesTags: ["Column"],
+      // query: (task) => console.log(task),
+      // invalidatesTags: ["Task"],
+    }),
   }),
 });
 
@@ -53,4 +63,12 @@ export const {
   useGetTaskQuery,
   useUpdateTaskMutation,
   useDeleteTaskMutation,
+  useUpdateDragTaskMutation,
 } = extendedApiSlice;
+
+export const selectTaskResult = apiSlice.endpoints.getTask.select();
+
+export const selectTask = createSelector(
+  selectTaskResult,
+  (taskResult) => taskResult?.data ?? {}
+);
