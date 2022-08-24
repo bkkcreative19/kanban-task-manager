@@ -24,12 +24,10 @@ const useQuery = (url, propsVariables = {}, options = {}) => {
     isLoading: !lazy && !canUseCache,
     variables: {},
   });
+  console.log(url);
 
   const makeRequest = useCallback(
     (newVariables) => {
-      if (newVariables) {
-        newUrl = `/boards/${newVariables}`;
-      }
       const variables = { ...state.variables, ...(newVariables || {}) };
       const apiVariables = { ...propsVariablesMemoized, ...variables };
 
@@ -41,7 +39,7 @@ const useQuery = (url, propsVariables = {}, options = {}) => {
         mergeState({ variables });
       }
 
-      api.get(newUrl, apiVariables).then(
+      api.get(newVariables ? newVariables : url, apiVariables).then(
         (data) => {
           cache[url] = { data, apiVariables };
           mergeState({ data, error: null, isLoading: false });

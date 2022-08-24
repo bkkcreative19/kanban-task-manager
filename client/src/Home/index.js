@@ -19,6 +19,7 @@ import {
 
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
+import useDidMountEffect from "../shared/hooks/useDidMountEffect";
 
 const Home = ({ yay, theme }) => {
   const [isOpen, setIsOpen] = useState(true);
@@ -36,8 +37,15 @@ const Home = ({ yay, theme }) => {
     `/boards/${activeBoard.active}`
   );
 
-  useEffect(() => {
-    fetchBoard(activeBoard.active);
+  const [{ data: columns }, fetchColumns] = useApi.get(
+    `/columns/${activeBoard.active}`
+  );
+
+  const columnNames = columns?.map((column) => column.name);
+
+  useDidMountEffect(() => {
+    fetchBoard(`/boards/${activeBoard.active}`);
+    fetchColumns(`/columns/${activeBoard.active}`);
   }, [activeBoard.active]);
 
   const test = useSelector(selectAllColumns);
@@ -65,10 +73,11 @@ const Home = ({ yay, theme }) => {
           setLocalData={setLocalData}
           board={board}
           active={activeBoard.active}
+          columns={columns}
         />
       )}
 
-      <Outlet />
+      <Outlet context={[columnNames]} />
     </HomePage>
   );
 };

@@ -28,19 +28,7 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
         method: "POST",
         body: board,
       }),
-
-      async onQueryStarted({ id, ...patch }, { dispatch, queryFulfilled }) {
-        try {
-          const { data: createdBoard } = await queryFulfilled;
-
-          const patchResult = dispatch(
-            apiSlice.util.updateQueryData("getBoards", id, (draft) => {
-              console.log(draft);
-              Object.assign(draft, createdBoard);
-            })
-          );
-        } catch {}
-      },
+      invalidatesTags: ["Boards"],
     }),
 
     updateBoard: builder.mutation({

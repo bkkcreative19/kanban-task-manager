@@ -10,20 +10,32 @@ import useApi from "../../shared/hooks/api";
 import api from "../../shared/utils/api";
 import NoColumns from "./NoColumns";
 import { useUpdateDragTaskMutation } from "../../shared/services/task/tasksSlice";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import {
   moveItemWithinArray,
   insertItemIntoArray,
   updateArrayItemById,
 } from "../../shared/utils/javascript";
+import useDidMountEffect from "../../shared/hooks/useDidMountEffect";
 
-const BoardLists = ({ active, board, setLocalData }) => {
-  const { data: columns } = useGetColumnsQuery(active);
+const BoardLists = ({ active, board, setLocalData, columns }) => {
+  // const { data: columns } = useGetColumnsQuery(active);
   const [updateDragTask, { isLoading }] = useUpdateDragTaskMutation();
-  // const [{ data: columns, error, setLocalData }, fetchColumns] = useApi.get(
+  // console.log(active);
+  // const [{ data: columns, error }, fetchColumns] = useApi.get(
   //   `/columns/${active}`
   // );
 
+  // useDidMountEffect(() => {
+  //   fetchColumns(`/columns/${active}`);
+  // }, [active]);
+
+  // useEffect(() => {
+  //   fetchColumns(`/columns/${active}`);
+  // }, [active]);
+
+  const columnNames = columns?.map((column) => column.name);
+  // console.log(columns);
   const [testt, setTestt] = useState([]);
   // console.log(columns);
   // const [updateDragTask] = useUpdateDragTaskMutation();
@@ -95,10 +107,10 @@ const BoardLists = ({ active, board, setLocalData }) => {
 
   return (
     <>
-      {columns && columns.length > 0 ? (
+      {columnNames && columnNames.length > 0 ? (
         <DragDropContext onDragEnd={handleDrop}>
           <Lists>
-            {columns.map((column, idx) => {
+            {columnNames.map((column, idx) => {
               return (
                 <BoardList
                   key={idx}

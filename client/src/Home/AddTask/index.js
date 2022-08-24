@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import Modal from "../../shared/components/Modal";
 import {
   TaskAdd,
@@ -34,6 +34,7 @@ const AddTask = () => {
   const [taskName, setTaskName] = useState("");
   const [description, setdescription] = useState("");
   const [status, setStatus] = useState("");
+  const [columnNames] = useOutletContext();
   const { active } = useSelector((state) => state.activeBoard);
   const [createTask, { isLoading }] = useCreateTaskMutation();
   const board = useSelector((state) =>
@@ -44,10 +45,10 @@ const AddTask = () => {
   );
   const navigate = useNavigate();
 
-  const columnNames = useSelector(selectAllColumns);
+  // const columnNames = useSelector(selectAllColumns);
 
   useEffect(() => {
-    if (columnNames.length > 0) {
+    if (columnNames?.length > 0) {
       setStatus(columnNames[0]);
     }
   }, [board]);

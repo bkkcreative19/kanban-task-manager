@@ -116,7 +116,6 @@ const seedTasks = (columns: any): any => {
       createEntity(Task, {
         title: item.title,
         description: item.description,
-        columnType: determineColumnId(idx),
       })
     );
   });
@@ -179,7 +178,7 @@ const insertData = async (): Promise<any> => {
   const columns = await seedColumns(boards);
   const tasks = await seedTasks(columns);
   const subtasks = await seedSubtasks([]);
-  //   console.log(subtasks);
+  console.log(subtasks);
 
   return boards;
 };
