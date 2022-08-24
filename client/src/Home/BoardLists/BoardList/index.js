@@ -33,7 +33,6 @@ const BoardList = ({ column, index, board }) => {
             //   mutateDeleteColumn.mutate(column.id);
             // }}
             >
-              {/* {column.name} ({column.tasks.length}) */}
               {column}
             </ListHeadText>
           </ListHead>
