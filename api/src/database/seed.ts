@@ -111,7 +111,7 @@ const seedTasks = (columns: any): any => {
     }
   }
 
-  flatten(tasks).forEach((item: any, idx: any) => {
+  flatten(tasks).forEach((item: any) => {
     tasksForDB.push(
       createEntity(Task, {
         title: item.title,
