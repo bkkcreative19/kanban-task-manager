@@ -47,39 +47,6 @@ const BoardList = ({ column, index, board }) => {
             })}
             {provided.placeholder}
           </div>
-
-          {/* <Droppable key={index} droppableId={`${column}`}>
-            {(provided, snapshot) => (
-              <div
-                ref={provided.innerRef}
-                // style={getListStyle(snapshot.isDraggingOver)}
-                {...provided.droppableProps}
-                style={{
-                  background: "red",
-                  display: "flex",
-                  flexDirection: "column",
-                  padding: "grid",
-                  marginTop: "2em",
-                  // gap: "2em",
-                }}
-              >
-                {filteredTasks.map((task, idx) => {
-                  return <BoardTask key={task.id} task={task} id={idx} />;
-                })}
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable> */}
-          {/* <Droppable key={index} droppableId={`${column.name}`}>
-         {(provided) => (
-           <div {...provided.droppableProps} ref={provided.innerRef}>
-             {column.tasks.map((task, idx) => {
-               return <BoardTask key={task.id} task={task} id={idx} />;
-             })}
-             {provided.placeholder}
-           </div>
-         )}
-       </Droppable> */}
         </List>
       )}
     </Droppable>
