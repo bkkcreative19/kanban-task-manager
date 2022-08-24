@@ -8,7 +8,7 @@ import { useState } from "react";
 
 const BoardList = ({ column, index, board }) => {
   // const queryClient = useQueryClient();
-  const tasks = column.tasks;
+
   // const mutateDeleteColumn = useMutation(deleteColumn, {
   //   onSuccess: () => {
   //     // Invalidate and refetch
@@ -16,7 +16,6 @@ const BoardList = ({ column, index, board }) => {
   //   },
   // });
 
-  const [test, setTest] = useState(column.tasks);
   const filteredTasks = getSortedListTasks(board.tasks, column);
 
   return (
