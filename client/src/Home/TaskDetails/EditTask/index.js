@@ -31,6 +31,7 @@ import { useSelector } from "react-redux";
 import { selectBoardById } from "../../../shared/services/board/boardSlice";
 import { Field, FieldArray, Form, Formik } from "formik";
 import { BiX } from "react-icons/bi";
+import { selectAllColumns } from "../../../shared/services/columns/columnsSlice";
 
 const EditTask = () => {
   const [taskName, setTaskName] = useState("");
@@ -45,8 +46,7 @@ const EditTask = () => {
   const { data: task } = useGetTaskQuery(params.taskTitle);
 
   const board = useSelector((state) => selectBoardById(state, active));
-  const columns = board && board.columnTypes;
-  const columnNames = board && board.columnTypes.map((column) => column.name);
+  const columns = useSelector(selectAllColumns);
 
   console.log(column);
 
@@ -59,7 +59,7 @@ const EditTask = () => {
 
   const handleSetSelected = (e) => {
     const test = columns.find((item) => item.name === e);
-    setColumn(test);
+    setColumn(e);
   };
 
   return (
@@ -100,7 +100,7 @@ const EditTask = () => {
                   description,
                   taskId: task.id,
                   subtasks: values.subtasks,
-                  columnType: !column ? task.columnType : column.id,
+                  status: column,
                 });
                 navigate("/");
               }}
@@ -158,11 +158,11 @@ const EditTask = () => {
           </TaskEditSubtaskList>
 
           <StatusTitle>Status</StatusTitle>
-          {columnNames && (
+          {columns && (
             <Select
               setSelected={handleSetSelected}
-              selected={column && column.name}
-              options={columnNames}
+              selected={column}
+              options={columns}
             />
           )}
 

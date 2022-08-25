@@ -15,44 +15,27 @@ import {
 import {
   selectAllColumns,
   selectColumnsResult,
+  useGetColumnsQuery,
 } from "../shared/services/columns/columnsSlice";
 
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import useDidMountEffect from "../shared/hooks/useDidMountEffect";
+import Loader from "../shared/components/Loader";
 
 const Home = ({ yay, theme }) => {
   const [isOpen, setIsOpen] = useState(true);
 
   const { data: boards, isLoading, isSuccess, isError } = useGetBoardsQuery();
 
-  // const [{ data: boards, error, setLocalData }, fetchBoards] =
-  //   useApi.get("/boards");
-
   const activeBoard = useSelector((state) => state.activeBoard);
 
-  // const { data: board } = useGetBoardQuery(activeBoard.active);
-
-  const [{ data: board, error, setLocalData }, fetchBoard] = useApi.get(
-    `/boards/${activeBoard.active}`
-  );
-
-  const [{ data: columns }, fetchColumns] = useApi.get(
-    `/columns/${activeBoard.active}`
-  );
-
-  const columnNames = columns?.map((column) => column.name);
-
-  useDidMountEffect(() => {
-    fetchBoard(`/boards/${activeBoard.active}`);
-    fetchColumns(`/columns/${activeBoard.active}`);
-  }, [activeBoard.active]);
-
-  const test = useSelector(selectAllColumns);
+  const { data: board } = useGetBoardQuery(activeBoard.active);
+  const { data: columns } = useGetColumnsQuery(activeBoard.active);
 
   return (
     <HomePage>
-      {!boards && "loading"}
+      {!boards && <Loader />}
       {isError && "error"}
       {boards && (
         <KabanSideBar
@@ -70,14 +53,13 @@ const Home = ({ yay, theme }) => {
       )}
       {board && (
         <BoardLists
-          setLocalData={setLocalData}
           board={board}
           active={activeBoard.active}
           columns={columns}
         />
       )}
 
-      <Outlet context={[columnNames]} />
+      <Outlet context={[columns]} />
     </HomePage>
   );
 };

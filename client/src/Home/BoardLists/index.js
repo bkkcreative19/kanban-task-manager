@@ -1,116 +1,70 @@
-import React, { useState } from "react";
+import React from "react";
 
 import BoardList from "./BoardList";
 import { Lists } from "./Styles";
 
 import { DragDropContext } from "react-beautiful-dnd";
 import AddColumn from "./AddColumn";
-import { useGetColumnsQuery } from "../../shared/services/columns/columnsSlice";
-import useApi from "../../shared/hooks/api";
+
 import api from "../../shared/utils/api";
 import NoColumns from "./NoColumns";
 import { useUpdateDragTaskMutation } from "../../shared/services/task/tasksSlice";
-import { useEffect, useRef } from "react";
+
 import {
   moveItemWithinArray,
   insertItemIntoArray,
   updateArrayItemById,
 } from "../../shared/utils/javascript";
-import useDidMountEffect from "../../shared/hooks/useDidMountEffect";
 
 const BoardLists = ({ active, board, setLocalData, columns }) => {
-  // const { data: columns } = useGetColumnsQuery(active);
   const [updateDragTask, { isLoading }] = useUpdateDragTaskMutation();
-  // console.log(active);
-  // const [{ data: columns, error }, fetchColumns] = useApi.get(
-  //   `/columns/${active}`
-  // );
 
-  // useDidMountEffect(() => {
-  //   fetchColumns(`/columns/${active}`);
-  // }, [active]);
+  // const columnNames = columns?.map((column) => column.name);
 
-  // useEffect(() => {
-  //   fetchColumns(`/columns/${active}`);
-  // }, [active]);
-
-  const columnNames = columns?.map((column) => column.name);
-  // console.log(columns);
-  const [testt, setTestt] = useState([]);
-  // console.log(columns);
-  // const [updateDragTask] = useUpdateDragTaskMutation();
-
-  // const updateLocalTasks = (taskId, updatedFields) => {
+  // const updateLocalProjectTasks = (taskId, updatedFields) => {
   //   setLocalData((currentData) => ({
-  //     columns: {
-  //       ...currentData.columns,
-  //       tasks: updateArrayItemById(
-  //         currentData.columns.tasks,
-  //         taskId,
-  //         updatedFields
-  //       ),
-  //     },
+  //     ...currentData,
+  //     tasks: updateArrayItemById(currentData.tasks, taskId, updatedFields),
   //   }));
   // };
-  const updateLocalProjectTasks = (taskId, updatedFields) => {
-    console.log(setLocalData);
-    // setLocalData((currentData) => ({
-    //   board: {
-    //     ...currentData.board,
-    //     tasks: updateArrayItemById(
-    //       currentData.board.tasks,
-    //       taskId,
-    //       updatedFields
-    //     ),
-    //   },
-    setLocalData((currentData) => ({
-      ...currentData,
-      tasks: updateArrayItemById(currentData.tasks, taskId, updatedFields),
-    }));
-  };
 
   const handleDrop = ({ draggableId, destination, source }) => {
-    // console.log(destination);
-    // console.log(source);
-
     const taskId = Number(draggableId);
+    const task = board.tasks.find((task) => task.id === taskId);
+    // console.log(task);
 
-    // console.log(
-    //   calculateIssueListPosition(board.tasks, destination, source, taskId)
-    // );
-
-    api.optimisticUpdate(`/drag-task/${taskId}`, {
-      updatedFields: {
-        listPosition: calculateIssueListPosition(
-          board.tasks,
-          destination,
-          source,
-          taskId
-        ),
-        status: destination.droppableId,
-      },
-      currentFields: board.tasks.find(({ id }) => id === taskId),
-      setLocalData: (fields) => updateLocalProjectTasks(taskId, fields),
+    updateDragTask({
+      listPosition: calculateIssueListPosition(
+        board.tasks,
+        destination,
+        source,
+        taskId
+      ),
+      status: destination.droppableId,
+      taskId,
     });
 
-    // updateDragTask({
-    //   taskId,
-    //   status: destination.droppableId,
-    //   listPosition: calculateIssueListPosition(
-    //     board.tasks,
-    //     destination,
-    //     source,
-    //     taskId
-    //   ),
+    // api.optimisticUpdate(`/drag-task/${taskId}`, {
+    //   updatedFields: {
+    //     listPosition: calculateIssueListPosition(
+    //       board.tasks,
+    //       destination,
+    //       source,
+    //       taskId
+    //     ),
+    //     status: destination.droppableId,
+    //   },
+    //   currentFields: board.tasks.find(({ id }) => id === taskId),
+    //   setLocalData: (fields) => updateLocalProjectTasks(taskId, fields),
     // });
   };
 
   return (
     <>
-      {columnNames && columnNames.length > 0 ? (
+      {columns && columns.length > 0 ? (
         <DragDropContext onDragEnd={handleDrop}>
           <Lists>
-            {columnNames.map((column, idx) => {
+            {columns.map((column, idx) => {
               return (
                 <BoardList
                   key={idx}

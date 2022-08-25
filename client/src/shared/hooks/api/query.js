@@ -24,7 +24,6 @@ const useQuery = (url, propsVariables = {}, options = {}) => {
     isLoading: !lazy && !canUseCache,
     variables: {},
   });
-  console.log(url);
 
   const makeRequest = useCallback(
     (newVariables) => {

@@ -24,6 +24,7 @@ import {
   useUpdateBoardMutation,
 } from "../../shared/services/board/boardSlice";
 import { BiX } from "react-icons/bi";
+import { selectAllColumns } from "../../shared/services/columns/columnsSlice";
 
 const EditBoard = () => {
   const navigate = useNavigate();
@@ -33,6 +34,9 @@ const EditBoard = () => {
   const { active } = useSelector((state) => state.activeBoard);
   const [updateBoard, { isLoading }] = useUpdateBoardMutation();
   const board = useSelector((state) => selectBoardById(state, active));
+  const columns = useSelector(selectAllColumns);
+
+  console.log(columns);
 
   return (
     <Modal
@@ -54,7 +58,7 @@ const EditBoard = () => {
           <BoardEditColumnList>
             <BoardEditColumnHead>Board Columns</BoardEditColumnHead>
             <Formik
-              initialValues={{ columns: board.columnTypes }}
+              initialValues={{ columns: columns }}
               onSubmit={(values) => {
                 // if (!boardName) {
                 //   navigate("/");
@@ -75,12 +79,14 @@ const EditBoard = () => {
                     {(props) => {
                       const { push, remove, form } = props;
                       const { values } = form;
+
                       const { columns } = values;
+                      console.log(columns);
                       return (
                         <div>
-                          {columns.map((column, idx) => (
+                          {columns?.map((column, idx) => (
                             <BoardEditColumnItem key={idx}>
-                              <Field name={`columns.${idx}.name`}>
+                              <Field name={`columns${idx}`}>
                                 {({ field }) => {
                                   return (
                                     <BoardEditColumnInput

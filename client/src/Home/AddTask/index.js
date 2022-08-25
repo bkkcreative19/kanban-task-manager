@@ -14,7 +14,6 @@ import {
   TaskAddSubtaskHead,
   TaskAddSubtaskItem,
   TaskAddSubtaskInput,
-  TaskAddSubtaskX,
   AddSubtaskBtn,
   CreateTask,
   StatusTitle,
@@ -26,7 +25,6 @@ import { useSelector } from "react-redux";
 import { useCreateTaskMutation } from "../../shared/services/task/tasksSlice";
 
 import { selectBoardById } from "../../shared/services/board/boardSlice";
-import { selectAllColumns } from "../../shared/services/columns/columnsSlice";
 import { Field, FieldArray, Form, Formik } from "formik";
 import { BiX } from "react-icons/bi";
 

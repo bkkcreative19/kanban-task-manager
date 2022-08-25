@@ -48,7 +48,7 @@ export const selectColumnsResult = apiSlice.endpoints.getColumns.select(
 
 export const selectAllColumns = createSelector(
   selectColumnsResult,
-  (columnsResult) => columnsResult?.data ?? ["s"]
+  (columnsResult) => columnsResult?.data ?? []
 );
 
 export const selectColumnById = createSelector(

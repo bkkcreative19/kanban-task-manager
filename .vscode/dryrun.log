@@ -3,6 +3,7 @@ make: Entering directory 'c:/Users/User/Desktop/projects/task-manager'
 cd client && C:/ProgramData/chocolatey/lib/make/tools/install/bin/make.exe build-dev
  
 make[1]: Entering directory 'c:/Users/User/Desktop/projects/task-manager/client'
+ 
 docker build -t react-app-dev -f Dockerfile.dev .
 make[1]: Leaving directory 'c:/Users/User/Desktop/projects/task-manager/client'
  

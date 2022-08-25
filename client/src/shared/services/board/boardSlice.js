@@ -18,7 +18,7 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
     }),
 
     getBoard: builder.query({
-      query: (id) => `http://localhost:5001/api/boards/${id}`,
+      query: (id) => `/boards/${id}`,
       providesTags: ["Board"],
     }),
 
@@ -28,6 +28,29 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
         method: "POST",
         body: board,
       }),
+
+      // async onQueryStarted({ id, ...post }, { dispatch, queryFulfilled }) {
+      //   console.log(post);
+      //   const postResult = dispatch(
+      //     apiSlice.util.updateQueryData("getBoards", undefined, (draft) => {
+      //       console.log(draft);
+      //       draft.push(post);
+      //       // const yay = Object.assign(draft, put);
+      //       // console.log(yay);
+      //     })
+      //   );
+      //   try {
+      //     await queryFulfilled;
+      //   } catch {
+      //     postResult.undo();
+
+      //     /**
+      //      * Alternatively, on failure you can invalidate the corresponding cache tags
+      //      * to trigger a re-fetch:
+      //      * dispatch(api.util.invalidateTags(['Post']))
+      //      */
+      //   }
+      // },
       invalidatesTags: ["Boards"],
     }),
 
@@ -44,7 +67,7 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
         url: `/boards/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: ["Board", "Column"],
+      invalidatesTags: ["Boards", "Column"],
     }),
   }),
 });
