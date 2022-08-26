@@ -9,7 +9,7 @@ const AppDataSource = new DataSource({
   password: process.env.DB_PASSWORD,
   port: parseInt(process.env.DB_PORT || "5432"),
   entities: Object.values(entities),
-  synchronize: true,
+  synchronize: false,
 });
 
 // export { AppDataSource };
@@ -21,8 +21,10 @@ const AppDataSource = new DataSource({
 //   username: "postgres",
 //   password: "basketball10",
 //   database: "task-manager",
-//   entities: Object.values(entities),
+//   entities: ["src/entities/*.ts"],
 //   synchronize: true,
 // });
+
+// Object.values(entities)
 
 export { AppDataSource };

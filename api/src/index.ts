@@ -5,6 +5,7 @@ import cors from "cors";
 import { AppDataSource } from "./database/connection";
 
 import { router } from "./routes";
+import insertData from "./database/seed";
 
 const establishDatabaseConnection = async () => {
   // console.log(flatten(tasks));
@@ -25,6 +26,10 @@ const initializeExpress = (): void => {
   app.get("/", async (_req, res) => {
     res.send("hiss");
   });
+  app.get("/seed", async (_req, _res) => {
+    await insertData();
+  });
+
   app.use("/api", router);
 
   const PORT = process.env.PORT || 5000;
