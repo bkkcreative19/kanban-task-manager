@@ -34,7 +34,7 @@ const initializeExpress = (): void => {
 
   const PORT = process.env.PORT || 5000;
 
-  app.listen(PORT);
+  app.listen(5001);
 };
 
 const initializeApp = async (): Promise<void> => {

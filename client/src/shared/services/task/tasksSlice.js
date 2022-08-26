@@ -55,7 +55,7 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
       // onQueryStarted()
       async onQueryStarted({ id, ...put }, { dispatch, queryFulfilled }) {
         const putResult = dispatch(
-          apiSlice.util.updateQueryData("getBoard", 13, (draft) => {
+          apiSlice.util.updateQueryData("getBoard", put.boardId, (draft) => {
             draft.tasks.forEach((task) => {
               if (task.id === put.taskId) {
                 task.listPosition = put.listPosition;

@@ -27,10 +27,10 @@ const BoardLists = ({ active, board, setLocalData, columns }) => {
   //     tasks: updateArrayItemById(currentData.tasks, taskId, updatedFields),
   //   }));
   // };
-  console.log(board.tasks);
+
   const handleDrop = ({ draggableId, destination, source }) => {
     const taskId = Number(draggableId);
-    const task = board.tasks.find((task) => task.id === taskId);
+
     // console.log(task);
 
     updateDragTask({
@@ -42,6 +42,7 @@ const BoardLists = ({ active, board, setLocalData, columns }) => {
       ),
       status: destination.droppableId,
       taskId,
+      boardId: board.id,
     });
 
     // api.optimisticUpdate(`/drag-task/${taskId}`, {
